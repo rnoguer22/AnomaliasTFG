@@ -1,0 +1,223 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+% Fuente y formato
+\usepackage[T1]{fontenc} % Para las ñ y letras con tilde
+% \usepackage{times}
+\usepackage{microtype} % Mejora el espaciado de las palabras
+
+% --- Fuente Helvetica en la pagina de titulo ---
+\usepackage[scaled]{helvet}
+\usepackage{titlesec}  % Paquete para personalizar secciones
+\newcommand{\helveticatitle}{%
+    \fontfamily{phv}\selectfont 
+}
+
+\usepackage{graphicx} % Paquete para las imagenes
+\usepackage{imakeidx}
+\usepackage{amssymb, amsmath}
+\usepackage{listings}
+\usepackage{float} % Para poner las imagenes justo donde queramos
+
+\usepackage{xcolor} % Para definir colores personalizados
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{natbib}
+\usepackage{bibentry}
+\usepackage[nottoc]{tocbibind} % Para mostrar bibliografía no citada
+\usepackage{array}
+\usepackage{tikz}
+
+
+
+% \setlength{\parindent}{0pt} % Elimina la sangría en todo el documento
+
+\numberwithin{equation}{section} % Para las ecuaciones
+
+% Definir un azul más oscuro
+\definecolor{darkblue}{rgb}{0.0, 0.0, 1} % Azul oscuro
+
+% Configuración personalizada para hyperref
+\hypersetup{
+    colorlinks=true,     % Colorear los enlaces en lugar de ponerles un recuadro
+    linkcolor=blue,      % Color de los enlaces internos (por ejemplo, índice)
+    citecolor=blue,      % Color de los enlaces de citas
+    filecolor=magenta,   % Color de los enlaces a archivos
+    urlcolor=black,      % Color de los enlaces a URLs
+}
+
+\renewcommand{\UrlFont}{\sffamily\small}
+
+\makeindex
+\setlength{\parindent}{12pt}
+
+
+% Márgenes de página
+\usepackage[left=2.5cm, right=2.5cm, top=3cm, bottom=3cm]{geometry}
+
+% Encabezado y pie de página guapo
+\usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy} 
+\fancyhf{} % Limpia los valores predeterminados     
+\fancyhead[R]{\textit{\rightmark}} % Sección o subsección actual en la parte superior derecha
+\fancyfoot[C]{\thepage} % Número de página centrado en el pie de página
+
+% Redefinir \rightmark para mostrar jerarquía específica
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\sectionmark}{\markright{\thesection\ #1}}{}{}{} % Elimina la marca de sección por defecto
+\renewcommand{\sectionmark}[1]{\markright{\ifnum\value{subsection}=0 \thesection\ #1 \else \ifnum\value{subsubsection}=0 \thesection\ #1 \else \rightmark \fi \fi}}
+\renewcommand{\subsectionmark}[1]{\markright{\ifnum\value{subsubsection}=0 \thesubsection\ #1 \else \rightmark \fi}}
+\renewcommand{\subsubsectionmark}[1]{\markright{\thesubsubsection\ #1}}
+\makeatother
+
+\usepackage{tikz}      % Paquete para gráficos y formato personalizado
+% Modificar el formato de las secciones
+\titleformat{\section}[block]
+  {\normalfont\Huge\bfseries\raggedleft}    % Título más grande, en negrita y alineado a la derecha
+  {\color{gray}\large CAPÍTULO\\}  % "Capítulo" en gris y pequeño, seguido por el número de la sección
+  {\tikz[baseline]{\node[anchor=base, scale=3, text=gray, inner sep=0pt] {\thesection};} \\[1em]}  
+  {\normalfont\bfseries\raggedleft}         % Título de la sección en negro, alineado a la derecha
+  [\vspace{1em}]                  % Espacio después del título
+
+
+
+
+
+\begin{document}
+    \parindent=0pt
+
+    \begin{titlepage}
+        \centering
+        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}\par}
+        \vspace{1cm}
+        {\fontsize{16pt}{22pt}\selectfont \textbf{\helveticatitle ESCUELA BUSINESS \& TECH}\par}
+        \vspace{1cm}
+        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle GRADO EN INGENIERÍA INFORMÁTICA}\par}
+        \vspace{2cm}
+        {\includegraphics[width=1\textwidth]{img/portada.png}\par}
+        \vspace{0.5cm}
+        {\fontsize{20pt}{22pt}\selectfont \textbf{\helveticatitle TRABAJO DE FIN DE GRADO}\par}
+        \vspace{1cm}
+        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle Del Bit al Comportamiento: Redefiniendo la Frontera de la Seguridad Mediante el Aprendizaje Profundo}\par}
+        \vfill
+        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle Rubén Nogueras González}\par}
+        \vspace{1cm}
+        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle Junio de 2026}\par}
+    \end{titlepage}
+
+
+    % Segunda página con información adicional
+    \newpage
+    \thispagestyle{empty}
+    \begin{flushleft}
+        \begin{center}
+            \includegraphics[width=0.25\textwidth]{img/primera_hoja.png}\\
+        \end{center}
+        \begin{center}
+            {\fontsize{16}{16}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}}\\
+            {\fontsize{14}{14}\selectfont \textbf{\helveticatitle ESCUELA BUSINESS \& TECH}}\\[0cm]
+            {\fontsize{12}{12}\selectfont \textbf{\helveticatitle GRADO EN INGENIERÍA INFORMÁTICA}}\\[0cm]
+            \textbf{}\\[0.3cm]
+            {\fontsize{14}{14}\selectfont \textbf{\helveticatitle DEL BIT AL COMPORTAMIENTO: REDEFINIENDO LA FRONTERA DE LA SEGURIDAD MEDIANTE EL APRENDIZAJE PROFUNDO}}\\[0cm]
+        \end{center}
+
+        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle ALUMNO:}} \helveticatitle RUBÉN NOGUERAS GONZÁLEZ\\
+        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle N.P.:}} \helveticatitle 139174\\
+        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle CÓDIGO TFG:}} \helveticatitle \\
+        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle TUTOR ACADÉMICO:}} \helveticatitle SARA IGNACIO CERRATO\\
+        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle FECHA DE PRESENTACIÓN:} }\\
+        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle BREVE DESCRIPCIÓN:}}
+    \end{flushleft}
+
+    {\fontsize{12}{12}\selectfont \helveticatitle
+
+    \vspace{5mm}
+
+    \textcolor{red}{CAMBIAR ESTO CUANDO ACABE TFGGGGG!!!}
+
+    \vspace{5mm}
+
+    El objetivo fundamental de este Trabajo de Fin de Grado es explorar los principios de la computación cuántica y sus diversas aplicaciones en el mundo de la criptografía, uno de los campos más prometedores de esta nueva tecnología. A lo largo de este proyecto se analizan propiedades detalladamente tanto a nivel teórico como práctico, comenzando por los fundamentos físicos de la mecánica cuántica y su relación con la matemática, especialmente con el álgebra lineal, mediante el estudio de la ecuación de Schrödinger y espacios de Hilbert, sin dejar de lado el qubit, el cual constituye la base formal de la computación cuántica.
+
+    \vspace{5mm}
+
+    Posteriormente, este trabajo se centra especialmente en conceptos clave como el entrelazamiento cuántico y la teleportación cuántica, las cuales son herramientas imprescindibles en criptografía cuántica, concluyendo con la implementación y  simulación de protocolos como BB84 y E91, mediante los cuales se permite la distribución de claves de cifrado de manera segura, analizando el impacto del ruido, la decoherencia y la fidelidad de la información transmitida mediante simulaciones prácticas en Python con Qiskit, la librería de IBM para realizar simulaciones con sus procesadores cuánticos.
+
+    \vspace{5mm}
+
+    Finalmente, se presentan vulnerabilidades de los sistemas clásicos frente a computadores cuánticos, analizando algoritmos como el de \textit{Grover} o el de \textit{Shor}, los cuales rompen con las claves de cifrado de un sistema clásico y mejoran la búsqueda por fuerza bruta, siendo esto dos de los aspectos más relevantes de la criptografía. Con esto se pretende demostrar el nuevo paradigma que propone la información cuántica en el ámbito de la ciberseguridad, visualizando de una manera experimental y haciendo uso de las propiedades de las partículas subatómicas para presentar tanto las posibles amenazas como estrategias y protocolos de mitigación para mantener la información lo más segura posible.
+    }
+
+    \vspace{5mm}
+
+    {\fontsize{10}{10}\selectfont
+    \noindent  \textbf{\helveticatitle FIRMA DEL DIRECTOR DEL TRABAJO:}\hspace{4cm}\textbf{\helveticatitle FIRMA DEL ALUMNO:}}
+    
+    % Pagina en blanco
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+
+    \tableofcontents
+
+    % Pagina en blanco
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+
+    \listoffigures
+
+    % Pagina en blanco
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+    \newpage
+
+
+    \thispagestyle{empty}
+    \section{Introducción}
+
+
+
+
+
+
+
+
+
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+
+    \section{Estado del Arte}
+
+    \vspace{5mm}
+
+
+
+
+
+    \subsection{Anexo}
+
+    \vspace{5mm}
+
+
+
+
+
+    % Pagina en blanco
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+    
+    \nocite{*} % Esto incluye todas las referencias aunque no se citen
+    \bibliographystyle{ieeetr} % Formato IEEE
+    \bibliography{referencias} % Archivo .bib con las referencias
+
+
+
+\end{document}
