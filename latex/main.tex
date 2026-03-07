@@ -5,7 +5,7 @@
 % Fuente y formato
 \usepackage[T1]{fontenc} % Para las ñ y letras con tilde
 % \usepackage{times}
-\usepackage{microtype} % Mejora el espaciado de las palabras
+\usepackage[expansion=false]{microtype} % Mejora el espaciado de las palabras
 
 % --- Fuente Helvetica en la pagina de titulo ---
 \usepackage[scaled]{helvet}
@@ -133,13 +133,14 @@
         {\fontsize{12}{12}\selectfont \textbf{\helveticatitle BREVE DESCRIPCIÓN:}}
     \end{flushleft}
 
-    {\fontsize{12}{12}\selectfont \helveticatitle
+    {\helveticatitle
 
     \vspace{5mm}
 
     \textcolor{red}{AÑADIR ESTO CUANDO ACABE EL TFG!!!}
 
     \vspace{5mm}
+    }
 
     {\fontsize{10}{10}\selectfont
     \noindent  \textbf{\helveticatitle FIRMA DEL DIRECTOR DEL TRABAJO:}\hspace{4cm}\textbf{\helveticatitle FIRMA DEL ALUMNO:}}
@@ -180,6 +181,99 @@
     \thispagestyle{empty}
     \mbox{}
 
+
+
+    \thispagestyle{empty}
+    \section{Detección de Anomalías}
+
+    \vspace{5mm}
+
+    En esta sección vamos a explicar una parte vital de este proyecto, la cual consiste en la \textbf{detección de anomalías}. En el contexto de nuestro servidor web, una anomalía es un comportamiento extraño en el tráfico de red del servidor, sobre el cual nos vamos a centrar en aquellas peticiones de red fuera de lo común que se envían al servidor.
+
+    \vspace{5mm}
+
+    Más adelante vamos a saber diferenciar el tipo de ciberataque que se está intentando realizar por parte del atacante, pero en esta primera parte de la detección tenemos que diferenciar peticiones de red con un comportamiento benigno de uno maligno, y para ello vamos a utilizar un \textbf{autoencoder}.
+
+    \vspace{5mm}
+
+
+
+    \subsection{Autoencoder}
+
+    \vspace{5mm}
+
+    Un \textbf{autoencoder} es una red neuronal que intenta replicar los datos recibidos de su capa de entrada $x$ en la capa de salida $r$. No obstante, en esta copia no nos vamos a fijar al utilizar cualquier \textit{autoencoder} en general, ya que nos interesa conocer el \textbf{error} que la red comete al intentar replicar los datos en la capa de salida $r$. De esta manera, si obtenemos un valor de error alto, los datos introducidos no se asemeja a los datos de entrenamiento de la red, y si obtenemos un valor de error bajo, lo contrario. Precisamente esto es en lo que nos vamos a basar para detectar logs malignos en el servidor, ya que si entrenamos la red con un set de datos benignos y comparamos el error producido por otras entradas benignas y malignas, el error será mucho mayor en los conjuntos de datos que el modelo no conoce, es decir, los datos malignos. 
+
+    \vspace{5mm}
+
+    Según se especifica en \cite{goodfellow2016deep}, este tipo de redes se componen en dos partes: El primer componente se denomina \textbf{encoder} $f$ (transforma lo datos de entrada $x$ en $h$), el cual identifica las variables más significativas y descarta el ruido innecesario, y un \textbf{decoder} $g$, que obtiene la reconstrucción del modelo $r$ a partir de $h$. Esta es la estructura básica de la red y se puede ver reflejada en la siguiente imagen:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.40\textwidth]{img/autoencoder_structure.png}\\
+        \caption{Estructura elemental de un Autoencoder. Obtenida a partir de \cite{goodfellow2016deep}}
+        \label{fig: autoencoder_structure}
+    \end{figure}
+
+    \vspace{5mm}
+
+    Donde las funciones $f$ y $g$ serán definidas a continuación. Una vez se ha visto la estructura básica de un \textit{autoencoder}, nos vamos a adentrar más específicamente en la red que se va a implementrar de manera práctica en este proyecto.
+
+    \vspace{10mm}
+
+
+
+    \subsection{Autoencoder Subcompleto}
+
+    \vspace{5mm}
+
+    Se ha visto en la sección anterior que nuestro modelo tiene que aprender de sus datos de entrenamiento, y esto se puede lograr con un \textbf{autoencoder subcompleto}. La diferencia con respecto a un autoencoder genérico es que se van a limitar los datos obtenidos en $h$, obligando a que tengan una dimensión inferior que $x$. De esta manera $h$ es forzada a aprender las propiedades más representativas de los datos de entrenamiento, lo cual resultará en una reconstrucción final $r$ con ciertas discrepancias con respecto a los datos de entrada $x$. 
+
+    \vspace{5mm}
+
+    Podemos medir dichas discrepancias minimizando una función, la función de pérdida del modelo:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+        L(x, g(f(x)))
+        \label{eq: loss_function}
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Donde $L$ es la función de pérdida que identifica si la reconstrucción del modelo $r = g(f(x))$ obtiene resultados similares a $x$. El entrenamiento de la red se basa en minimizar la función de pérdida que acabamos de ver (\ref{eq: loss_function}), y la función de pérdida que se va a usar en este trabajo es el \textbf{error cuadrático medio} \textit{MSE}, ya que penaliza los errores en mayor medida al elevar al cuadrado, es fácil de optimizar al ser continua y derivable en todo punto del espacio (esto facilita el entrenamiento de la red), representa la distancia euclídea por lo que facilita la representación, etc.
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+        MSE = \frac{1}{n} \sum_{i=0}^{n} \left( x_i - r_i \right)^{2}
+        \label{eq: mse}
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Siendo $x$ los datos de entrada, $r$ los valores de la reconstrucción de los datos al pasar por la red, y $n$ el número total de datos del modelo.
+
+    \vspace{5mm}
+
+
+
+    DECIR QUE F ES LA FUNCION RELU Y G LA SIGMOIDE
+    PCA?
+
+    \vspace{5mm}
+
+
+
+
+
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+
     \section{Estado del Arte}
 
     \vspace{5mm}
@@ -202,7 +296,7 @@
     \mbox{}
     
     \nocite{*} % Esto incluye todas las referencias aunque no se citen
-    \bibliographystyle{ieeetr} % Formato IEEE
+    \bibliographystyle{apalike} % Estilo APA
     \bibliography{referencias} % Archivo .bib con las referencias
 
 
