@@ -159,19 +159,10 @@
 
     \listoffigures
 
-    % Pagina en blanco
+    % Otra pagina en blanco
     \newpage
     \thispagestyle{empty}
     \mbox{}
-    \newpage
-
-
-    \thispagestyle{empty}
-    \section{Introducción}
-
-
-
-
 
 
 
@@ -181,10 +172,47 @@
     \thispagestyle{empty}
     \mbox{}
 
+    \thispagestyle{empty}
+    \section{Introducción}\label{sec: introduccion}
+
+    \vspace{5mm}
+
+
+
+    \vspace{5mm}
+
+
+
+
+
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+
+    \section{Estado del Arte}
+
+    \vspace{5mm}
+
+
+
+
+
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+
+
+
 
 
     \thispagestyle{empty}
-    \section{Detección de Anomalías}
+    \section{Marco Teórico}
+
+    \vspace{5mm}
+
+
+
+    \subsection{Detección de Anomalías}\label{subsec: deteccion_anomalias}
 
     \vspace{5mm}
 
@@ -198,7 +226,7 @@
 
 
 
-    \subsection{Autoencoder}
+    \subsection{Autoencoder}\label{subsec: autoencoder}
 
     \vspace{5mm}
 
@@ -225,7 +253,7 @@
 
 
 
-    \subsection{Autoencoder Subcompleto}
+    \subsection{Autoencoder Subcompleto}\label{subsec: autoencoder_subcompleto}
 
     \vspace{5mm}
 
@@ -255,7 +283,7 @@
 
     \vspace{2.5mm}
 
-    Siendo $x$ los datos de entrada, $r$ los valores de la reconstrucción de los datos al pasar por la red, y $n$ el número total de datos del modelo.
+    Siendo $x$ los datos de entrada, $r$ los valores de la reconstrucción, y $n$ el número total de datos en la capa de entrada y salida del modelo.
 
     \vspace{5mm}
 
@@ -269,12 +297,11 @@
 
 
 
-
     \newpage
     \thispagestyle{empty}
     \mbox{}
 
-    \section{Estado del Arte}
+    \section{Diseño de la Arquitectura}\label{sec: disenio_arquitectura}
 
     \vspace{5mm}
 
@@ -282,7 +309,43 @@
 
 
 
-    \subsection{Anexo}
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+
+    \section{Implementación}\label{sec: implementacion}
+
+    \vspace{5mm}
+
+    En esta sección vamos a aplicar lo visto en la teoría de manera práctica. Para ello se ha utilizado un set de datos del \textbf{CIC} (\textit{Canadian Institute for Cibersecurity}), institución que nos ofrece datos de logs ya preprocesados, clasificados y con una limpieza previa para aplicarlos directamente a algoritmos de \textit{Machine Learning} y \textit{Deep Learning}, ahorrando bastante carga de trabajo. Los datos se encuentran disponibles en (\cite{CICIDS2017}).
+
+    \vspace{5mm}
+
+    Para este trabajo es fundamental que los datos de entrenamiento sean de calidad, y, como bien se explica en el paper oficial \cite{CICIDS2017_paper}, el equipo del \textit{CIC} se ha asegurado que estos datos sean lo más abstractos posibles. Se diseñó una infraestructura de red física que a su vez se compone de dos subredes, la red atacante y la red víctima. En la red víctima se simuló un comportamiento humano completamente normal (peticiones \textit{HTTP/HTTPS}, correos electrónicos, \textit{FTP}, etc.) con 25 usuarios distintos a través de diferentes máquinas y sistemas operativos para que el tráfico sea lo más realista posible.
+
+    \vspace{5mm}
+
+    Ante dicho tráfico legítimo, se antepusieron distintos escenarios de ataque en distintos periodos de tiempo repartidos durante los 5 días. Vamos a ver más detalladamente todos los ataques realizados durante la fase de análisis (\ref{subsec: analisis_datos}), pero entre estos destacaron \textit{DDoS}, \textit{DoS}, fuerza bruta, infiltración, etc. Finalmente todo el tráfico (tanto benigno como maligno) fue procesado mediante la herramienta \textit{CICFlowMeter} para obtener los datos que se han aplicado en este proyecto, pasando tráfico de red en formato \textit{.pcap} a \textit{.csv}, ofreciendo una base de datos muy sólida para poder aplicar algoritmos de predicción y clasificación.
+
+    \vspace{5mm}
+
+
+
+    \subsection{Análisis de Datos}\label{subsec: analisis_datos}
+
+    \vspace{5mm}
+
+
+
+
+
+
+
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+
+    \section{Demo}\label{sec: demo}
 
     \vspace{5mm}
 
@@ -291,6 +354,10 @@
 
 
     % Pagina en blanco
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+
     \newpage
     \thispagestyle{empty}
     \mbox{}
