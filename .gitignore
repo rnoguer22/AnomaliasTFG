@@ -1,3 +1,13 @@
 venv/*
 data/*
 .env
+latex/main.aux
+latex/main.bbl
+latex/main.blg
+latex/main.idx
+latex/main.lof
+latex/main.log
+latex/main.out
+latex/main.toc
+latex/texput.log
+latex/referencias.bib
