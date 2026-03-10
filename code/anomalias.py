@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from dotenv import load_dotenv
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
@@ -16,7 +18,8 @@ class Anomalias:
     def __init__(self):
         load_dotenv()
         # Usamos load_dotenv() para obtener las variables del archivo .env, para evitar filtrar la ruta completa del repositorio
-        self.data_path = os.path.join(os.getenv('REPOSITORY_PATH'), 'data/csv/')
+        self.repo_path = os.getenv('REPOSITORY_PATH')
+        self.data_path = os.path.join(self.repo_path, 'data/csv/')
         self.df_list = []
         self.scaler = MinMaxScaler()
 
@@ -44,6 +47,55 @@ class Anomalias:
     def get_scaler(self):
         return self.scaler
     
+
+
+    # Metodo para obtener un gráfico de barras con la proporcion entre logs malignos y benignos
+    def plot_class_distribution(self, save=True, malign=False):
+        plt.figure(figsize=(12, 6))
+
+        df_plot = self.df.copy()
+        # Podemos mostrar unicamente los datos benignos vs malignos (sin categorizar los datos malignos), o mostrar solo los malignos (clasificados por tipo)
+        if malign:
+            df_plot = df_plot[df_plot[' Label'] != 'BENIGN']
+            title = 'Distribución de Clases: Logs Malignos'
+            filename = 'class_distribution_malign.png'
+            plt.xticks(rotation=45)
+        else:
+            df_plot[' Label'] = (df_plot[' Label'] == 'BENIGN').map({True: 'BENIGN', False: 'MALIGN'})
+            title = 'Distribución de Clases: Benignos vs Malignos'
+            filename = 'class_distribution_benign_vs_malign.png'
+
+        # Hacemos un countplot para ver el número de valores de cada opcion posible en la columna ' Label'
+        sns.countplot(data=df_plot, x=' Label', order=df_plot[' Label'].value_counts().index, palette='Set2')
+        plt.title(title)
+        plt.ylabel('Número de logs')
+        plt.tight_layout()
+        if save:
+            plt.savefig(os.path.join(self.repo_path, 'img/code/', filename))
+        plt.show()
+
+
+
+    # Metodo para ver la matriz de correlacion
+    def plot_correlation_matrix(self, n_features=20, save=True):
+        # Seleccionamos solo las 'n' columnas con mayor varianza ya que son demasiadas columnas y no podemos ponerlas todas (para que el grafico sea legible, porque si ponemos las 80 columnas no veriamos nada)
+        df_numeric = self.df.drop(columns=[' Label'])
+        # Eliminamos columnas con varianza cero (constantes)
+        df_numeric = df_numeric.loc[:, df_numeric.var() > 0]
+        
+        top_features = df_numeric.var().sort_values(ascending=False).head(n_features).index
+        # Obtneemos la matriz con las distintas correlaciones
+        corr_matrix = df_numeric[top_features].corr()
+
+        # Mostramos la matriz en un grafico
+        plt.figure(figsize=(12, 10))
+        sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+        plt.title(f'Matriz de Correlación (Top {n_features} variables con mayor varianza)')
+        plt.tight_layout()
+        if save:
+            plt.savefig(os.path.join(self.repo_path, 'img/code/matriz_correlacion.png'))
+        plt.show()
+
 
     
     # Metodo para hacer una pequeña limpieza del dataset (ya que los datos estan previamente limpiados por el CIC)

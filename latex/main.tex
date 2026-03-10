@@ -98,7 +98,7 @@
         \vspace{1cm}
         {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle GRADO EN INGENIERÍA INFORMÁTICA}\par}
         \vspace{2cm}
-        {\includegraphics[width=1\textwidth]{img/portada.png}\par}
+        {\includegraphics[width=1\textwidth]{../img/portada.png}\par}
         \vspace{0.5cm}
         {\fontsize{20pt}{22pt}\selectfont \textbf{\helveticatitle TRABAJO DE FIN DE GRADO}\par}
         \vspace{1cm}
@@ -115,7 +115,7 @@
     \thispagestyle{empty}
     \begin{flushleft}
         \begin{center}
-            \includegraphics[width=0.25\textwidth]{img/primera_hoja.png}\\
+            \includegraphics[width=0.25\textwidth]{../img/primera_hoja.png}\\
         \end{center}
         \begin{center}
             {\fontsize{16}{16}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}}\\
@@ -240,7 +240,7 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.40\textwidth]{img/autoencoder_structure.png}\\
+        \includegraphics[width=0.40\textwidth]{../img/autoencoder_structure.png}\\
         \caption{Estructura elemental de un Autoencoder. Obtenida a partir de \cite{goodfellow2016deep}}
         \label{fig: autoencoder_structure}
     \end{figure}
@@ -325,15 +325,17 @@
 
     \vspace{5mm}
 
-    Ante dicho tráfico legítimo, se antepusieron distintos escenarios de ataque en distintos periodos de tiempo repartidos durante los 5 días. Vamos a ver más detalladamente todos los ataques realizados durante la fase de análisis (\ref{subsec: analisis_datos}), pero entre estos destacaron \textit{DDoS}, \textit{DoS}, fuerza bruta, infiltración, etc. Finalmente todo el tráfico (tanto benigno como maligno) fue procesado mediante la herramienta \textit{CICFlowMeter} para obtener los datos que se han aplicado en este proyecto, pasando tráfico de red en formato \textit{.pcap} a \textit{.csv}, ofreciendo una base de datos muy sólida para poder aplicar algoritmos de predicción y clasificación.
+    Ante dicho tráfico legítimo, se antepusieron distintos escenarios de ataque en distintos periodos de tiempo repartidos durante los 5 días. Vamos a ver más detalladamente todos los ataques realizados durante la fase de análisis (\ref{subsec: eda}), pero entre estos destacaron \textit{DDoS}, \textit{DoS}, fuerza bruta, infiltración, etc. Finalmente todo el tráfico (tanto benigno como maligno) fue procesado mediante la herramienta \textit{CICFlowMeter} para obtener los datos que se han aplicado en este proyecto, pasando tráfico de red en formato \textit{.pcap} a \textit{.csv}, ofreciendo una base de datos muy sólida para poder aplicar algoritmos de predicción y clasificación.
 
     \vspace{5mm}
 
 
 
-    \subsection{Análisis de Datos}\label{subsec: analisis_datos}
+    \subsection{Análisis Exploratorio de Datos (EDA)}\label{subsec: eda}
 
     \vspace{5mm}
+
+
 
 
 

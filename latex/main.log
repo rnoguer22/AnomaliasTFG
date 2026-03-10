@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.27)  9 MAR 2026 19:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.27)  10 MAR 2026 18:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -993,10 +993,10 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 99.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 13.29996pt on input line 99.
-<img/portada.png, id=54, 1866.975pt x 722.7pt>
-File: img/portada.png Graphic file (type png)
-<use img/portada.png>
-Package pdftex.def Info: img/portada.png  used on input line 101.
+<../img/portada.png, id=54, 1866.975pt x 722.7pt>
+File: ../img/portada.png Graphic file (type png)
+<use ../img/portada.png>
+Package pdftex.def Info: ../img/portada.png  used on input line 101.
 (pdftex.def)             Requested size: 472.03123pt x 182.71463pt.
 
 LaTeX Font Warning: Font shape `T1/cmr/m/n' in size <20> not available
@@ -1013,11 +1013,11 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-di
-st/fonts/enc/dvips/base/8r.enc} <./img/portada.png>]
-<img/primera_hoja.png, id=62, 284.06125pt x 495.8525pt>
-File: img/primera_hoja.png Graphic file (type png)
-<use img/primera_hoja.png>
-Package pdftex.def Info: img/primera_hoja.png  used on input line 118.
+st/fonts/enc/dvips/base/8r.enc} <../img/portada.png>]
+<../img/primera_hoja.png, id=62, 284.06125pt x 495.8525pt>
+File: ../img/primera_hoja.png Graphic file (type png)
+<use ../img/primera_hoja.png>
+Package pdftex.def Info: ../img/primera_hoja.png  used on input line 118.
 (pdftex.def)             Requested size: 118.0078pt x 205.99437pt.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 123.
@@ -1035,7 +1035,7 @@ been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.149     \newpage
-                   [1 <./img/primera_hoja.png>] (./main.toc
+                   [1 <../img/primera_hoja.png>] (./main.toc
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 6.
@@ -1131,15 +1131,15 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 [7]
-<img/autoencoder_structure.png, id=120, 343.2825pt x 168.63pt>
-File: img/autoencoder_structure.png Graphic file (type png)
-<use img/autoencoder_structure.png>
-Package pdftex.def Info: img/autoencoder_structure.png  used on input line 243.
-
+<../img/autoencoder_structure.png, id=120, 343.2825pt x 168.63pt>
+File: ../img/autoencoder_structure.png Graphic file (type png)
+<use ../img/autoencoder_structure.png>
+Package pdftex.def Info: ../img/autoencoder_structure.png  used on input line 2
+43.
 (pdftex.def)             Requested size: 188.8096pt x 92.74678pt.
 LaTeX Info: Redefining \. on input line 276.
 LaTeX Info: Redefining \% on input line 276.
- [8 <./img/autoencoder_structure.png>]
+ [8 <../img/autoencoder_structure.png>]
 LaTeX Info: Redefining \. on input line 300.
 LaTeX Info: Redefining \% on input line 300.
  [9]
@@ -1186,11 +1186,14 @@ To recover gracefully from this error, it's best to
 delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
+
+LaTeX Warning: Reference `subsec: eda' on page 11 undefined on input line 328.
+
 [11]
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.348     \section{Demo}
+l.350     \section{Demo}
                         \label{sec: demo}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1199,7 +1202,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.348     \section{Demo}
+l.350     \section{Demo}
                         \label{sec: demo}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1224,14 +1227,26 @@ L3 programming layer <2024-01-22>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.28pt have occurred.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 5A5C4E406EECEFF6AABDBEF3F3D7952A;1566.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: 5A5C4E406EECEFF6AABDBEF3F3D7952A;1566
+(rerunfilecheck)             After:  AD34BCAA63ABBFB471BE127A9760ADB8;1673.
  ) 
 Here is how much of TeX's memory you used:
- 28588 strings out of 475526
- 511804 string characters out of 5776529
+ 28589 strings out of 475526
+ 511880 string characters out of 5776529
  1931975 words of memory out of 5000000
- 50140 multiletter control sequences out of 15000+600000
+ 50141 multiletter control sequences out of 15000+600000
  596369 words of font info for 89 fonts, out of 8000000 for 9000
  376 hyphenation exceptions out of 8191
  84i,11n,131p,1001b,645s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1248,10 +1263,10 @@ texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive
 ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
 w/helvetic/uhvr8a.pfb>
-Output written on main.pdf (15 pages, 211150 bytes).
+Output written on main.pdf (15 pages, 212846 bytes).
 PDF statistics:
- 456 PDF objects out of 1000 (max. 8388607)
- 191 compressed objects within 2 object streams
+ 460 PDF objects out of 1000 (max. 8388607)
+ 190 compressed objects within 2 object streams
  32 named destinations out of 1000 (max. 500000)
  12924 words of extra memory for PDF output out of 14400 (max. 10000000)
 
