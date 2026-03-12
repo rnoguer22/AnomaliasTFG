@@ -3,11 +3,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import scipy.stats as stats
 from dotenv import load_dotenv
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.callbacks import EarlyStopping
 
 
 
@@ -50,6 +52,60 @@ class Anomalias:
     
 
 
+    # Metodo para obtener un dataframe con los valores atípicos de los datos
+    def get_outliers_df(self, df):
+        outliers_data = []
+        for column in df.select_dtypes(include='number').columns:
+            # Definimos los cuartiles y el rango intercuartilico
+            q1 = df[column].quantile(0.25)
+            q3 = df[column].quantile(0.75)
+            iqr = q3 - q1
+
+            if iqr == 0:
+                continue
+
+            # Con los cuartiles y el rango intercuartilico podemos hallar los outliers
+            lower_outliers = q1 - 3 * iqr
+            upper_outliers = q3 + 3 * iqr
+            # Filtramos en el dataset para encontrar los valores
+            outliers_number = df[(df[column] < lower_outliers) | (df[column] > upper_outliers)].shape[0]
+            # Añadimos los datos unicamente si detectamos valores atipicos
+            if outliers_number > 0:
+                outliers_perc = (outliers_number / len(df)) * 100
+                outliers_data.append([column, outliers_number, outliers_perc])
+
+        # Creamos el dataframe, ordenamos los datos de manera descendente y lo devolvemos
+        df_outliers = pd.DataFrame(outliers_data, columns=['Columna', 'Número de Outliers', 'Porcentaje'])
+        df_outliers.sort_values('Número de Outliers', ascending=False)
+        return df_outliers    
+    
+
+
+    # Funcion para analizar los datos de una columna. Sacamos histograma, diagrama de caja y QQ plot
+    def plot_normality_test(self, df, column_name):
+        plt.figure(figsize=(15, 5))
+        data = df[column_name]
+
+        # Histograma
+        plt.subplot(1, 3, 1)
+        sns.histplot(data, kde=True, color='skyblue')
+        plt.title(f'Histograma de {column_name}')
+
+        # Boxplot
+        plt.subplot(1, 3, 2)
+        sns.boxplot(y=data, color='lightgreen')
+        plt.title(f'Boxplot de {column_name}')
+
+        # Q-Q Plot
+        plt.subplot(1, 3, 3)
+        stats.probplot(data, dist="norm", plot=plt)
+        plt.title(f'Q-Q Plot de {column_name}')
+
+        plt.tight_layout()
+        plt.show()
+    
+
+
     # Metodo para obtener un gráfico de barras con la proporcion entre logs malignos y benignos
     def plot_class_distribution(self, save=True, malign=False):
         plt.figure(figsize=(12, 6))
@@ -60,7 +116,7 @@ class Anomalias:
             df_plot = df_plot[df_plot[' Label'] != 'BENIGN']
             title = 'Distribución de Clases: Logs Malignos'
             filename = 'class_distribution_malign.png'
-            plt.xticks(rotation=45)
+            plt.xticks(rotation=90)
         else:
             df_plot[' Label'] = (df_plot[' Label'] == 'BENIGN').map({True: 'BENIGN', False: 'MALIGN'})
             title = 'Distribución de Clases: Benignos vs Malignos'
@@ -149,14 +205,23 @@ class Anomalias:
         autoencoder = Model(inputs=entrada, outputs=decoder)
         autoencoder.compile(optimizer='adam', loss='mse')
 
+        # Usamos un EarlyStopping para detectar a partir de cuantas epochs el modelo empieza memorizar los datos.
+        # Si en 3 epochs no ha mejorado, se detiene
+        early_stop = EarlyStopping(
+            monitor='val_loss', 
+            patience=3,          # Si en 3 épocas no mejora, se para
+            restore_best_weights=True
+        )
+
         # Ahora es cuando entrenamos la red con los datos que hemos dividido anteriormente
         print('Comenzamos el entrenamiento de la red...')
         history = autoencoder.fit(
             X_train_scaled,
             X_train_scaled, # Al ser un autoencoder la salida esperada tiene que ser igual a los inputs del modelo
-            epochs=5,
+            epochs=50,
             batch_size=256,
             validation_data=(X_test_scaled, X_test_scaled),
+            callbacks=[early_stop],
             verbose=1
         )
         return autoencoder, history
