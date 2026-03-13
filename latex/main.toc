@@ -8,6 +8,9 @@
 \contentsline {subsection}{\numberline {3.3}Autoencoder Subcompleto}{8}{subsection.3.3}%
 \contentsline {section}{\numberline {4}Diseño de la Arquitectura}{10}{section.4}%
 \contentsline {section}{\numberline {5}Implementación}{11}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Análisis Exploratorio de Datos (EDA)}{11}{subsection.5.1}%
-\contentsline {section}{\numberline {6}Demo}{12}{section.6}%
-\contentsline {section}{Bibliograf\'{\i }a}{14}{section.6}%
+\contentsline {subsection}{\numberline {5.1}Análisis Exploratorio de Datos EDA}{12}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Preprocesamiento}{15}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Autoencoder}{15}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Modelo de Clasificación}{15}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Demo}{16}{section.6}%
+\contentsline {section}{Bibliograf\'{\i }a}{18}{section.6}%

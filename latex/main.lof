@@ -1,2 +1,7 @@
 \babel@toc {spanish}{}\relax 
 \contentsline {figure}{\numberline {1}{\ignorespaces Estructura elemental de un Autoencoder. Obtenida a partir de \cite {goodfellow2016deep}}}{8}{figure.caption.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Estructura del Dataset CICIDS2017. Datos disponibles en \cite {CICIDS2017}}}{12}{figure.caption.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Distribución de datos benignos y maliciosos}}{13}{figure.caption.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Distribución de clases: Datos benignos y maliciosos}}{13}{figure.caption.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Distribución de datos maliciosos}}{14}{figure.caption.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Distribución de clases: Datos maliciosos}}{14}{figure.caption.6}%

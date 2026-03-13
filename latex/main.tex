@@ -331,15 +331,85 @@
 
 
 
-    \subsection{Análisis Exploratorio de Datos (EDA)}\label{subsec: eda}
+    \subsection{Análisis Exploratorio de Datos EDA}\label{subsec: eda}
 
     \vspace{5mm}
 
+    A continuación se va a comenzar con un análisis \textit{EDA} para comprender de una mejor manera como se organizan los datos. El objetivo de esta sección es identificar las características esenciales y sacar conclusiones del conjunto de datos sin modificar, para posteriormente obtener una fuente mucho más limpia y menos redundante (si es que hubiese redundancia) en la fase de preprocesamiento (\ref{subsec: preprocesamiento}). Sin más preámbulo, comenzamos con un breve vistazo al dataset:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/df/df_head.png}\\
+        \caption{Estructura del Dataset CICIDS2017. Datos disponibles en \cite{CICIDS2017}}
+        \label{fig: df_head}
+    \end{figure}
+    
+    \vspace{5mm}
+
+    Como se puede observar, los datos constan de casi 3 millones de registros, y abarcan casi 80 columnas las cuales son todas numéricas a excepción de la última, la cual es una variable categórica que etiqueta al dataset en función de su tráfico legítimo. Es importante recalcar que los datos no se encuentran disponibles en un único dataset, sino que se encuentran separados en ficheros \textit{.csv} según el día que se tomaron, pero para este proyecto se han juntado dichos ficheros en un único cuerpo de datos.
+
+    \vspace{5mm}
+
+    Entre los datos se puede diferenciar información de interés para la detección y clasificación de anomalías como información básica de conexión (\textit{Destination Port}, \textit{Flow Duration}), cantidad de paquetes y su tamaño (\textit{Total Fwd Packets}, \textit{Total Length of Fwd Packets}), velocidad (\textit{Flow Bytes}, \textit{Flow Packets}), Flags TCP, etc. Y la etiqueta final, que denota el flujo como benigno o maligno. Entre estas columnas se resumen la mayoría de patrones clave para detectar anomalías y, por ende, ciberataques.
+    
+    \vspace{5mm}
+
+    Otro aspecto fundamental a revisar es la gestión de valores nulos. Aquí se vuelve a resaltar el trabajo del equipo del \textit{CIC} por su limpieza previa, ya que no se presentan valores perdidos en todo el flujo de datos. Asímismo, es una buena práctica separar los datos clasificados como benignos de los malignos, y esto se ve reflejado de la siguiente manera:
+    
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{../img/code/df/benignos_vs_malignos.png}\\
+        \caption{Distribución de datos benignos y maliciosos}
+        \label{fig: df_benignos_vs_malignos}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/class_distribution_benign_vs_malign.png}\\
+        \caption{Distribución de clases: Datos benignos y maliciosos}
+        \label{fig: class_distribution_benign_vs_malign}
+    \end{figure}
+
+    \vspace{5mm}
+
+    Vemos claramente que aquellos datos con un fin legítimo forman un 80\% de los datos, mientras que los maliciosos un 20\%. Esto es bastante importante ya que se necesita que el autoencoder (\ref{subsec: autoencoder_impl}) aprenda del tráfico más usual de red para detectar anomalías con una precisión aceptable, diferenciando distintos patrones en los que se difieren los ataques. No obstante, también disponemos cerca de medio de millón de datos sobre trafico malicioso, lo que nos va a ilustrar que el autoencoder funciona correctamente detectando dicho tráfico como sospechoso, y posteriormente para entrenar un modelo de clasificación para un diagnóstico más preciso de las intenciones del atacante (\ref{subsec: modelo_clasificacion_impl}).
+
+    \vspace{5mm}
+
+    De igual manera, se ha obtenido la distribución de clase de aquellos logs maliciosos en el dataset. Esto será de gran utilidad más adelante a la hora de evaluar el modelo de clasificación (\ref{subsec: modelo_clasificacion_impl}) para conocer el rango de ciberataques del que se dispone y puede clasificar dicho modelo.
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{../img/code/df/counts_malignos.png}\\
+        \caption{Distribución de datos maliciosos}
+        \label{fig: df_malignos}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/class_distribution_malign.png}\\
+        \caption{Distribución de clases: Datos maliciosos}
+        \label{fig: class_distribution_malign}
+    \end{figure}
+
+    \vspace{5mm}
+
+    Se puede apreciar que la mayoría de ataques son denegaciones de servicio, tanto denegaciones simples (\textit{DoS}) como distribuidas por medio de una botnet (\textit{DDoS}), destacando también el escaneo de puertos (\textit{PortScan}). Este patrón indica que la mayor parte del tráfico malicioso busca saturar los recursos del sistema, mientras que otros ataques menos frecuentes tienen como objetivo una intrusión remota, filtrado de datos, obtención de credenciales, etc. Comprender esta distribución de ciberataques es un aspecto fundamental para diseñar la red y posteriormente un modelo de clasificación que funcione adecuadamente detectando la amenaza que corresponda según el contexto del servidor.
 
 
 
 
 
+
+    \subsection{Preprocesamiento}\label{subsec: preprocesamiento}
+    \subsection{Autoencoder}\label{subsec: autoencoder_impl}
+    \subsection{Modelo de Clasificación}\label{subsec: modelo_clasificacion_impl}
 
 
 

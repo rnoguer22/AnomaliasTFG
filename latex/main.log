@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.27)  10 MAR 2026 18:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.27)  13 MAR 2026 21:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -993,7 +993,7 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 99.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 13.29996pt on input line 99.
-<../img/portada.png, id=54, 1866.975pt x 722.7pt>
+<../img/portada.png, id=66, 1866.975pt x 722.7pt>
 File: ../img/portada.png Graphic file (type png)
 <use ../img/portada.png>
 Package pdftex.def Info: ../img/portada.png  used on input line 101.
@@ -1014,7 +1014,7 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-di
 st/fonts/enc/dvips/base/8r.enc} <../img/portada.png>]
-<../img/primera_hoja.png, id=62, 284.06125pt x 495.8525pt>
+<../img/primera_hoja.png, id=74, 284.06125pt x 495.8525pt>
 File: ../img/primera_hoja.png Graphic file (type png)
 <use ../img/primera_hoja.png>
 Package pdftex.def Info: ../img/primera_hoja.png  used on input line 118.
@@ -1131,7 +1131,7 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 [7]
-<../img/autoencoder_structure.png, id=120, 343.2825pt x 168.63pt>
+<../img/autoencoder_structure.png, id=150, 343.2825pt x 168.63pt>
 File: ../img/autoencoder_structure.png Graphic file (type png)
 <use ../img/autoencoder_structure.png>
 Package pdftex.def Info: ../img/autoencoder_structure.png  used on input line 2
@@ -1186,14 +1186,56 @@ To recover gracefully from this error, it's best to
 delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
-
-LaTeX Warning: Reference `subsec: eda' on page 11 undefined on input line 328.
-
 [11]
+<../img/code/df/df_head.png, id=188, 945.5325pt x 364.36125pt>
+File: ../img/code/df/df_head.png Graphic file (type png)
+<use ../img/code/df/df_head.png>
+Package pdftex.def Info: ../img/code/df/df_head.png  used on input line 344.
+(pdftex.def)             Requested size: 472.03123pt x 181.90218pt.
+LaTeX Info: Redefining \. on input line 360.
+LaTeX Info: Redefining \% on input line 360.
+ [12 <../img/code/df/df_head.png (PNG copy)>]
+<../img/code/df/benignos_vs_malignos.png, id=199, 307.1475pt x 93.34875pt>
+File: ../img/code/df/benignos_vs_malignos.png Graphic file (type png)
+<use ../img/code/df/benignos_vs_malignos.png>
+Package pdftex.def Info: ../img/code/df/benignos_vs_malignos.png  used on input
+ line 365.
+(pdftex.def)             Requested size: 236.01561pt x 71.7306pt.
+<../img/code/class_distribution_benign_vs_malign.png, id=200, 867.24pt x 433.62
+pt>
+File: ../img/code/class_distribution_benign_vs_malign.png Graphic file (type pn
+g)
+<use ../img/code/class_distribution_benign_vs_malign.png>
+Package pdftex.def Info: ../img/code/class_distribution_benign_vs_malign.png  u
+sed on input line 372.
+(pdftex.def)             Requested size: 472.03123pt x 236.01717pt.
+LaTeX Info: Redefining \. on input line 386.
+LaTeX Info: Redefining \% on input line 386.
+ [13 <../img/code/df/benignos_vs_malignos.png (PNG copy)> <../img/code/class_di
+stribution_benign_vs_malign.png>]
+<../img/code/df/counts_malignos.png, id=209, 425.59pt x 463.7325pt>
+File: ../img/code/df/counts_malignos.png Graphic file (type png)
+<use ../img/code/df/counts_malignos.png>
+Package pdftex.def Info: ../img/code/df/counts_malignos.png  used on input line
+ 389.
+(pdftex.def)             Requested size: 236.01561pt x 257.16937pt.
+<../img/code/class_distribution_malign.png, id=210, 867.24pt x 433.62pt>
+File: ../img/code/class_distribution_malign.png Graphic file (type png)
+<use ../img/code/class_distribution_malign.png>
+Package pdftex.def Info: ../img/code/class_distribution_malign.png  used on inp
+ut line 396.
+(pdftex.def)             Requested size: 472.03123pt x 236.01717pt.
+LaTeX Info: Redefining \. on input line 404.
+LaTeX Info: Redefining \% on input line 404.
+ [14 <../img/code/df/counts_malignos.png (PNG copy)> <../img/code/class_distrib
+ution_malign.png>]
+LaTeX Info: Redefining \. on input line 416.
+LaTeX Info: Redefining \% on input line 416.
+ [15]
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.350     \section{Demo}
+l.420     \section{Demo}
                         \label{sec: demo}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1202,7 +1244,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.350     \section{Demo}
+l.420     \section{Demo}
                         \label{sec: demo}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1211,10 +1253,10 @@ To recover gracefully from this error, it's best to
 delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
-[12] [13] (./main.bbl
+[16] [17] (./main.bbl
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 10.40245pt on input line 12.
-) [14] (./main.aux
+) [18] (./main.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -1227,26 +1269,14 @@ L3 programming layer <2024-01-22>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.28pt have occurred.
 
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 5A5C4E406EECEFF6AABDBEF3F3D7952A;1566
-(rerunfilecheck)             After:  AD34BCAA63ABBFB471BE127A9760ADB8;1673.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 73D2B5A5E0101F6E6FD93C16370D56FF;2090.
  ) 
 Here is how much of TeX's memory you used:
- 28589 strings out of 475526
- 511880 string characters out of 5776529
+ 28646 strings out of 475526
+ 513854 string characters out of 5776529
  1931975 words of memory out of 5000000
- 50141 multiletter control sequences out of 15000+600000
+ 50186 multiletter control sequences out of 15000+600000
  596369 words of font info for 89 fonts, out of 8000000 for 9000
  376 hyphenation exceptions out of 8191
  84i,11n,131p,1001b,645s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1263,10 +1293,10 @@ texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive
 ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
 w/helvetic/uhvr8a.pfb>
-Output written on main.pdf (15 pages, 212846 bytes).
+Output written on main.pdf (19 pages, 380519 bytes).
 PDF statistics:
- 460 PDF objects out of 1000 (max. 8388607)
- 190 compressed objects within 2 object streams
- 32 named destinations out of 1000 (max. 500000)
- 12924 words of extra memory for PDF output out of 14400 (max. 10000000)
+ 538 PDF objects out of 1000 (max. 8388607)
+ 244 compressed objects within 3 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 12973 words of extra memory for PDF output out of 14400 (max. 10000000)
 
