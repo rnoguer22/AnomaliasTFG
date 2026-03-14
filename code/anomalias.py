@@ -65,8 +65,8 @@ class Anomalias:
                 continue
 
             # Con los cuartiles y el rango intercuartilico podemos hallar los outliers
-            lower_outliers = q1 - 3 * iqr
-            upper_outliers = q3 + 3 * iqr
+            lower_outliers = q1 - 1.5 * iqr
+            upper_outliers = q3 + 1.5 * iqr
             # Filtramos en el dataset para encontrar los valores
             outliers_number = df[(df[column] < lower_outliers) | (df[column] > upper_outliers)].shape[0]
             # Añadimos los datos unicamente si detectamos valores atipicos
@@ -102,6 +102,7 @@ class Anomalias:
         plt.title(f'Q-Q Plot de {column_name}')
 
         plt.tight_layout()
+        plt.savefig(os.path.join(self.repo_path, 'img/code', 'normality_test.png'))
         plt.show()
     
 

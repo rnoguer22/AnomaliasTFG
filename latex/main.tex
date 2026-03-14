@@ -400,14 +400,99 @@
 
     \vspace{5mm}
 
-    Se puede apreciar que la mayoría de ataques son denegaciones de servicio, tanto denegaciones simples (\textit{DoS}) como distribuidas por medio de una botnet (\textit{DDoS}), destacando también el escaneo de puertos (\textit{PortScan}). Este patrón indica que la mayor parte del tráfico malicioso busca saturar los recursos del sistema, mientras que otros ataques menos frecuentes tienen como objetivo una intrusión remota, filtrado de datos, obtención de credenciales, etc. Comprender esta distribución de ciberataques es un aspecto fundamental para diseñar la red y posteriormente un modelo de clasificación que funcione adecuadamente detectando la amenaza que corresponda según el contexto del servidor.
+    Se puede apreciar que la mayoría de ataques son denegaciones de servicio, tanto denegaciones simples (\textit{DoS}) como distribuidas por medio de varios sistemas o incluso una botnet (\textit{DDoS}), destacando también el escaneo de puertos (\textit{PortScan}). Este patrón indica que la mayor parte del tráfico malicioso busca saturar los recursos del sistema, mientras que otros ataques menos frecuentes tienen como objetivo una intrusión remota, filtrado de datos, obtención de credenciales, etc. Comprender esta distribución de ciberataques es un aspecto fundamental para diseñar la red y posteriormente un modelo de clasificación que funcione adecuadamente detectando la amenaza que corresponda según el contexto del servidor.
 
+    \vspace{5mm}
+
+    Por otra parte, no es posible llevar a cabo un \textit{EDA} completo sin realizar un análisis de \textit{outliers}. Un \textit{outlier} o también conocido como valor atípico, es un dato que se aleja muy significativamente del patrón del resto de datos, por lo que afectan negativamente al rendimiento de los modelos, no solo nuestro futuro autoencoder, sino cualquier modelo de \textit{Machine Learning} se ve afectado por esto, bien un modelo de regresión, clasificación, series temporales, etc. Es por esto que los \textit{outliers} en ámbitos relacionados con la inteligencia artificial se suelen suprimir, aunque, como se va a ver a continuación, esto no siempre es así, y se ha de analizar de la misma manera el contexto de los datos.
+    
+    \vspace{5mm}
+
+    Para hallar estos valores, hemos de encontrar el umbral inferior y superior de los datos. Todos los datos contenidos entre estos umbrales son datos convencionales, perfectos para entrenar modelos. No obtante, si se encuentran fuera de estos límites, son considerados atípicos y se han de gestionar más específicamente:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+        U_{i} = Q1 - 1.5\,IQR 
+        \label{eq: limite_inferior_outliers}
+    \end{equation}
+
+    \begin{equation}
+        U_{s} = Q3 + 1.5\,IQR
+        \label{eq: limite_superior_outliers}
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Donde $Q1$ y $Q3$ son el primer y tercer cuartil respectivamente, donde $IQR$ es el rango intercuartílico, siendo $U_{i}$ y $U_{s}$ el límite inferior y superior. Con esto, se han obtenido los siguientes \textit{outliers}:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.5\textwidth]{../img/code/df/outliers.png}\\
+        \caption{Dataframe de outliers}
+        \label{fig: df_outliers}
+    \end{figure}
+
+    \vspace{5mm}
+
+    Vemos que la presencia de valores atípicos es muy grande. Sin embargo no hay que preocuparse, pues esto es normal. El tráfico de una red es muy estocástico, y los datos generalmente son muy asímetricos (los datos no se ajustan siguiendo una campana de Gauss). No obstante obtenemos demasiados outliers, en parte por lo que se acaba de explicar, y porque los datos maliciosos provenientes de un ciberataque son ya por definición outliers por sí solos, aumentando aún más el número final. A continuación se presentan ciertos gráficos que apoyan estos puntos:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/normality_test.png}\\
+        \caption{Histograma, boxplot y Q-Q plot sobre la variable 'Flow Duration'}
+        \label{fig: normality_test}
+    \end{figure}
+
+    \vspace{5mm}
+
+    En esta prueba vemos tres gráficas, un histograma, un diagrama de caja y un Q-Q plot, dichos gráficos realizados sobre la variable 'Flow Duration' del dataset, ya que esta columna es muy representativa para el modelo, al ser la duración un aspecto fundamental para explicar el comportamiento de los datos. En el histograma se puede ver que los datos no siguen una campana de Gauss, ya que los datos se encuentran extremadamente sesgados a la derecha, donde la inmensa mayoría de registros tienen un valor muy cercano a cero, y la gran minoría restante forman una cola hasta $1.2 \times 10^{8}$.
+
+    \vspace{5mm}
+
+    Además, el diagrama de caja refuerza los datos que muestra el histograma, ya que la propia caja del diagrama se encuentra muy cercana a 0 (donde residen la mayoría de datos) y se muestra una gran cantidad de atípicos por encima del límite superior. Por último, el diagrama Q-Q plot termina de reforzar la teoría, viéndose claramente que los datos no siguen una distribución normal, sino que se agrupan reflejando gran cantidad de outliers.
+
+    \vspace{5mm}
+
+    Con esto queda justificado la presencia de multitudes valores atípicos en los datos, ya que los datos del tráfico de una red se encuentran demasiado sesgados y dispersos, negándose a seguir una distribución normal. Es por esto que se implementa un modelo autoencoder, al presentar una arquitectura no lineal que se ajusta mucho mejor a los datos, pudiendo aprender a partir de su comportamiento y características sin depender de supuestos gaussianos.
+
+    \vspace{5mm}
+
+    Una vez se ha visto el análisis de valores atípicos, hemos de comprobar que las distintas columnas no estén muy relacionadas entre sí, ya que el futuro modelo sería redundante y estaríamos procesando información de más que no aporta nada a la red. Para ello, obtenemos la matriz de correlación del dataset:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/matriz_correlacion.png}\\
+        \caption{Matriz de correlación inicial de los datos}
+        \label{fig: corr_matrix}
+    \end{figure}    
+
+    \vspace{5mm}
+
+    La matriz de correlación es muy densa, pues el dataset contiene muchas columnas de datos. Sin embargo esto no nos impide verificar la presencia de variables altamente correlacionadas entre sí. Estas distintas columnas, especialmente aquellas con una correlación muy cercana a la unidad, generan mucha redundancia al modelo, algo que no es conveniente, por lo que será uno de los primeros pasos que seguiremos en la fase de procesamiento (\ref{subsec: preprocesamiento}). Con esto se da por finalizado el análisis exploratorio de datos EDA y se da paso a la sección que se acaba de mencionar.
+
+    \vspace{10mm}
 
 
 
 
 
     \subsection{Preprocesamiento}\label{subsec: preprocesamiento}
+
+    \vspace{5mm}
+
+
+
+
+
+
+
     \subsection{Autoencoder}\label{subsec: autoencoder_impl}
     \subsection{Modelo de Clasificación}\label{subsec: modelo_clasificacion_impl}
 
