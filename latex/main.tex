@@ -30,6 +30,8 @@
 \usepackage{array}
 \usepackage{tikz}
 
+\usepackage{minted} % Poner codigo en el texto
+
 
 
 % \setlength{\parindent}{0pt} % Elimina la sangría en todo el documento
@@ -247,7 +249,7 @@
 
     \vspace{5mm}
 
-    Donde las funciones $f$ y $g$ serán definidas a continuación. Una vez se ha visto la estructura básica de un \textit{autoencoder}, nos vamos a adentrar más específicamente en la red que se va a implementrar de manera práctica en este proyecto.
+    Donde las funciones $f$ y $g$ serán definidas en la sección de implementación (\ref{subsec: autoencoder}). Una vez se ha visto la estructura básica de un \textit{autoencoder}, nos vamos a adentrar más específicamente en la red que se va a implementrar de manera práctica en este proyecto.
 
     \vspace{10mm}
 
@@ -487,13 +489,92 @@
 
     \vspace{5mm}
 
+    Una vez se ha comprendido de una mejor manera la naturaleza de los datos y como se distribuyen mediante un análisis exploratorio (\ref{subsec: eda}), podemos dar paso a la fase de procesamiento. El objetivo de esta sección simplemente es transformar el conjunto de datos de la manera más óptima posible para entregarlos a la capa de entrada de nuestro autoencoder. En esta fase se llevará a cabo un filtrado de variables altamente correlacionadas en los datos para reducir la redundancia de la red, y posteriormente se normalizarán los datos para mejorar el rendimiento del modelo y que se aprendan las características del tráfico benigno de una red correctamente.
 
+    \vspace{5mm}
+
+    Como se ha explicado, vamos a comenzar con la gestión de variables altamente relacionadas. Esto está muy ligado con el final de la sección anterior (\ref{subsec: eda}) en el que obtuvo la matriz de correlación inicial de los datos (\ref{fig: corr_matrix}) pero no se llegó suprimir las variables muy correlacionadas. Para ello, se seleccionó el triángulo superior de la matriz, eliminando variables que se generaban en función de otras. Un ejemplo de esto son las columnas \textit{'Total Length of Fwd Packets'} y \textit{Subflow Fwd Bytes}, donde la segunda variable se obtiene a partir de la longitud total de los paquetes enviados. Así, eliminamos una de las dos variables altamente correlacionadas para reducir la redundancia, para aquella correlación superior o igual a $0.95$.
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/matriz_correlacion_cleaned.png}\\
+        \caption{Matriz de correlación preprocesada de los datos}
+        \label{fig: corr_matrix_cleaned}
+    \end{figure}   
+
+    \vspace{5mm}
+
+    Se puede apreciar que la matriz de correlación presenta una limpieza mucho más considerable, pues se han eliminado $22$ columnas repetitivas de los datos, mejorando el rendimiento de la red. Por otra parte, cabe mencionar que se encontraron valores infinitos en el dataset, los cuales por supuesto han sido correspondiente eliminados, ya que un valor infinito no es válido para una red neuronal, ahorrando futuros problemas con nuestro autoencoder.
+
+    \vspace{5mm}
+
+    La segunda parte de esta breve sección de preprocesamiento consiste en normalizar los datos, consiguiendo así que todas las variables se encuentren bajo una misma escala (entre 0 y 1). Con esto se consigue que aquellas variables con valores muy altos no tengan tanta influencia durante el entrenamiento del modelo, mejorando el rendimiento y escalabilidad de nuestro autoencoder. 
+
+    \begin{minted}{python}
+    def get_scaled_train_test_data(self, df_to_scale):
+        scaler = MinMaxScaler()
+        X_train, X_test = train_test_split(
+            df_to_scale, 
+            test_size=0.20, 
+            random_state=42
+        )
+        # Normalizamos los datos para que tengan valores entre 0 y 1
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
+        return X_train_scaled, X_test_scaled
+    \end{minted}
+
+    Con esta función nos estamos ayudando de la librería Scikit-Learn de Python, disponible en [\cite{sklearn-docs}]. Internamente, se está aplicando la siguiente transformación para el escalado de cada uno de los datos:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+        x_{\text{scaled}} = \frac{x - x_{\text{min}}}{x_{max} - x_{\text{min}}}, \qquad x_{\text{scaled}} \in \left[ 0, 1 \right]
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Donde $x_{\text{min}}$ y $x_{\text{max}}$ son los valores mínimos y máximos de cada columna. Este proceso se repite para cada columna del dataset, dejando completamente escalados los datos. Con el código anterior también dividimos los datos para el entrenamiento y test, dejando perfectamente preparados los datos para entrenar la red y verificar su correcto funcionamiento, dando paso a la siguiente sección.
+
+    \vspace{10mm}
 
 
 
 
 
     \subsection{Autoencoder}\label{subsec: autoencoder_impl}
+
+    \vspace{5mm}
+
+    Según se vio en (\ref{subsec: autoencoder_subcompleto}), el autoencoder consta de 3 capas: La capa de entrada de datos que aplica una función $f$, obteniendo las características principales para replicar los datos en una capa intermedia, para posteriormente aplicar la función $h$ y replicar los datos de entrada en la capa de reconstrucción o salida de datos. Esto se ve reflejado en el siguiente código:
+
+    \begin{minted}{python}
+    def create_and_train_autoencoder(self, X_train_scaled, X_test_scaled):
+        # Creamos la red neuronal (autoencoder)
+        input_dim = X_train_scaled.shape[1]
+        entrada = Input(shape=(input_dim,))
+        encoder = Dense(int(input_dim/2), activation='relu')(entrada)
+        decoder = Dense(input_dim, activation='sigmoid')(encoder)
+
+        autoencoder = Model(inputs=entrada, outputs=decoder)
+        autoencoder.compile(optimizer='adam', loss='mse')
+
+        print('Comenzamos el entrenamiento de la red...')
+        history = autoencoder.fit(
+            X_train_scaled,
+            X_train_scaled,
+            epochs=50,
+            batch_size=256,
+            validation_data=(X_test_scaled, X_test_scaled),
+            callbacks=[early_stop],
+            verbose=1
+        )
+        return autoencoder, history
+    \end{minted}    
+
+
     \subsection{Modelo de Clasificación}\label{subsec: modelo_clasificacion_impl}
 
 

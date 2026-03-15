@@ -17,6 +17,20 @@ Goodfellow, I., Bengio, Y., and Courville, A. (2016).
 \newblock {\em Deep Learning}.
 \newblock MIT Press, Cambridge, MA.
 
+\bibitem[learn Developers, 2026]{sklearn-docs}
+learn Developers, S. (2026).
+\newblock Scikit-learn: Machine learning in python.
+\newblock \url{https://scikit-learn.org}.
+\newblock Documentaci√≥n oficial.
+
+\bibitem[Pedregosa et~al., 2011]{scikit-learn}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
+  O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J.,
+  Passos, A., Cournapeau, D., Brucher, M., Perrot, M., and Duchesnay, √.
+  (2011).
+\newblock Scikit-learn: Machine learning in python.
+\newblock {\em Journal of Machine Learning Research}, 12:2825--2830.
+
 \bibitem[Sharafaldin et~al., 2018]{CICIDS2017_paper}
 Sharafaldin, I., Lashkari, A.~H., and Ghorbani, A.~A. (2018).
 \newblock Toward generating a new intrusion detection dataset and intrusion

@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k}{def} \PYG{n+nf}{get\PYGZus{}scaled\PYGZus{}train\PYGZus{}test\PYGZus{}data}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{df\PYGZus{}to\PYGZus{}scale}\PYG{p}{):}
+        \PYG{n}{scaler} \PYG{o}{=} \PYG{n}{MinMaxScaler}\PYG{p}{()}
+        \PYG{n}{X\PYGZus{}train}\PYG{p}{,} \PYG{n}{X\PYGZus{}test} \PYG{o}{=} \PYG{n}{train\PYGZus{}test\PYGZus{}split}\PYG{p}{(}
+            \PYG{n}{df\PYGZus{}to\PYGZus{}scale}\PYG{p}{,}
+            \PYG{n}{test\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mf}{0.20}\PYG{p}{,}
+            \PYG{n}{random\PYGZus{}state}\PYG{o}{=}\PYG{l+m+mi}{42}
+        \PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} Normalizamos los datos para que tengan valores entre 0 y 1}
+        \PYG{n}{X\PYGZus{}train\PYGZus{}scaled} \PYG{o}{=} \PYG{n}{scaler}\PYG{o}{.}\PYG{n}{fit\PYGZus{}transform}\PYG{p}{(}\PYG{n}{X\PYGZus{}train}\PYG{p}{)}
+        \PYG{n}{X\PYGZus{}test\PYGZus{}scaled} \PYG{o}{=} \PYG{n}{scaler}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{X\PYGZus{}test}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{p}{,} \PYG{n}{X\PYGZus{}test\PYGZus{}scaled}
+\end{Verbatim}

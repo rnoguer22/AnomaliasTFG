@@ -195,7 +195,7 @@ class Anomalias:
 
 
 
-    # Metodo que crear, entrena y devuelve el autoencoder con el fin de predecir los datos
+    # Metodo que crea, entrena y devuelve el autoencoder con el fin de replicar los datos
     def create_and_train_autoencoder(self, X_train_scaled, X_test_scaled):
         # Creamos la red neuronal (autoencoder) para predecir los datos
         input_dim = X_train_scaled.shape[1]
@@ -226,19 +226,3 @@ class Anomalias:
             verbose=1
         )
         return autoencoder, history
-    
-
-
-
-
-if __name__ == '__main__':
-
-    anomalias = Anomalias()
-    df = anomalias.get_data()
-    corr_matrix_df = anomalias.get_corr_matrix_from_df(df)
-    anomalias.plot_correlation_matrix(corr_matrix_df, 'matriz_correlacion.png', 19)
-
-    df_corr_cleaned = anomalias.get_df_corr_cleaned(df, corr_matrix_df, 0.95)
-    print('\n', df_corr_cleaned, '\n')
-    corr_matrix_df_cleaned = anomalias.get_corr_matrix_from_df(df_corr_cleaned)
-    anomalias.plot_correlation_matrix(corr_matrix_df_cleaned, 'matriz_correlacion_cleaned.png', 14)
