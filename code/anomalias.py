@@ -50,7 +50,7 @@ class Anomalias:
     def get_scaler(self):
         return self.scaler
     
-
+    
 
     # Metodo para obtener un dataframe con los valores atípicos de los datos
     def get_outliers_df(self, df):
@@ -219,7 +219,7 @@ class Anomalias:
         history = autoencoder.fit(
             X_train_scaled,
             X_train_scaled, # Al ser un autoencoder la salida esperada tiene que ser igual a los inputs del modelo
-            epochs=50,
+            epochs=20,
             batch_size=256,
             validation_data=(X_test_scaled, X_test_scaled),
             callbacks=[early_stop],

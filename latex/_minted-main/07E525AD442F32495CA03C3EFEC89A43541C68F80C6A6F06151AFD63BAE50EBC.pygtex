@@ -1,5 +1,5 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-    \PYG{k}{def} \PYG{n+nf}{create\PYGZus{}and\PYGZus{}train\PYGZus{}autoencoder}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{p}{,} \PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{):}
+    \PYG{k}{def} \PYG{n+nf}{create\PYGZus{}and\PYGZus{}train\PYGZus{}autoencoder}\PYG{p}{(}\PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{p}{,} \PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{):}
         \PYG{c+c1}{\PYGZsh{} Creamos la red neuronal (autoencoder)}
         \PYG{n}{input\PYGZus{}dim} \PYG{o}{=} \PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
         \PYG{n}{entrada} \PYG{o}{=} \PYG{n}{Input}\PYG{p}{(}\PYG{n}{shape}\PYG{o}{=}\PYG{p}{(}\PYG{n}{input\PYGZus{}dim}\PYG{p}{,))}
@@ -13,7 +13,7 @@
         \PYG{n}{history} \PYG{o}{=} \PYG{n}{autoencoder}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}
             \PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{p}{,}
             \PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{p}{,}
-            \PYG{n}{epochs}\PYG{o}{=}\PYG{l+m+mi}{50}\PYG{p}{,}
+            \PYG{n}{epochs}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,}
             \PYG{n}{batch\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{256}\PYG{p}{,}
             \PYG{n}{validation\PYGZus{}data}\PYG{o}{=}\PYG{p}{(}\PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{,} \PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{),}
             \PYG{n}{callbacks}\PYG{o}{=}\PYG{p}{[}\PYG{n}{early\PYGZus{}stop}\PYG{p}{],}

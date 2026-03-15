@@ -287,14 +287,8 @@
 
     Siendo $x$ los datos de entrada, $r$ los valores de la reconstrucción, y $n$ el número total de datos en la capa de entrada y salida del modelo.
 
-    \vspace{5mm}
+    \vspace{10mm}
 
-
-
-    DECIR QUE F ES LA FUNCION RELU Y G LA SIGMOIDE
-    PCA?
-
-    \vspace{5mm}
 
 
 
@@ -513,7 +507,7 @@
     La segunda parte de esta breve sección de preprocesamiento consiste en normalizar los datos, consiguiendo así que todas las variables se encuentren bajo una misma escala (entre 0 y 1). Con esto se consigue que aquellas variables con valores muy altos no tengan tanta influencia durante el entrenamiento del modelo, mejorando el rendimiento y escalabilidad de nuestro autoencoder. 
 
     \begin{minted}{python}
-    def get_scaled_train_test_data(self, df_to_scale):
+    def get_scaled_train_test_data(df_to_scale):
         scaler = MinMaxScaler()
         X_train, X_test = train_test_split(
             df_to_scale, 
@@ -548,10 +542,10 @@
 
     \vspace{5mm}
 
-    Según se vio en (\ref{subsec: autoencoder_subcompleto}), el autoencoder consta de 3 capas: La capa de entrada de datos que aplica una función $f$, obteniendo las características principales para replicar los datos en una capa intermedia, para posteriormente aplicar la función $h$ y replicar los datos de entrada en la capa de reconstrucción o salida de datos. Esto se ve reflejado en el siguiente código:
+    Según se vio en (\ref{subsec: autoencoder_subcompleto}), el autoencoder consta de 3 capas: La capa de entrada de datos que aplica una función $f$, obteniendo las características principales para replicar los datos en una capa intermedia, para posteriormente aplicar la función $g$ y replicar los datos de entrada en la capa de reconstrucción o salida de datos. Esto se ve reflejado en el siguiente código:
 
     \begin{minted}{python}
-    def create_and_train_autoencoder(self, X_train_scaled, X_test_scaled):
+    def create_and_train_autoencoder(X_train_scaled, X_test_scaled):
         # Creamos la red neuronal (autoencoder)
         input_dim = X_train_scaled.shape[1]
         entrada = Input(shape=(input_dim,))
@@ -565,14 +559,66 @@
         history = autoencoder.fit(
             X_train_scaled,
             X_train_scaled,
-            epochs=50,
+            epochs=20,
             batch_size=256,
             validation_data=(X_test_scaled, X_test_scaled),
             callbacks=[early_stop],
             verbose=1
         )
         return autoencoder, history
-    \end{minted}    
+    \end{minted}   
+    
+    Donde vemos que las funciones de activación $f$ y $g$ son las funciones \textit{ReLu} y \textit{Sigmoide} respectivamente. En primer lugar se usa la función \textbf{ReLu} ya que es la función por excelencia en capas ocultas al solucionar el desvanecimiento de gradiente, y al ser lineal en los valores positivos permite a la red aprender muy rápido teniendo en cuenta las características más relevantes del tráfico de red, debido a que los valores negativos son cero.
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+        f(x) = \text{max}\left(0, x\right)
+        \label{eq: relu}
+    \end{equation}
+
+
+    \vspace{2.5mm}
+
+    Por otra parte la función \textbf{Sigmoide} es perfecta para la capa de salida, ya que anteriormente se han normalizado los datos entre 0 y 1. Esto es justamente lo que hace esta función, transformar los datos a escala $\left[ 0, 1 \right]$ debido a la presencia de asíntotas horizontales en ambos valores, lo cual es perfecto para obtener los datos de reconstrucción en esa misma escala.
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+        g(x) = \frac{1}{1 + e^{-x}}
+        \label{eq: sigmoide}
+    \end{equation}
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/relu_sigmoid.png}\\
+        \caption{Funciones ReLu y Sigmoide}
+        \label{fig: relu_sigmoid}
+    \end{figure}   
+
+    \vspace{5mm}
+
+    Una vez la fase de entrenamiento de la red ha finalizado se puede finalizar con la conclusión de los resultados. Como se vio anteriormente en (\ref{subsec: autoencoder}), nos interesa conocer el error \textbf{MSE}, ya que en función de dicho valor se va a detectar un ataque con intenciones maliciosas. Para ello, se ha reservado un conjunto de datos clasificados como benignos (los cuales no han participado en la fase de entrenamiento de la red) y otros maliciosos, obteniendo distintas tasas de error:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.25\textwidth]{../img/code/df/mse.png}\\
+        \caption{Comparación de MSE para datos benignos y maliciosos.}
+        \label{fig: mse_df}
+    \end{figure}   
+
+    \vspace{5mm}
+
+    Vemos que los resultados son lo que se esperaba, siendo el error casi 100 veces mayor para datos maliciosos. Esta es la funcionalidad principal del autoencoder, detectar el tráfico legítimo de paquetes de red a partir de los valores del error del modelo. Con esto concluye esta sección, una sección de vital importancia para validar la capacidad de selección de la red neuronal, verificando la correcta capacidad de aprendizaje del modelo y estableciendo la base necesaria que actúa como umbral para la detección de intrusiones y tráfico malévolo en tiempo real.
+
+    \vspace{10mm}
+    
+
+
 
 
     \subsection{Modelo de Clasificación}\label{subsec: modelo_clasificacion_impl}

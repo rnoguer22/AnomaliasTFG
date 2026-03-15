@@ -11,6 +11,6 @@
 \contentsline {subsection}{\numberline {5.1}Análisis Exploratorio de Datos EDA}{12}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Preprocesamiento}{19}{subsection.5.2}%
 \contentsline {subsection}{\numberline {5.3}Autoencoder}{21}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Modelo de Clasificación}{22}{subsection.5.4}%
-\contentsline {section}{\numberline {6}Demo}{23}{section.6}%
-\contentsline {section}{Bibliograf\'{\i }a}{25}{section.6}%
+\contentsline {subsection}{\numberline {5.4}Modelo de Clasificación}{24}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Demo}{25}{section.6}%
+\contentsline {section}{Bibliograf\'{\i }a}{27}{section.6}%
