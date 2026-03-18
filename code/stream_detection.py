@@ -1,5 +1,9 @@
 from nfstream import NFStreamer
 import pandas as pd
+import numpy as np
+import joblib
+import os
+from dotenv import load_dotenv
 
 
 
@@ -8,6 +12,14 @@ import pandas as pd
 class Detection:
 
     def __init__(self):
+        load_dotenv()
+        self.repo_path = os.getenv('REPOSITORY_PATH')
+        self.model_path = os.path.join(self.repo_path, 'data/model')
+        # Leemos tanto el scaler como el model que obtenemos a partir de la clase Anomalias (anomalias.py)
+        self.scaler = joblib.load(os.path.join(self.model_path, 'scaler.pkl'))
+        self.autoencoder = joblib.load(os.path.join(self.model_path, 'autoencoder.pkl'))
+        print(self.autoencoder.summary())
+
         # Definimos las columnas que debe tener el flujo de datos
         self.columns = [
             ' Destination Port',
@@ -167,7 +179,7 @@ class Detection:
         nfstreamer = NFStreamer(source=f"{net_if}", 
                             statistical_analysis=True, # Muy importante para capturar metricas estadisticas de la red (si no, faltarian variables para convertir los datos)
                             splt_analysis=0,
-                            bpf_filter=f"dst host {server_ip} and (port 80 or port 443)",
+                            bpf_filter=f"dst host {server_ip} and tcp dst port 8080",
                             promiscuous_mode=True,
                             # snapshot_len=100,
                             idle_timeout=15, 
@@ -178,11 +190,18 @@ class Detection:
         try:
             # Entramos en un bucle hasta que se detecte algun flujo, o hasta que el usuario detenga el programa
             for flow in nfstreamer:
+                print(flow)
                 # Llamamos al metodo map_flow para que los datos tengan el mismo formato que el dataset                
                 df_live = self.map_flow(flow)
-                print(df_live)
                 
-                # Ahora es donde tendriamos que pasar el flujo de datos por el autoencoder
+                # Aplicamos el scaler para que los datos tengan la misma escala que los datos de entrenamiento
+                df_flow_scaled = self.scaler.transform(df_live)
+
+                # A continuacion pasamos el flujo de datos por el autoencoder
+                prediction = self.autoencoder.predict(df_flow_scaled)
+                # Y calculamos el error cuadratico medio MSE
+                mse = np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0]
+                print(mse)
                 
                 # Y en caso de que se detectase como malicioso, realizar una clasificacion para obtener el tipo de ataque
 

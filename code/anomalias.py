@@ -1,4 +1,5 @@
 import os
+import joblib
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,7 +10,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense
-from tensorflow.keras.callbacks import EarlyStopping
 
 
 
@@ -22,6 +22,7 @@ class Anomalias:
         # Usamos load_dotenv() para obtener las variables del archivo .env, para evitar filtrar la ruta completa del repositorio
         self.repo_path = os.getenv('REPOSITORY_PATH')
         self.data_path = os.path.join(self.repo_path, 'data/csv/')
+        self.model_path = os.path.join(self.repo_path, 'data/model')
         self.df_list = []
         self.drop_columns = []
         self.scaler = MinMaxScaler()
@@ -196,7 +197,7 @@ class Anomalias:
 
 
     # Metodo que crea, entrena y devuelve el autoencoder con el fin de replicar los datos
-    def create_and_train_autoencoder(self, X_train_scaled, X_test_scaled):
+    def create_and_train_autoencoder(self, X_train_scaled, X_test_scaled, save=True):
         # Creamos la red neuronal (autoencoder) para predecir los datos
         input_dim = X_train_scaled.shape[1]
         entrada = Input(shape=(input_dim,))
@@ -206,23 +207,20 @@ class Anomalias:
         autoencoder = Model(inputs=entrada, outputs=decoder)
         autoencoder.compile(optimizer='adam', loss='mse')
 
-        # Usamos un EarlyStopping para detectar a partir de cuantas epochs el modelo empieza memorizar los datos.
-        # Si en 3 epochs no ha mejorado, se detiene
-        early_stop = EarlyStopping(
-            monitor='val_loss', 
-            patience=3,          # Si en 3 épocas no mejora, se para
-            restore_best_weights=True
-        )
-
         # Ahora es cuando entrenamos la red con los datos que hemos dividido anteriormente
         print('Comenzamos el entrenamiento de la red...')
         history = autoencoder.fit(
             X_train_scaled,
             X_train_scaled, # Al ser un autoencoder la salida esperada tiene que ser igual a los inputs del modelo
-            epochs=20,
+            epochs=30,
             batch_size=256,
             validation_data=(X_test_scaled, X_test_scaled),
-            callbacks=[early_stop],
             verbose=1
         )
+
+        if save:
+            # Guardamos el modelo y el scaler para poder acceder a ellos mas facilmente
+            joblib.dump(self.scaler, os.path.join(self.model_path, 'scaler.pkl'))
+            joblib.dump(autoencoder, os.path.join(self.model_path, 'autoencoder.pkl'))
+
         return autoencoder, history
