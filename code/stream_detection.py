@@ -49,8 +49,6 @@ class Detection:
             ' Bwd PSH Flags',
             ' Fwd URG Flags',
             ' Bwd URG Flags',
-            ' Fwd Header Length',
-            ' Bwd Header Length',
             'Fwd Packets/s',
             ' Bwd Packets/s',
             ' Min Packet Length',
@@ -63,22 +61,13 @@ class Detection:
             ' ACK Flag Count',
             ' URG Flag Count',
             ' Down/Up Ratio',
-            'Fwd Avg Bytes/Bulk',
-            ' Fwd Avg Packets/Bulk',
-            ' Fwd Avg Bulk Rate',
-            ' Bwd Avg Bytes/Bulk',
-            ' Bwd Avg Packets/Bulk',
-            'Bwd Avg Bulk Rate',
-            'Init_Win_bytes_forward',
-            ' Init_Win_bytes_backward',
             ' act_data_pkt_fwd',
-            ' min_seg_size_forward',
             'Active Mean',
             ' Active Std',
             ' Active Max',
             ' Active Min',
             ' Idle Std'
-            ]
+            ]        
 
 
 
@@ -108,7 +97,7 @@ class Detection:
             'Fwd Packets/s': (flow.src2dst_packets / dur_sec) if dur_sec > 0 else 0,
             ' Bwd Packets/s': (flow.dst2src_packets / dur_sec) if dur_sec > 0 else 0,
 
-            # Tiempos entre paquetes (IAT) - Pasamos de ms a microsegundos
+            # Tiempos entre paquetes (IAT) --> Pasamos de ms a microsegundos
             ' Flow IAT Mean': flow.bidirectional_mean_piat_ms * 1000,
             ' Flow IAT Std': flow.bidirectional_stddev_piat_ms * 1000,
             ' Flow IAT Max': flow.bidirectional_max_piat_ms * 1000,
@@ -122,21 +111,19 @@ class Detection:
             ' Bwd IAT Max': flow.dst2src_max_piat_ms * 1000,
             ' Bwd IAT Min': flow.dst2src_min_piat_ms * 1000,
 
-            # Flags TCP (NFStream los da como conteo de paquetes)
-            'Fwd PSH Flags': flow.src2dst_psh_packets,
-            ' Bwd PSH Flags': flow.dst2src_psh_packets,
-            ' Fwd URG Flags': flow.src2dst_urg_packets,
-            ' Bwd URG Flags': flow.dst2src_urg_packets,
-            'FIN Flag Count': flow.bidirectional_fin_packets,
-            ' SYN Flag Count': flow.bidirectional_syn_packets,
-            ' RST Flag Count': flow.bidirectional_rst_packets,
-            ' PSH Flag Count': flow.bidirectional_psh_packets,
-            ' ACK Flag Count': flow.bidirectional_ack_packets,
-            ' URG Flag Count': flow.bidirectional_urg_packets,
+            # Flags TCP. NFStream los da como conteo de paquetes, asi que para que sea coherente con los datos de CICIDS2017 les asignamos un valor binario en funcion de su presencia
+            'Fwd PSH Flags': 1 if flow.src2dst_psh_packets > 0 else 0,
+            ' Bwd PSH Flags': 1 if flow.dst2src_psh_packets > 0 else 0,
+            ' Fwd URG Flags': 1 if flow.src2dst_urg_packets > 0 else 0,
+            ' Bwd URG Flags': 1 if flow.dst2src_urg_packets > 0 else 0,
+            'FIN Flag Count': 1 if flow.bidirectional_fin_packets > 0 else 0,
+            ' SYN Flag Count': 1 if flow.bidirectional_syn_packets > 0 else 0,
+            ' RST Flag Count': 1 if flow.bidirectional_rst_packets > 0 else 0,
+            ' PSH Flag Count': 1 if flow.bidirectional_psh_packets > 0 else 0,
+            ' ACK Flag Count': 1 if flow.bidirectional_ack_packets > 0 else 0,
+            ' URG Flag Count': 1 if flow.bidirectional_urg_packets > 0 else 0,
 
-            # Longitudes y Varianzas
-            ' Fwd Header Length': flow.src2dst_packets * 40,
-            ' Bwd Header Length': flow.dst2src_packets * 40,
+            # Tamaño minimo y maximo de paquetes y metricas
             ' Min Packet Length': flow.bidirectional_min_ps,
             ' Max Packet Length': flow.bidirectional_max_ps,
             ' Packet Length Mean': flow.bidirectional_mean_ps,
@@ -151,12 +138,6 @@ class Detection:
             ' Active Min': flow.bidirectional_duration_ms * 1000,
             ' Idle Std': 0,
 
-            # Campos que NFStream no extrae directamente (los inicializamos a 0 simplemente)
-            'Init_Win_bytes_forward': 0,
-            ' Init_Win_bytes_backward': 0,
-            ' min_seg_size_forward': 0,
-            'Fwd Avg Bytes/Bulk': 0, ' Fwd Avg Packets/Bulk': 0, ' Fwd Avg Bulk Rate': 0,
-            ' Bwd Avg Bytes/Bulk': 0, ' Bwd Avg Packets/Bulk': 0, 'Bwd Avg Bulk Rate': 0,
         }
 
         # Creamos el DataFrame con los datos ya mapeados
@@ -165,9 +146,10 @@ class Detection:
         # Si faltase alguna columna, la creamos y le asignamos un valor de 0 a todos sus registros
         for col in self.columns:
             if col not in df_live_data_flow.columns:
-                print(col)
-                df_live_data_flow[col] = 0
-
+                raise  KeyError(
+                    f'KeyError: No se encuentra la columna "{col}"'
+                )  
+    
         # Por ultimo solo nos queda reordenar el dataframe para que el modelo no confunda el orden de las variables y devolvemos el dataframe        
         return df_live_data_flow[self.columns] 
 
@@ -179,7 +161,7 @@ class Detection:
         nfstreamer = NFStreamer(source=f"{net_if}", 
                             statistical_analysis=True, # Muy importante para capturar metricas estadisticas de la red (si no, faltarian variables para convertir los datos)
                             splt_analysis=0,
-                            bpf_filter=f"dst host {server_ip} and tcp dst port 8080",
+                            bpf_filter=f"host {server_ip} and port 80",
                             promiscuous_mode=True,
                             # snapshot_len=100,
                             idle_timeout=15, 
@@ -190,20 +172,23 @@ class Detection:
         try:
             # Entramos en un bucle hasta que se detecte algun flujo, o hasta que el usuario detenga el programa
             for flow in nfstreamer:
-                print(flow)
-                # Llamamos al metodo map_flow para que los datos tengan el mismo formato que el dataset                
-                df_live = self.map_flow(flow)
-                
-                # Aplicamos el scaler para que los datos tengan la misma escala que los datos de entrenamiento
-                df_flow_scaled = self.scaler.transform(df_live)
+                if 0 <= flow.dst_port < 1024:
+                    print(f'Flujo recibido en puerto: {flow.dst_port}. IP: {flow.src_ip}')
+                    # Llamamos al metodo map_flow para que los datos tengan el mismo formato que el dataset                
+                    df_live = self.map_flow(flow)
 
-                # A continuacion pasamos el flujo de datos por el autoencoder
-                prediction = self.autoencoder.predict(df_flow_scaled)
-                # Y calculamos el error cuadratico medio MSE
-                mse = np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0]
-                print(mse)
-                
-                # Y en caso de que se detectase como malicioso, realizar una clasificacion para obtener el tipo de ataque
+                    # Aplicamos el scaler para que los datos tengan la misma escala que los datos de entrenamiento
+                    df_flow_scaled = self.scaler.transform(df_live)
+
+                    # A continuacion pasamos el flujo de datos por el autoencoder
+                    prediction = self.autoencoder.predict(df_flow_scaled)
+                    # Y calculamos el error cuadratico medio MSE
+                    mse = np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0]
+                    print(mse)
+                    
+                    # Y en caso de que se detectase como malicioso, realizar una clasificacion para obtener el tipo de ataque
+                else:
+                    print(f'Obviando flujo en puerto residual: {flow.dst_port}')    
 
         except KeyboardInterrupt:
             print("Deteniendo rastreo...")
