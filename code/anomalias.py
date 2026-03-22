@@ -7,7 +7,7 @@ import seaborn as sns
 import scipy.stats as stats
 from dotenv import load_dotenv
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense
 
@@ -25,7 +25,7 @@ class Anomalias:
         self.model_path = os.path.join(self.repo_path, 'data/model')
         self.df_list = []
         self.drop_columns = []
-        self.scaler = MinMaxScaler()
+        self.scaler = StandardScaler()
 
     # Metodo para obtener un dataframe a partir de los datos del CICIDS2017
     def get_data(self):
@@ -202,7 +202,8 @@ class Anomalias:
         input_dim = X_train_scaled.shape[1]
         entrada = Input(shape=(input_dim,))
         encoder = Dense(int(input_dim/2), activation='relu')(entrada)
-        decoder = Dense(input_dim, activation='sigmoid')(encoder)
+        # decoder = Dense(input_dim, activation='sigmoid')(encoder)
+        decoder = Dense(input_dim, activation='linear')(encoder)
 
         autoencoder = Model(inputs=entrada, outputs=decoder)
         autoencoder.compile(optimizer='adam', loss='mse')

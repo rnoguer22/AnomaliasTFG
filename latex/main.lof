@@ -9,5 +9,5 @@
 \contentsline {figure}{\numberline {8}{\ignorespaces Histograma, boxplot y Q-Q plot sobre la variable 'Flow Duration'}}{16}{figure.caption.8}%
 \contentsline {figure}{\numberline {9}{\ignorespaces Matriz de correlación inicial de los datos}}{18}{figure.caption.9}%
 \contentsline {figure}{\numberline {10}{\ignorespaces Matriz de correlación preprocesada de los datos}}{20}{figure.caption.10}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Funciones ReLu y Sigmoide}}{23}{figure.caption.11}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Comparación de MSE para datos benignos y maliciosos.}}{23}{figure.caption.12}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Función ReLu y Lineal}}{22}{figure.caption.11}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Comparación de MSE para datos benignos y maliciosos.}}{22}{figure.caption.12}%

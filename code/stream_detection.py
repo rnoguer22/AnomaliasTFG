@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
+import time
 from dotenv import load_dotenv
 
 
@@ -19,6 +20,9 @@ class Detection:
         self.scaler = joblib.load(os.path.join(self.model_path, 'scaler.pkl'))
         self.autoencoder = joblib.load(os.path.join(self.model_path, 'autoencoder.pkl'))
         print(self.autoencoder.summary())
+
+        self.max_time = 10
+        self.buffer_flow = {}
 
         # Definimos las columnas que debe tener el flujo de datos
         self.columns = [
@@ -72,72 +76,85 @@ class Detection:
 
 
     # Metodo para mapear el flujo de datos que nos da nfstream al formato que tienen los dataframes con los datos de CICIDS2017
-    def map_flow(self, flow):
-        print('Conviertiendo datos...')
+    def map_flow(self, flows, ip, port):
+        print(f'Conviertiendo datos {ip}:{port}...')
 
-        # Calculamos la duración en segundos para las tasas (evitando un error de division por cero)
-        dur_sec = flow.bidirectional_duration_ms / 1000.0
-        
-        # Mapeamos el flujo de datos que se pasa como argumento a la funcion
-        # De esta manera conseguimos que tenga el mismo formato que los datos descargados de CICIDS2017
+        # 1. Agregamos las métricas sumables (Volumen y Duración)
+        dur_ms = sum(f.bidirectional_duration_ms for f in flows)
+        dur_sec = dur_ms / 1000.0 if dur_ms > 0 else 0.0001 # Evitar division por cero
+
+        tot_fwd_pkts = sum(f.src2dst_packets for f in flows)
+        tot_bwd_pkts = sum(f.dst2src_packets for f in flows)
+        tot_fwd_bytes = sum(f.src2dst_bytes for f in flows)
+        tot_bwd_bytes = sum(f.dst2src_bytes for f in flows)
+        tot_pkts = sum(f.bidirectional_packets for f in flows)
+        tot_bytes = sum(f.bidirectional_bytes for f in flows)
+
+        # 2. Mapeamos calculando máximos, mínimos y promedios del bloque
         row = {
-            ' Destination Port': flow.dst_port,
-            ' Flow Duration': flow.bidirectional_duration_ms * 1000,
-            ' Total Fwd Packets': flow.src2dst_packets,
-            'Total Length of Fwd Packets': flow.src2dst_bytes,
-            ' Fwd Packet Length Max': flow.src2dst_max_ps,
-            ' Fwd Packet Length Min': flow.src2dst_min_ps,
-            ' Fwd Packet Length Mean': flow.src2dst_mean_ps,
-            'Bwd Packet Length Max': flow.dst2src_max_ps,
-            ' Bwd Packet Length Min': flow.dst2src_min_ps,
+            # Tomamos el puerto del primer flujo como referencia (suelen apuntar al mismo)
+            ' Destination Port': flows[0].dst_port, 
+            ' Flow Duration': dur_ms * 1000,
             
-            # Tasas (Bytes y Paquetes por segundo)
-            'Flow Bytes/s': (flow.bidirectional_bytes / dur_sec) if dur_sec > 0 else 0,
-            ' Flow Packets/s': (flow.bidirectional_packets / dur_sec) if dur_sec > 0 else 0,
-            'Fwd Packets/s': (flow.src2dst_packets / dur_sec) if dur_sec > 0 else 0,
-            ' Bwd Packets/s': (flow.dst2src_packets / dur_sec) if dur_sec > 0 else 0,
+            ' Total Fwd Packets': tot_fwd_pkts,
+            'Total Length of Fwd Packets': tot_fwd_bytes,
+            ' Fwd Packet Length Max': max(f.src2dst_max_ps for f in flows),
+            ' Fwd Packet Length Min': min(f.src2dst_min_ps for f in flows),
+            ' Fwd Packet Length Mean': (tot_fwd_bytes / tot_fwd_pkts) if tot_fwd_pkts > 0 else 0,
+            
+            'Bwd Packet Length Max': max(f.dst2src_max_ps for f in flows),
+            ' Bwd Packet Length Min': min(f.dst2src_min_ps for f in flows),
+            
+            # Tasas (Bytes y Paquetes por segundo sobre la ventana total)
+            'Flow Bytes/s': (tot_bytes / dur_sec),
+            ' Flow Packets/s': (tot_pkts / dur_sec),
+            'Fwd Packets/s': (tot_fwd_pkts / dur_sec),
+            ' Bwd Packets/s': (tot_bwd_pkts / dur_sec),
 
-            # Tiempos entre paquetes (IAT) --> Pasamos de ms a microsegundos
-            ' Flow IAT Mean': flow.bidirectional_mean_piat_ms * 1000,
-            ' Flow IAT Std': flow.bidirectional_stddev_piat_ms * 1000,
-            ' Flow IAT Max': flow.bidirectional_max_piat_ms * 1000,
-            ' Flow IAT Min': flow.bidirectional_min_piat_ms * 1000,
-            ' Fwd IAT Mean': flow.src2dst_mean_piat_ms * 1000,
-            ' Fwd IAT Std': flow.src2dst_stddev_piat_ms * 1000,
-            ' Fwd IAT Min': flow.src2dst_min_piat_ms * 1000,
-            'Bwd IAT Total': flow.dst2src_duration_ms * 1000,
-            ' Bwd IAT Mean': flow.dst2src_mean_piat_ms * 1000,
-            ' Bwd IAT Std': flow.dst2src_stddev_piat_ms * 1000,
-            ' Bwd IAT Max': flow.dst2src_max_piat_ms * 1000,
-            ' Bwd IAT Min': flow.dst2src_min_piat_ms * 1000,
+            # Tiempos (Calculamos el promedio de los promedios como aproximación estadística)
+            ' Flow IAT Mean': np.mean([f.bidirectional_mean_piat_ms for f in flows]) * 1000,
+            ' Flow IAT Std': np.mean([f.bidirectional_stddev_piat_ms for f in flows]) * 1000,
+            ' Flow IAT Max': max(f.bidirectional_max_piat_ms for f in flows) * 1000,
+            ' Flow IAT Min': min(f.bidirectional_min_piat_ms for f in flows) * 1000,
+            
+            ' Fwd IAT Mean': np.mean([f.src2dst_mean_piat_ms for f in flows]) * 1000,
+            ' Fwd IAT Std': np.mean([f.src2dst_stddev_piat_ms for f in flows]) * 1000,
+            ' Fwd IAT Min': min(f.src2dst_min_piat_ms for f in flows) * 1000,
+            
+            'Bwd IAT Total': sum(f.dst2src_duration_ms for f in flows) * 1000,
+            ' Bwd IAT Mean': np.mean([f.dst2src_mean_piat_ms for f in flows]) * 1000,
+            ' Bwd IAT Std': np.mean([f.dst2src_stddev_piat_ms for f in flows]) * 1000,
+            ' Bwd IAT Max': max(f.dst2src_max_piat_ms for f in flows) * 1000,
+            ' Bwd IAT Min': min(f.dst2src_min_piat_ms for f in flows) * 1000,
 
-            # Flags TCP. NFStream los da como conteo de paquetes, asi que para que sea coherente con los datos de CICIDS2017 les asignamos un valor binario en funcion de su presencia
-            'Fwd PSH Flags': 1 if flow.src2dst_psh_packets > 0 else 0,
-            ' Bwd PSH Flags': 1 if flow.dst2src_psh_packets > 0 else 0,
-            ' Fwd URG Flags': 1 if flow.src2dst_urg_packets > 0 else 0,
-            ' Bwd URG Flags': 1 if flow.dst2src_urg_packets > 0 else 0,
-            'FIN Flag Count': 1 if flow.bidirectional_fin_packets > 0 else 0,
-            ' SYN Flag Count': 1 if flow.bidirectional_syn_packets > 0 else 0,
-            ' RST Flag Count': 1 if flow.bidirectional_rst_packets > 0 else 0,
-            ' PSH Flag Count': 1 if flow.bidirectional_psh_packets > 0 else 0,
-            ' ACK Flag Count': 1 if flow.bidirectional_ack_packets > 0 else 0,
-            ' URG Flag Count': 1 if flow.bidirectional_urg_packets > 0 else 0,
+            # Flags TCP (1 si CUALQUIER flujo en la ventana tiene esta flag)
+            'Fwd PSH Flags': 1 if any(f.src2dst_psh_packets > 0 for f in flows) else 0,
+            ' Bwd PSH Flags': 1 if any(f.dst2src_psh_packets > 0 for f in flows) else 0,
+            ' Fwd URG Flags': 1 if any(f.src2dst_urg_packets > 0 for f in flows) else 0,
+            ' Bwd URG Flags': 1 if any(f.dst2src_urg_packets > 0 for f in flows) else 0,
+            'FIN Flag Count': 1 if any(f.bidirectional_fin_packets > 0 for f in flows) else 0,
+            ' SYN Flag Count': 1 if any(f.bidirectional_syn_packets > 0 for f in flows) else 0,
+            ' RST Flag Count': 1 if any(f.bidirectional_rst_packets > 0 for f in flows) else 0,
+            ' PSH Flag Count': 1 if any(f.bidirectional_psh_packets > 0 for f in flows) else 0,
+            ' ACK Flag Count': 1 if any(f.bidirectional_ack_packets > 0 for f in flows) else 0,
+            ' URG Flag Count': 1 if any(f.bidirectional_urg_packets > 0 for f in flows) else 0,
 
-            # Tamaño minimo y maximo de paquetes y metricas
-            ' Min Packet Length': flow.bidirectional_min_ps,
-            ' Max Packet Length': flow.bidirectional_max_ps,
-            ' Packet Length Mean': flow.bidirectional_mean_ps,
-            ' Packet Length Variance': (flow.bidirectional_stddev_ps)**2,
+            # Tamaños y Varianza global
+            ' Min Packet Length': min(f.bidirectional_min_ps for f in flows),
+            ' Max Packet Length': max(f.bidirectional_max_ps for f in flows),
+            ' Packet Length Mean': (tot_bytes / tot_pkts) if tot_pkts > 0 else 0,
+            ' Packet Length Variance': np.mean([f.bidirectional_stddev_ps**2 for f in flows]),
             
             # Otros campos
-            ' Down/Up Ratio': (flow.dst2src_packets / flow.src2dst_packets) if flow.src2dst_packets > 0 else 0,
-            ' act_data_pkt_fwd': flow.src2dst_packets,
-            'Active Mean': flow.bidirectional_duration_ms * 1000,
+            ' Down/Up Ratio': (tot_bwd_pkts / tot_fwd_pkts) if tot_fwd_pkts > 0 else 0,
+            ' act_data_pkt_fwd': tot_fwd_pkts,
+            
+            # Dejamos las variables Active a la duración total agregada
+            'Active Mean': dur_ms * 1000,
             ' Active Std': 0,
-            ' Active Max': flow.bidirectional_duration_ms * 1000,
-            ' Active Min': flow.bidirectional_duration_ms * 1000,
+            ' Active Max': dur_ms * 1000,
+            ' Active Min': dur_ms * 1000,
             ' Idle Std': 0,
-
         }
 
         # Creamos el DataFrame con los datos ya mapeados
@@ -158,35 +175,50 @@ class Detection:
     # Este metodo es el que lo hace todo, obtiene el flujo de datos, los pasa por el autoencoder, predice el tipo de ataque, y manda la alerta por telegram
     def get_and_predict_live_flow(self, net_if, server_ip):
         # Creamos el objeto de nfstream que nos captura los flujos de datos
-        nfstreamer = NFStreamer(source=f"{net_if}", 
-                            statistical_analysis=True, # Muy importante para capturar metricas estadisticas de la red (si no, faltarian variables para convertir los datos)
+        nfstreamer = NFStreamer(#source=f"{net_if}", 
+                                source="any",
+                            statistical_analysis=True, # Muy importante para capturar metricas estadisticas de la red (si no, faltarian todavia mas variables para convertir los datos)
                             splt_analysis=0,
-                            bpf_filter=f"host {server_ip} and port 80",
+                            #bpf_filter=f"host {server_ip} and port 80",
+                            bpf_filter=f"port 80",
                             promiscuous_mode=True,
                             # snapshot_len=100,
                             idle_timeout=15, 
-                            active_timeout=120)
+                            active_timeout=5)
 
         print("Iniciando rastreo de datos en tiempo real...")
 
         try:
             # Entramos en un bucle hasta que se detecte algun flujo, o hasta que el usuario detenga el programa
             for flow in nfstreamer:
-                if 0 <= flow.dst_port < 1024:
-                    print(f'Flujo recibido en puerto: {flow.dst_port}. IP: {flow.src_ip}')
-                    # Llamamos al metodo map_flow para que los datos tengan el mismo formato que el dataset                
-                    df_live = self.map_flow(flow)
+                if 0 <= flow.dst_port < 1024 or flow.dst_port == 5050:
+                    init_time = time.time()
 
-                    # Aplicamos el scaler para que los datos tengan la misma escala que los datos de entrenamiento
-                    df_flow_scaled = self.scaler.transform(df_live)
+                    if flow.src_ip not in self.buffer_flow:
+                        self.buffer_flow[flow.src_ip] = {'flows': [], 'init_time': init_time}
 
-                    # A continuacion pasamos el flujo de datos por el autoencoder
-                    prediction = self.autoencoder.predict(df_flow_scaled)
-                    # Y calculamos el error cuadratico medio MSE
-                    mse = np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0]
-                    print(mse)
+                    self.buffer_flow[flow.src_ip]['flows'].append(flow)      
+
+                    if init_time - self.buffer_flow[flow.src_ip]['init_time'] >= self.max_time:
+                        flows = self.buffer_flow[flow.src_ip]['flows']
+
+                        # Llamamos al metodo map_flow para que los datos tengan el mismo formato que el dataset                
+                        df_live = self.map_flow(flows, flow.src_ip, flow.dst_port)
+
+                        # Aplicamos el scaler para que los datos tengan la misma escala que los datos de entrenamiento
+                        df_flow_scaled = self.scaler.transform(df_live)
+                        print("Valores escalados (Primeras 5 columnas):", df_flow_scaled[0][:5])
+
+                        # A continuacion pasamos el flujo de datos por el autoencoder
+                        prediction = self.autoencoder.predict(df_flow_scaled)
+                        # Y calculamos el error cuadratico medio MSE
+                        mse = np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0]
+                        print('Numero de paquetes: ', df_live[' Total Fwd Packets'])
+                        print('MSE: ', mse)
+
+                        # Limpiamos el flujo del buffer para recibir nuevos datos
+                        del self.buffer_flow[flow.src_ip]
                     
-                    # Y en caso de que se detectase como malicioso, realizar una clasificacion para obtener el tipo de ataque
                 else:
                     print(f'Obviando flujo en puerto residual: {flow.dst_port}')    
 
@@ -200,4 +232,4 @@ class Detection:
 if __name__ == '__main__':
 
     detection = Detection()
-    detection.get_and_predict_live_flow('wlp2s0', '192.168.1.116')
+    detection.get_and_predict_live_flow('wlp2s0', '192.168.1.157')

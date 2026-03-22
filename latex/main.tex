@@ -487,6 +487,10 @@
 
     \vspace{5mm}
 
+    Antes de comenzar, es importante saber que se han eliminado ciertas variables del dataset. El problema de estas variables es que no es posible obtener datos en tiempo real de ellas a partir de la librería utilizada, \textit{NFStream}. Esta librería permite obtener gran cantidad de información del flujo de una red, aunque se ha prescindido de ciertos apartados que esta librería no proporciona. Entre estas variables destacan aquellas relacionadas con el conteo de paquetes por ráfagas (\textit{Bulk}) y con el tamaño de ventanas TCP (\textit{Window}).
+
+    \vspace{5mm}
+
     Como se ha explicado, vamos a comenzar con la gestión de variables altamente relacionadas. Esto está muy ligado con el final de la sección anterior (\ref{subsec: eda}) en el que obtuvo la matriz de correlación inicial de los datos (\ref{fig: corr_matrix}) pero no se llegó suprimir las variables muy correlacionadas. Para ello, se seleccionó el triángulo superior de la matriz, eliminando variables que se generaban en función de otras. Un ejemplo de esto son las columnas \textit{'Total Length of Fwd Packets'} y \textit{Subflow Fwd Bytes}, donde la segunda variable se obtiene a partir de la longitud total de los paquetes enviados. Así, eliminamos una de las dos variables altamente correlacionadas para reducir la redundancia, para aquella correlación superior o igual a $0.95$.
 
     \vspace{5mm}
@@ -500,15 +504,15 @@
 
     \vspace{5mm}
 
-    Se puede apreciar que la matriz de correlación presenta una limpieza mucho más considerable, pues se han eliminado $22$ columnas repetitivas de los datos, mejorando el rendimiento de la red. Por otra parte, cabe mencionar que se encontraron valores infinitos en el dataset, los cuales por supuesto han sido correspondiente eliminados, ya que un valor infinito no es válido para una red neuronal, ahorrando futuros problemas con nuestro autoencoder.
+    Se puede apreciar que la matriz de correlación presenta una limpieza mucho más considerable, pues se han eliminado $22$ columnas repetitivas de los datos ($30$ en total si contamos las eliminadas antes de obtener la matriz de correlación), mejorando el rendimiento de la red. Por otra parte, cabe mencionar que se encontraron valores infinitos en el dataset, los cuales por supuesto han sido correspondiente eliminados, ya que un valor infinito no es válido para una red neuronal, ahorrando futuros problemas con nuestro autoencoder.
 
     \vspace{5mm}
 
-    La segunda parte de esta breve sección de preprocesamiento consiste en normalizar los datos, consiguiendo así que todas las variables se encuentren bajo una misma escala (entre 0 y 1). Con esto se consigue que aquellas variables con valores muy altos no tengan tanta influencia durante el entrenamiento del modelo, mejorando el rendimiento y escalabilidad de nuestro autoencoder. 
+    La segunda parte de esta breve sección de preprocesamiento consiste en estandarizar los datos. Inicialmente los datos fueron normalizados entre 0 y 1, pero debido a diversos problemas que se tuvo a la hora de identificar anomalías, se ha optado por un \textit{Standard Score}. Este enfoque transforma las variables para que presenten una media de 0 y una desviación estándar de 1, lo que permite que el modelo detecte mucho mejor los valores atípicos (que se ha visto anteriormente su alta presencia en (\ref{subsec: eda})) al encontrarse ráfagas muy intensas de datos (propias de un cberataque) que se alejan muy significativamente de la media y aumentando muchísimo el error en la reconstrucción.
 
     \begin{minted}{python}
     def get_scaled_train_test_data(df_to_scale):
-        scaler = MinMaxScaler()
+        scaler = StandardScaler()
         X_train, X_test = train_test_split(
             df_to_scale, 
             test_size=0.20, 
@@ -525,12 +529,12 @@
     \vspace{2.5mm}
 
     \begin{equation}
-        x_{\text{scaled}} = \frac{x - x_{\text{min}}}{x_{max} - x_{\text{min}}}, \qquad x_{\text{scaled}} \in \left[ 0, 1 \right]
+        x_{\text{scaled}} = \frac{x - \mu}{\sigma}
     \end{equation}
 
     \vspace{2.5mm}
 
-    Donde $x_{\text{min}}$ y $x_{\text{max}}$ son los valores mínimos y máximos de cada columna. Este proceso se repite para cada columna del dataset, dejando completamente escalados los datos. Con el código anterior también dividimos los datos para el entrenamiento y test, dejando perfectamente preparados los datos para entrenar la red y verificar su correcto funcionamiento, dando paso a la siguiente sección.
+    Donde $\mu$ representa la media aritmética de las muestras de entrenamiento y $\sigma$ la desviación típica. Este proceso se repite para cada columna del dataset, dejando completamente escalados los datos. Con el código anterior también dividimos los datos para el entrenamiento y test, dejando perfectamente preparados los datos para entrenar la red y verificar su correcto funcionamiento, dando paso a la siguiente sección.
 
     \vspace{10mm}
 
@@ -550,7 +554,7 @@
         input_dim = X_train_scaled.shape[1]
         entrada = Input(shape=(input_dim,))
         encoder = Dense(int(input_dim/2), activation='relu')(entrada)
-        decoder = Dense(input_dim, activation='sigmoid')(encoder)
+        decoder = Dense(input_dim, activation='linear')(encoder)
 
         autoencoder = Model(inputs=entrada, outputs=decoder)
         autoencoder.compile(optimizer='adam', loss='mse')
@@ -568,7 +572,7 @@
         return autoencoder, history
     \end{minted}   
     
-    Donde vemos que las funciones de activación $f$ y $g$ son las funciones \textit{ReLu} y \textit{Sigmoide} respectivamente. En primer lugar se usa la función \textbf{ReLu} ya que es la función por excelencia en capas ocultas al solucionar el desvanecimiento de gradiente, y al ser lineal en los valores positivos permite a la red aprender muy rápido teniendo en cuenta las características más relevantes del tráfico de red, debido a que los valores negativos son cero.
+    Donde vemos que las funciones de activación $f$ y $g$ son las funciones \textit{ReLu} y la función lineal respectivamente. En primer lugar se usa la función \textbf{ReLu} ya que es la función por excelencia en capas ocultas al solucionar el desvanecimiento de gradiente, y al ser lineal en los valores positivos permite a la red aprender muy rápido teniendo en cuenta las características más relevantes del tráfico de red, debido a que los valores negativos son cero.
 
     \vspace{2.5mm}
 
@@ -580,22 +584,22 @@
 
     \vspace{2.5mm}
 
-    Por otra parte la función \textbf{Sigmoide} es perfecta para la capa de salida, ya que anteriormente se han normalizado los datos entre 0 y 1. Esto es justamente lo que hace esta función, transformar los datos a escala $\left[ 0, 1 \right]$ debido a la presencia de asíntotas horizontales en ambos valores, lo cual es perfecto para obtener los datos de reconstrucción en esa misma escala.
+    Por otra parte, se ha optado por una función de activación lineal para la capa de salida. Normalmente se usaría la función Sigmoidea ya que la salida de las redes suele estar normalizada. Sin embargo, debido a la alta presencia de valores atípicos, este no es nuestro caso. Dado que nuestros datos han sido estandarizados mediante un \textit{StandardScaler}, los valores de la capa de entrada, y por lo tanto también los de reconstrucción, ya no se encuentran sujetos a escala $[0, 1]$, sino que pueden alcanzar valores significativamente superiores al toparse con cualquier anomalía. De esta manera una función lineal permite que las neuronas de salida repliquen cualquier valor sin sufrir el efecto de saturación que provocarían funciones como la sigmoide, lo que resulta fundamental para que el error cuadrático medio (MSE) refleje con precisión la distancia estadística entre el tráfico benigno y un ataque malicioso masivo.
 
     \vspace{2.5mm}
 
     \begin{equation}
-        g(x) = \frac{1}{1 + e^{-x}}
-        \label{eq: sigmoide}
+        g(x) = x
+        \label{eq: lineal}
     \end{equation}
 
     \vspace{5mm}
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=1\textwidth]{../img/code/relu_sigmoid.png}\\
-        \caption{Funciones ReLu y Sigmoide}
-        \label{fig: relu_sigmoid}
+        \includegraphics[width=1\textwidth]{../img/code/relu_linear.png}\\
+        \caption{Función ReLu y Lineal}
+        \label{fig: relu_lineal}
     \end{figure}   
 
     \vspace{5mm}
@@ -613,7 +617,7 @@
 
     \vspace{5mm}
 
-    Vemos que los resultados son lo que se esperaba, siendo el error casi 100 veces mayor para datos maliciosos. Esta es la funcionalidad principal del autoencoder, detectar el tráfico legítimo de paquetes de red a partir de los valores del error del modelo. Con esto concluye esta sección, una sección de vital importancia para validar la capacidad de selección de la red neuronal, verificando la correcta capacidad de aprendizaje del modelo y estableciendo la base necesaria que actúa como umbral para la detección de intrusiones y tráfico malévolo en tiempo real.
+    Vemos que los resultados son lo que se esperaba, siendo el error casi 30 veces mayor para datos maliciosos. Esta es la funcionalidad principal del autoencoder, detectar el tráfico legítimo de paquetes de red a partir de los valores del error del modelo. Con esto concluye esta sección, una sección de vital importancia para validar la capacidad de selección de la red neuronal, verificando la correcta capacidad de aprendizaje del modelo y estableciendo la base necesaria que actúa como umbral para la detección de intrusiones y tráfico malévolo en tiempo real. En la sección de demostración (\ref{sec: demo}) veremos que el error al realizar ataques como \textit{DoS} se dispara mucho más que el valor obtenido en la tabla anterior (\ref{fig: mse_df}) ante la presencia de ataques maliciosos muy volumétricos.
 
     \vspace{10mm}
     
