@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberStore | Entorno de Pruebas TFG</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Cyber<span>Store</span></div>
+        
+        <form class="search-form" action="#" method="GET">
+            <input type="text" name="search" placeholder="Buscar productos..." autocomplete="off">
+            <button type="submit">Buscar</button>
+        </form>
+    </header>
+
+    <main class="container">
+        <section class="auth-section">
+            <h2>Panel de Acceso</h2>
+            <p>Inicia sesión para gestionar tu cuenta.</p>
+            <form class="login-form" action="#" method="POST">
+                <div class="input-group">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" name="username" placeholder="admin" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary">Entrar</button>
+                <div class="register-link">¿No tienes cuenta? <a href="#">Regístrate aquí</a></div>
+            </form>
+        </section>
+
+        <section class="inventory-section">
+            <h2>Últimos Productos</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img-placeholder">IMG</div>
+                    <h3>Producto de prueba 1</h3>
+                    <p class="price">0.00 €</p>
+                    <button class="btn-secondary">Añadir al carrito</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-img-placeholder">IMG</div>
+                    <h3>Producto de prueba 2</h3>
+                    <p class="price">0.00 €</p>
+                    <button class="btn-secondary">Añadir al carrito</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-img-placeholder">IMG</div>
+                    <h3>Producto de prueba 3</h3>
+                    <p class="price">0.00 €</p>
+                    <button class="btn-secondary">Añadir al carrito</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Del Bit al Comportamiento: Redefiniendo la frontera de la seguridad mediante el Aprendizaje Profundo</p>
+    </footer>
+
+</body>
+</html>
