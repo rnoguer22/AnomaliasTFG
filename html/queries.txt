@@ -1,0 +1,30 @@
+-- En primer lugar creamos la base de datos
+CREATE DATABASE tfg_2026;
+USE tfg_2026;
+
+-- Creamos la tabla con los usuarios, con el fin de aplicar ataques de fuerza bruta
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Creamos otra tabla con los productos de la tienda, para hacer inyecciones sql (aunque no sabemos si sera posible por la cantidad reducida de datos de este tipo)
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2)
+);
+
+-- Añadimos un usuario (aunque esto no haria ni falta)
+INSERT INTO users (username, password) VALUES ('admin', 'admin_tfg_uax');
+
+-- Por ultimo insertamos datos de productos en la base de datos para que sea mas realista
+INSERT INTO products (name, description, price) VALUES 
+('Cable de Red Cat 6 - 5m', 'Cable UTP Gigabit Ethernet, color azul.', 8.50),
+('Cable HDMI 2.1 8K', 'Alta velocidad 48Gbps, conectores dorados.', 15.99),
+('Cable USB-C a USB-C 100W', 'Cable trenzado para carga rápida y datos.', 12.00),
+('Riser PCI-Express 4.0', 'Cable extensor flexible para GPU.', 29.90),
+('Cable DisplayPort 1.4', 'Soporta 144Hz a 4K, ideal gaming.', 18.50),
+('Fibra Óptica LC a LC - 10m', 'Cable de parcheo multimodo dúplex.', 24.00);
