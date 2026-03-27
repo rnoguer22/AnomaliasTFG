@@ -17,6 +17,16 @@ CREATE TABLE products (
     price DECIMAL(10, 2)
 );
 
+-- Creamos un usuario específico para la tienda
+CREATE USER 'admin_tienda'@'localhost' IDENTIFIED BY 'admin_tfg_uax';
+
+-- Le damos permisos sobre la base de datos
+GRANT ALL PRIVILEGES ON tfg_2026.* TO 'admin_tienda'@'localhost';
+
+-- Refrescamos los permisos y salimos
+FLUSH PRIVILEGES;
+EXIT;
+
 -- Añadimos un usuario (aunque esto no haria ni falta)
 INSERT INTO users (username, password) VALUES ('admin', 'admin_tfg_uax');
 
