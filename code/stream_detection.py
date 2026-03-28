@@ -207,7 +207,6 @@ class Detection:
 
                         # Aplicamos el scaler para que los datos tengan la misma escala que los datos de entrenamiento
                         df_flow_scaled = self.scaler.transform(df_live)
-                        print("Valores escalados (Primeras 5 columnas):", df_flow_scaled[0][:5])
 
                         # A continuacion pasamos el flujo de datos por el autoencoder
                         prediction = self.autoencoder.predict(df_flow_scaled)
@@ -232,4 +231,4 @@ class Detection:
 if __name__ == '__main__':
 
     detection = Detection()
-    detection.get_and_predict_live_flow('wlp2s0', '192.168.1.157')
+    detection.get_and_predict_live_flow('wlp2s0', '192.168.1.139')

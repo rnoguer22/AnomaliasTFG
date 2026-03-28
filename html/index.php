@@ -3,6 +3,8 @@
 session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+// Esto es para saltar errores de formato cuando hagamos una inyeccion sql
+mysqli_report(MYSQLI_REPORT_OFF);
 
 // Conexion a la base de datos
 $conexion = new mysqli("localhost", "admin_tienda", "admin_tfg_uax", "tfg_2026");
