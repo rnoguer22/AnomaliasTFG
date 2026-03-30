@@ -1,10 +1,25 @@
 \begin{thebibliography}{}
 
+\bibitem[Aouini, 2026]{nfstream_project}
+Aouini, Z. (2026).
+\newblock Nfstream: A flexible network data analysis framework.
+\newblock Framework para el análisis de flujos de red mediante Deep Packet
+  Inspection (DPI).
+
+\bibitem[{Apache Software Foundation}, 2026]{apache_docs}
+{Apache Software Foundation} (2026).
+\newblock Documentación oficial de apache http server.
+
 \bibitem[{Canadian Institute for Cybersecurity}, 2017]{CICIDS2017}
 {Canadian Institute for Cybersecurity} (2017).
 \newblock Cicids2017 dataset.
 \newblock Intrusion detection evaluation dataset including benign and attack
   traffic captures.
+
+\bibitem[G. and Stampar, 2026]{sqlmap_project}
+G., B. D.~A. and Stampar, M. (2026).
+\newblock sqlmap: Herramienta automática para inyección sql y explotación de
+  bases de datos.
 
 \bibitem[González, 2026]{github_tfg}
 González, R.~N. (2026).
@@ -17,19 +32,25 @@ Goodfellow, I., Bengio, Y., and Courville, A. (2016).
 \newblock {\em Deep Learning}.
 \newblock MIT Press, Cambridge, MA.
 
+\bibitem[Heuse, 2026]{hydra_project}
+Heuse, M. (2026).
+\newblock Thc-hydra: Un cracker de logueo de red muy rápido.
+\newblock Herramienta de auditoría para ataques de fuerza bruta en múltiples
+  protocolos.
+
+\bibitem[{hping project}, 2026a]{hping3_docs}
+{hping project} (2026a).
+\newblock Documentación de hping3.
+
+\bibitem[{hping project}, 2026b]{hping3_getting_started}
+{hping project} (2026b).
+\newblock Guía de inicio de hping3.
+
 \bibitem[learn Developers, 2026]{sklearn-docs}
 learn Developers, S. (2026).
 \newblock Scikit-learn: Machine learning in python.
 \newblock \url{https://scikit-learn.org}.
 \newblock Documentación oficial.
-
-\bibitem[Pedregosa et~al., 2011]{scikit-learn}
-Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
-  O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J.,
-  Passos, A., Cournapeau, D., Brucher, M., Perrot, M., and Duchesnay, �.
-  (2011).
-\newblock Scikit-learn: Machine learning in python.
-\newblock {\em Journal of Machine Learning Research}, 12:2825--2830.
 
 \bibitem[Sharafaldin et~al., 2018]{CICIDS2017_paper}
 Sharafaldin, I., Lashkari, A.~H., and Ghorbani, A.~A. (2018).

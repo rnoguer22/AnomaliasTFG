@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k}{def} \PYG{n+nf}{create\PYGZus{}and\PYGZus{}train\PYGZus{}autoencoder}\PYG{p}{(}\PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{p}{,} \PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{):}
+        \PYG{c+c1}{\PYGZsh{} Creamos la red neuronal (autoencoder)}
+        \PYG{n}{input\PYGZus{}dim} \PYG{o}{=} \PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n}{entrada} \PYG{o}{=} \PYG{n}{Input}\PYG{p}{(}\PYG{n}{shape}\PYG{o}{=}\PYG{p}{(}\PYG{n}{input\PYGZus{}dim}\PYG{p}{,))}
+        \PYG{n}{encoder} \PYG{o}{=} \PYG{n}{Dense}\PYG{p}{(}\PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{input\PYGZus{}dim}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{),} \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}relu\PYGZsq{}}\PYG{p}{)(}\PYG{n}{entrada}\PYG{p}{)}
+        \PYG{n}{decoder} \PYG{o}{=} \PYG{n}{Dense}\PYG{p}{(}\PYG{n}{input\PYGZus{}dim}\PYG{p}{,} \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}linear\PYGZsq{}}\PYG{p}{)(}\PYG{n}{encoder}\PYG{p}{)}
+
+        \PYG{n}{autoencoder} \PYG{o}{=} \PYG{n}{Model}\PYG{p}{(}\PYG{n}{inputs}\PYG{o}{=}\PYG{n}{entrada}\PYG{p}{,} \PYG{n}{outputs}\PYG{o}{=}\PYG{n}{decoder}\PYG{p}{)}
+        \PYG{n}{autoencoder}\PYG{o}{.}\PYG{n}{compile}\PYG{p}{(}\PYG{n}{optimizer}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}adam\PYGZsq{}}\PYG{p}{,} \PYG{n}{loss}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}mse\PYGZsq{}}\PYG{p}{)}
+
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Comenzamos el entrenamiento de la red...\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{history} \PYG{o}{=} \PYG{n}{autoencoder}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}
+            \PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{p}{,}
+            \PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{p}{,}
+            \PYG{n}{epochs}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,}
+            \PYG{n}{batch\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{256}\PYG{p}{,}
+            \PYG{n}{validation\PYGZus{}data}\PYG{o}{=}\PYG{p}{(}\PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{,} \PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{),}
+            \PYG{n}{callbacks}\PYG{o}{=}\PYG{p}{[}\PYG{n}{early\PYGZus{}stop}\PYG{p}{],}
+            \PYG{n}{verbose}\PYG{o}{=}\PYG{l+m+mi}{1}
+        \PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{autoencoder}\PYG{p}{,} \PYG{n}{history}
+\end{Verbatim}

@@ -31,6 +31,7 @@
 \usepackage{tikz}
 
 \usepackage{minted} % Poner codigo en el texto
+\usepackage{soul}
 
 
 
@@ -621,6 +622,200 @@
 
     \vspace{10mm}
     
+
+
+
+    \subsection{Servidor Web Apache}\label{subsec: servidor_web_apache}
+
+    \vspace{5mm}
+
+    En esta fase se levanta un servicio web con \textbf{Apache2} sobre un sistema operativo Ubuntu. En este apartado se mantuvo la página web de apache por defecto así como su configuración inicial. El objetivo de esta sección fue validar la conexión con el servidor desde una máquina en su misma red con el fin de monitorizar el tráfico hacia nuestro servidor apache desde dicho sistema, detectando ciberataques en tiempo real en función de los paquetes de red enviados.
+
+    \vspace{5mm}
+
+    Durante esta etapa se probaron distintos ataques para verificar que el modelo detecta el tráfico inusual de red correctamente, detectando así tráfico malicioso hacia el servidor en tiempo real. El primer caso que se probó fue una denegación de servicio (\textbf{DoS}) a través de la herramienta \textbf{hping3}, generando así paquetes TCP/IP de gran tamaño y a muy alta velocidad con el fin de saturar el servidor. Es importante destacar que el servidor no quedó obsoleto por el número de paquetes debido a las características modernas de apache, aunque lo primordial con esta prueba es detectar el ciberataque antes de que tenga éxito para proteger nuestro servidor. Podemos encontrar documentación acerca de esta herramienta en (\cite{hping3_docs}), poniendo como ejemplo el siguiente comando para reproducir el envío masivo de paquetes:
+
+    \begin{minted}{python}
+            sudo hping3 -S -p 80 -s 5050 -i u100 127.0.0.1
+    \end{minted}
+
+    Con esto producimos una inundación (\textit{flooding}) de paquetes SYN cuya finalidad es agotar los recursos del servidor, causando la DoS. Las pruebas demostraron que esta anomalía se detecta correctamente por nuestro autoencoder (\ref{subsec: autoencoder}), debido al extraño flujo de red que esto genera alcanzo flujos con mas de $100000$ paquetes como se puede ver, disparando la cifra del MSE:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../img/mse/mse_hping3.png}\\
+        \caption{Captura de flujo malicioso en tiempo real causado por hping3.}
+        \label{fig: dos_hping3}
+    \end{figure}  
+
+    \vspace{5mm}
+
+    Otros puntos a mencionar son las limitaciones de la página web de apache por defecto, ya que no permite reproducir muchos ciberataques. Al ser un HTML estático no podemos realizar una conexión con una base de datos para validar formularios de inicio de sesión o un filtro de búsqueda, lo cual es ideal para ataques de fuerza bruta e inyecciones SQL respectivamente. Para ello, se desarrolló una página web personalizada para incluir estos elementos, funcionando como una tienda de electrónica (sin implementar el sistema de venta).
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/web/web.png}\\
+        \caption{Pagina personalizada utilizada para el servidor web con Apache}
+        \label{fig: pagina_web_apache}
+    \end{figure}  
+
+    \vspace{5mm}
+
+    Es por esto que se migró a una arquitectura \textbf{LAMP} (Linux, Apache, MariaDb, PHP), permitiendo la conexión de una base de datos SQL como \textbf{MariaDb} a partir de un servidor Apache en un sistema Linux a través de PHP, implementando el formulario de inicio de sesión y el buscador de inventario, mediante los cuales realizaremos distintos ataques para verificar el correcto funcionamiento del autoencoder. En cuanto a la base de datos MariaDb, se crearon dos tablas para gestionar los datos de la web, manejando de una mejor manera los datos de inicio de sesión con credenciales y los productos en el inventario, como se puede ver a continuación:
+
+    \begin{minted}{sql}
+        CREATE DATABASE tfg_2026;
+        USE tfg_2026;
+
+        CREATE TABLE users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(50) NOT NULL,
+            password VARCHAR(255) NOT NULL
+        );
+
+        CREATE TABLE products (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            description TEXT,
+            price DECIMAL(10, 2)
+        );    
+    \end{minted}
+
+    De esta manera se crea la base de datos y sus correspondientes tablas para almacenar la información. Posteriormente, se procede a insertar registros de prueba para simular un inventario de cables, con el fin de validar las funciones que se implementan en la web y sus contrapartidas maliciosas:
+
+    \begin{minted}[breaklines]{sql}
+        INSERT INTO users (username, password) 
+        VALUES ('admin', 'admin_tfg_uax');
+
+        INSERT INTO products (name, description, price) VALUES 
+        ('Cable de Red Cat 6 - 5m', 'Cable UTP Gigabit Ethernet, color azul.', 8.50),
+        ('Cable HDMI 2.1 8K', 'Alta velocidad 48Gbps, conectores dorados.', 15.99),
+        ('Cable USB-C a USB-C 100W', 'Cable trenzado para carga rápida y datos.', 12.00),
+        ('Riser PCI-Express 4.0', 'Cable extensor flexible para GPU.', 29.90),
+        ('Cable DisplayPort 1.4', 'Soporta 144Hz a 4K, ideal gaming.', 18.50),
+        ('Fibra Óptica LC a LC - 10m', 'Cable de parcheo multimodo dúplex.', 24.00);
+    \end{minted}
+
+    Y por último, por motivos de seguridad, se creó un usuario en específico para realizar consultas a través de la página PHP, con permisos limitados para evitar el uso de permisos de administrador sobre el sistema:
+    
+    \begin{minted}{sql}
+        CREATE USER 'admin_tienda'@'localhost' IDENTIFIED BY 'admin_tfg_uax';
+
+        GRANT ALL PRIVILEGES ON tfg_2026.* TO 'admin_tienda'@'localhost';
+        FLUSH PRIVILEGES;
+    \end{minted}
+
+    Con esto ya se tiene una infraestructura vulnerable para continuar realizando pruebas hacia nuestro servidor web, capturando el tráfico de red en tiempo real mediante NFStream para evaluar el rendimiento del autoencoder (\ref{subsec: autoencoder_impl}). La segunda prueba que se va a realizar son las inyecciones SQL con la herramienta \textbf{SQLMap}.
+
+    \vspace{10mm}
+
+    
+
+
+
+    \subsection{Pruebas de Penetración con SQLMap e Hydra}\label{subsec: pruebas_penetracion_sqlmap_hydra}
+
+    \vspace{5mm}
+
+    SQLMap es una herramienta de código abiero que automatiza las inyecciones SQL, buscando vulnerabilidades que puedan ser explotadas con un tipo de inyección en específico. Aplicando la herramienta a este proyecto, se realizó un escaneo muy exhaustivo sobre el buscador de inventario de la web, con el fin de hacer un volcado de la base de datos, a través de la siguiente instrucción:
+
+    \begin{minted}[breaklines]{bash}
+        sqlmap -u "http://192.168.1.139/index.php?search=cable" --random-agent --level=5 --risk=3 --dump  --flush-session
+    \end{minted}
+
+    Con esto generamos una gran cantidad de payloads sobre el buscador de elementos del servidor, lo que se traduce en un flujo de red con características muy extrañas (número de paquetes muy elevado con un tamaño reducido, alta freucencia de peticiones, etc.) que son detectadas por el autoencoder pefectamente, alcanzando un MSE muy elevado como se justifica en la siguiente imagen:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../img/mse/mse_sqlmap.png}\\
+        \caption{Captura de flujo malicioso en tiempo real causado por SQLMap}
+        \label{fig: mse_sqlmap}
+    \end{figure}  
+
+    \vspace{5mm}
+
+    Se puede apreciar perfectamente que el resultado es el esperado, viéndose multiplicado el error con respecto a un tráfico legítimo por varios centenares. Con esta prueba verificamos que también se detecta el tráfico malicioso generado por herramientas que automatizan inyecciones SQL, como es el caso de SQLMap. No obstante, se va a realizar una prueba adicional para verificar el correcto funcionamiento del modelo, en este caso utilizando la herramienta profesional especializada en ataques de fuerza de bruta por excelencia, \textbf{Hydra}.
+
+    \vspace{5mm}
+
+    Hydra es una de las herramientas de crackeo de credenciales más rápidas y versátiles que existen. El objetivo enfocado a este proyecto es obtener las credenciales del usuario admin creado con las consultas SQL de la sección anterior (\ref{subsec: servidor_web_apache}) a través de un ataque de diccionario, el cual se ha empleado el famoso rockyou.txt, uno de los diccionarios más famosos en el ámbito de la ciberseguridad, ya que contiene gran cantidad de credenciales filtradas a través de internet. 
+
+    \begin{minted}[breaklines]{bash}
+        hydra -l admin -P ~/Desktop/Golum/Hacking/rockyou.txt 192.168.1.139 http-post-form "/index.php:username=^USER^&password=^PASS^:Inicio de sesión fallido" -t 4
+    \end{minted}
+
+    Este comando nos genera un pico de peticiones POST sobre el formulario de inicio de sesión en un intervalo muy corto, capturando el siguiente error por la herramienta NFStream a partir del flujo de red en tiempo real:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../img/mse/mse_hydra.png}\\
+        \caption{Captura de flujo malicioso en tiempo real causado por Hydra}
+        \label{fig: mse_hydra}
+    \end{figure}  
+
+    \vspace{5mm}
+
+    Sin embargo, pese a que el error es notablemente más alto que los datos de entrenamiento, tampoco alcanza valores extremos como en el resto de pruebas. Esto es porque Hydra genera un patrón de tráfico estructurado y repetitivo, lo que reduce el número de solicitudes enviadas al servidor, desencadenando en un MSE notablemente mayor pero sin llegar a valores tan altos como en las pruebas anteriores. Por lo tanto, se ha buscado una alternativa mediante un script personalizado de Python para lograr un control total sobre las peticiones de un ataque de fuerza bruta:
+
+    \begin{minted}{python}
+        import requests
+        import os
+        from dotenv import load_dotenv
+
+        load_dotenv()
+        url = "http://192.168.1.139/index.php"
+        username = "admin"
+        password_file = os.getenv('ROCKYOU_PATH')
+
+        print(f"[*] Iniciando ataque de fuerza bruta sobre {url}...")
+
+        with open(password_file, "r") as f:
+            for line in f:
+                password = line.strip()
+                data = {
+                    "username": username,
+                    "password": password
+                }
+
+                if "Inicio de sesión fallido" not in response.text:
+                    print(f"[+] Éxito: {password}")
+                    break
+    \end{minted}
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../img/mse/mse_py.png}\\
+        \caption{Captura de flujo malicioso en tiempo real a través de Python}
+        \label{fig: mse_py}
+    \end{figure}     
+
+    \vspace{5mm}
+
+    Y de esta manera se presencia un error de reconstrucción mucho mayor que el anterior, en parte debido a la mayor presencia de paquetes en el flujo, ya que se envían los paquetes en crudo y sin ningún procesamiento a través de la librería \textbf{requests} de Python, a diferencia de Hydra, la cual optimiza los paquetes para ser más eficientes y reducir cabeceras HTTP con el fin de reducir el rastro del ataque. Con estos hallazgos, se dan por cerradas las pruebas de penetración en las que se han validado tanto herramientas automatizadas open-source como profesionales, además de scripts atacantes codificados a medida para penetrar el servidor web. 
+
+    \vspace{10mm}
+
+
+
+
+    \subsection{Determinación del Umbral}
+
+    \vspace{5mm}
+
+
+
+    \vspace{10mm}
+
 
 
 

@@ -1,6 +1,6 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.27)  22 MAR 2026 16:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.27)  30 MAR 2026 20:48
 entering extended mode
- restricted \write18 enabled.
+ \write18 enabled.
  %&-line parsing enabled.
 **main.tex
 (./main.tex
@@ -879,7 +879,7 @@ Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/shellesc.sty
 Package: shellesc 2023/07/08 v1.0d unified shell escape interface for LaTeX
-Package shellesc Info: Restricted shell escape enabled on input line 77.
+Package shellesc Info: Unrestricted shell escape enabled on input line 75.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/ifplatform/ifplatform.sty
 Package: ifplatform 2017/10/13 v0.4a Testing for the operating system
@@ -890,9 +890,10 @@ Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
 (/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 ))
+runsystem(uname -s > "main.w18")...executed.
 
-Package ifplatform Warning: 
-    shell escape is disabled, so I can only detect \ifwindows.
+ (./main.w18)
+runsystem(rm -- "main.w18")...executed.
 
 ) (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
 (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
@@ -917,24 +918,39 @@ Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \@float@every@listing=\toks49
 \c@listing=\count368
 )
-runsystem(mkdir -p _minted-main)...disabled (restricted).
+runsystem(mkdir -p _minted-main)...executed.
 
 
+(/usr/share/texlive/texmf-dist/tex/generic/soul/soul.sty
+Package: soul 2023-06-14 v3.1 Permit use of UTF-8 characters in soul (HO)
 
-! Package minted Error: You must invoke LaTeX with the -shell-escape flag.
-
-See the minted package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.34 
-     
-Pass the -shell-escape flag to LaTeX. Refer to the minted.sty documentation for
- more information.
-
-Package hyperref Info: Option `colorlinks' set `true' on input line 51.
+(/usr/share/texlive/texmf-dist/tex/generic/soul/soul-ori.sty
+Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
+\SOUL@word=\toks50
+\SOUL@lasttoken=\toks51
+\SOUL@syllable=\toks52
+\SOUL@cmds=\toks53
+\SOUL@buffer=\toks54
+\SOUL@token=\toks55
+\SOUL@syllgoal=\dimen307
+\SOUL@syllwidth=\dimen308
+\SOUL@charkern=\dimen309
+\SOUL@hyphkern=\dimen310
+\SOUL@dimen=\dimen311
+\SOUL@dimeni=\dimen312
+\SOUL@minus=\count369
+\SOUL@comma=\count370
+\SOUL@apo=\count371
+\SOUL@grave=\count372
+\SOUL@spaceskip=\skip65
+\SOUL@ttwidth=\dimen313
+\SOUL@uldp=\dimen314
+\SOUL@ulht=\dimen315
+))
+Package hyperref Info: Option `colorlinks' set `true' on input line 52.
 \main@idxfile=\write6
 \openout6 = `main.idx'.
+
 
 Writing index file main.idx
 (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
@@ -943,51 +959,40 @@ Package: geometry 2020/01/02 v5.9 Page Geometry
 (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count369
-\Gm@cntv=\count370
-\c@Gm@tempcnt=\count371
-\Gm@bindingoffset=\dimen307
-\Gm@wd@mp=\dimen308
-\Gm@odd@mp=\dimen309
-\Gm@even@mp=\dimen310
-\Gm@layoutwidth=\dimen311
-\Gm@layoutheight=\dimen312
-\Gm@layouthoffset=\dimen313
-\Gm@layoutvoffset=\dimen314
-\Gm@dimlist=\toks50
+\Gm@cnth=\count373
+\Gm@cntv=\count374
+\c@Gm@tempcnt=\count375
+\Gm@bindingoffset=\dimen316
+\Gm@wd@mp=\dimen317
+\Gm@odd@mp=\dimen318
+\Gm@even@mp=\dimen319
+\Gm@layoutwidth=\dimen320
+\Gm@layoutheight=\dimen321
+\Gm@layouthoffset=\dimen322
+\Gm@layoutvoffset=\dimen323
+\Gm@dimlist=\toks56
 )
 (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
 
-\f@nch@headwidth=\skip65
-\f@nch@O@elh=\skip66
-\f@nch@O@erh=\skip67
-\f@nch@O@olh=\skip68
-\f@nch@O@orh=\skip69
-\f@nch@O@elf=\skip70
-\f@nch@O@erf=\skip71
-\f@nch@O@olf=\skip72
-\f@nch@O@orf=\skip73
+\f@nch@headwidth=\skip66
+\f@nch@O@elh=\skip67
+\f@nch@O@erh=\skip68
+\f@nch@O@olh=\skip69
+\f@nch@O@orh=\skip70
+\f@nch@O@elf=\skip71
+\f@nch@O@erf=\skip72
+\f@nch@O@olf=\skip73
+\f@nch@O@orf=\skip74
 )
-runsystem(command -v pygmentize && touch main.aex)...disabled (restricted).
+runsystem(command -v pygmentize && touch main.aex)...executed.
 
+runsystem(rm main.aex)...executed.
 
-
-! Package minted Error: You must have `pygmentize' installed to use this packag
-e.
-
-See the minted package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.92 \begin{document}
-                     
-Refer to the installation instructions in the minted documentation for more inf
-ormation.
 
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count372
+\l__color_backend_stack_int=\count376
 \l__pdf_internal_box=\box125
 )
 (./main.aux
@@ -996,32 +1001,32 @@ LaTeX Info: Redefining \% on input line 11.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Info: Redefining \. on input line 92.
-LaTeX Info: Redefining \% on input line 92.
-LaTeX Info: Redefining \microtypecontext on input line 92.
-Package microtype Info: Applying patch `item' on input line 92.
-Package microtype Info: Applying patch `toc' on input line 92.
-Package microtype Info: Applying patch `eqnum' on input line 92.
-Package microtype Info: Applying patch `footnote' on input line 92.
-Package microtype Info: Applying patch `verbatim' on input line 92.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Info: Redefining \. on input line 93.
+LaTeX Info: Redefining \% on input line 93.
+LaTeX Info: Redefining \microtypecontext on input line 93.
+Package microtype Info: Applying patch `item' on input line 93.
+Package microtype Info: Applying patch `toc' on input line 93.
+Package microtype Info: Applying patch `eqnum' on input line 93.
+Package microtype Info: Applying patch `footnote' on input line 93.
+Package microtype Info: Applying patch `verbatim' on input line 93.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1035,17 +1040,17 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 )
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count373
-\scratchdimen=\dimen315
+\scratchcounter=\count377
+\scratchdimen=\dimen324
 \scratchbox=\box126
-\nofMPsegments=\count374
-\nofMParguments=\count375
-\everyMPshowfont=\toks51
-\MPscratchCnt=\count376
-\MPscratchDim=\dimen316
-\MPnumerator=\count377
-\makeMPintoPDFobject=\count378
-\everyMPtoPDFconversion=\toks52
+\nofMPsegments=\count378
+\nofMParguments=\count379
+\everyMPshowfont=\toks57
+\MPscratchCnt=\count380
+\MPscratchDim=\dimen325
+\MPnumerator=\count381
+\makeMPintoPDFobject=\count382
+\everyMPtoPDFconversion=\toks58
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -1055,8 +1060,8 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\c@lstlisting=\count379
-Package hyperref Info: Link coloring ON on input line 92.
+\c@lstlisting=\count383
+Package hyperref Info: Link coloring ON on input line 93.
 
 (./main.out) (./main.out)
 \@outlinefile=\write7
@@ -1101,21 +1106,21 @@ Package caption Info: End \AtBeginDocument code.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 97.
+(Font)              size <17.28> substituted on input line 98.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/bx/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 97.
+(Font)              size <17.28> substituted on input line 98.
 
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 97
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 98
 .
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <18> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 97.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 98.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 17.09995pt on input line 97.
+(Font)              scaled to size 17.09995pt on input line 98.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `phv' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
@@ -1123,62 +1128,62 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 99.
+(Font)              size <17.28> substituted on input line 100.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/bx/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 99.
+(Font)              size <17.28> substituted on input line 100.
 
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <16> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 99.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 100.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 15.19995pt on input line 99.
+(Font)              scaled to size 15.19995pt on input line 100.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 101.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 102.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 13.29996pt on input line 101.
-<../img/portada.png, id=66, 1866.975pt x 722.7pt>
+(Font)              scaled to size 13.29996pt on input line 102.
+<../img/portada.png, id=78, 1866.975pt x 722.7pt>
 File: ../img/portada.png Graphic file (type png)
 <use ../img/portada.png>
-Package pdftex.def Info: ../img/portada.png  used on input line 103.
+Package pdftex.def Info: ../img/portada.png  used on input line 104.
 (pdftex.def)             Requested size: 472.03123pt x 182.71463pt.
 
 LaTeX Font Warning: Font shape `T1/cmr/m/n' in size <20> not available
-(Font)              size <20.74> substituted on input line 105.
+(Font)              size <20.74> substituted on input line 106.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/bx/n' in size <20> not available
-(Font)              size <20.74> substituted on input line 105.
+(Font)              size <20.74> substituted on input line 106.
 
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <20> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 105.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 106.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 18.99994pt on input line 105.
+(Font)              scaled to size 18.99994pt on input line 106.
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-di
 st/fonts/enc/dvips/base/8r.enc} <../img/portada.png>]
-<../img/primera_hoja.png, id=74, 284.06125pt x 495.8525pt>
+<../img/primera_hoja.png, id=86, 284.06125pt x 495.8525pt>
 File: ../img/primera_hoja.png Graphic file (type png)
 <use ../img/primera_hoja.png>
-Package pdftex.def Info: ../img/primera_hoja.png  used on input line 120.
+Package pdftex.def Info: ../img/primera_hoja.png  used on input line 121.
 (pdftex.def)             Requested size: 118.0078pt x 205.99437pt.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 125.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 126.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 11.39996pt on input line 125.
+(Font)              scaled to size 11.39996pt on input line 126.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 11.39996pt on input line 130.
+(Font)              scaled to size 11.39996pt on input line 131.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 148.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 149.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 9.49997pt on input line 148.
+(Font)              scaled to size 9.49997pt on input line 149.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.151     \newpage
+l.152     \newpage
                    [1 <../img/primera_hoja.png>] (./main.toc
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
@@ -1212,7 +1217,7 @@ LaTeX Info: Redefining \% on input line 1.
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.178     \section{Introducción}
+l.179     \section{Introducción}
                                  \label{sec: introduccion}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1221,7 +1226,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.178     \section{Introducción}
+l.179     \section{Introducción}
                                  \label{sec: introduccion}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1234,7 +1239,7 @@ two letters. (See Chapter 27 of The TeXbook.)
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.194     \section{Estado del Arte}
+l.195     \section{Estado del Arte}
                                    
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1243,7 +1248,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.194     \section{Estado del Arte}
+l.195     \section{Estado del Arte}
                                    
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1256,7 +1261,7 @@ two letters. (See Chapter 27 of The TeXbook.)
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.211     \section{Marco Teórico}
+l.212     \section{Marco Teórico}
                                   
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1265,7 +1270,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.211     \section{Marco Teórico}
+l.212     \section{Marco Teórico}
                                   
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1275,22 +1280,22 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 [7]
-<../img/autoencoder_structure.png, id=162, 343.2825pt x 168.63pt>
+<../img/autoencoder_structure.png, id=188, 343.2825pt x 168.63pt>
 File: ../img/autoencoder_structure.png Graphic file (type png)
 <use ../img/autoencoder_structure.png>
 Package pdftex.def Info: ../img/autoencoder_structure.png  used on input line 2
-45.
+46.
 (pdftex.def)             Requested size: 188.8096pt x 92.74678pt.
-LaTeX Info: Redefining \. on input line 278.
-LaTeX Info: Redefining \% on input line 278.
+LaTeX Info: Redefining \. on input line 279.
+LaTeX Info: Redefining \% on input line 279.
  [8 <../img/autoencoder_structure.png>]
-LaTeX Info: Redefining \. on input line 296.
-LaTeX Info: Redefining \% on input line 296.
+LaTeX Info: Redefining \. on input line 297.
+LaTeX Info: Redefining \% on input line 297.
  [9]
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.300     \section{Diseño de la Arquitectura}
+l.301     \section{Diseño de la Arquitectura}
                                               \label{sec: disenio_arquitectura}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1299,7 +1304,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.300     \section{Diseño de la Arquitectura}
+l.301     \section{Diseño de la Arquitectura}
                                               \label{sec: disenio_arquitectura}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1312,7 +1317,7 @@ two letters. (See Chapter 27 of The TeXbook.)
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.312     \section{Implementación}
+l.313     \section{Implementación}
                                    \label{sec: implementacion}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1321,7 +1326,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.312     \section{Implementación}
+l.313     \section{Implementación}
                                    \label{sec: implementacion}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1331,163 +1336,225 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 [11]
-<../img/code/df/df_head.png, id=201, 945.5325pt x 364.36125pt>
+<../img/code/df/df_head.png, id=226, 945.5325pt x 364.36125pt>
 File: ../img/code/df/df_head.png Graphic file (type png)
 <use ../img/code/df/df_head.png>
-Package pdftex.def Info: ../img/code/df/df_head.png  used on input line 340.
+Package pdftex.def Info: ../img/code/df/df_head.png  used on input line 341.
 (pdftex.def)             Requested size: 472.03123pt x 181.90218pt.
-LaTeX Info: Redefining \. on input line 356.
-LaTeX Info: Redefining \% on input line 356.
+LaTeX Info: Redefining \. on input line 357.
+LaTeX Info: Redefining \% on input line 357.
  [12 <../img/code/df/df_head.png (PNG copy)>]
-<../img/code/df/benignos_vs_malignos.png, id=212, 307.1475pt x 93.34875pt>
+<../img/code/df/benignos_vs_malignos.png, id=237, 307.1475pt x 93.34875pt>
 File: ../img/code/df/benignos_vs_malignos.png Graphic file (type png)
 <use ../img/code/df/benignos_vs_malignos.png>
 Package pdftex.def Info: ../img/code/df/benignos_vs_malignos.png  used on input
- line 361.
+ line 362.
 (pdftex.def)             Requested size: 236.01561pt x 71.7306pt.
-<../img/code/class_distribution_benign_vs_malign.png, id=213, 867.24pt x 433.62
+<../img/code/class_distribution_benign_vs_malign.png, id=238, 867.24pt x 433.62
 pt>
 File: ../img/code/class_distribution_benign_vs_malign.png Graphic file (type pn
 g)
 <use ../img/code/class_distribution_benign_vs_malign.png>
 Package pdftex.def Info: ../img/code/class_distribution_benign_vs_malign.png  u
-sed on input line 368.
+sed on input line 369.
 (pdftex.def)             Requested size: 472.03123pt x 236.01717pt.
-LaTeX Info: Redefining \. on input line 382.
-LaTeX Info: Redefining \% on input line 382.
+LaTeX Info: Redefining \. on input line 383.
+LaTeX Info: Redefining \% on input line 383.
  [13 <../img/code/df/benignos_vs_malignos.png (PNG copy)> <../img/code/class_di
 stribution_benign_vs_malign.png>]
-<../img/code/df/counts_malignos.png, id=222, 425.59pt x 463.7325pt>
+<../img/code/df/counts_malignos.png, id=247, 425.59pt x 463.7325pt>
 File: ../img/code/df/counts_malignos.png Graphic file (type png)
 <use ../img/code/df/counts_malignos.png>
 Package pdftex.def Info: ../img/code/df/counts_malignos.png  used on input line
- 385.
+ 386.
 (pdftex.def)             Requested size: 236.01561pt x 257.16937pt.
-<../img/code/class_distribution_malign.png, id=223, 867.24pt x 433.62pt>
+<../img/code/class_distribution_malign.png, id=248, 867.24pt x 433.62pt>
 File: ../img/code/class_distribution_malign.png Graphic file (type png)
 <use ../img/code/class_distribution_malign.png>
 Package pdftex.def Info: ../img/code/class_distribution_malign.png  used on inp
-ut line 392.
+ut line 393.
 (pdftex.def)             Requested size: 472.03123pt x 236.01717pt.
-LaTeX Info: Redefining \. on input line 400.
-LaTeX Info: Redefining \% on input line 400.
+LaTeX Info: Redefining \. on input line 401.
+LaTeX Info: Redefining \% on input line 401.
  [14 <../img/code/df/counts_malignos.png (PNG copy)> <../img/code/class_distrib
 ution_malign.png>]
-<../img/code/df/outliers.png, id=229, 451.6875pt x 364.36125pt>
+<../img/code/df/outliers.png, id=254, 451.6875pt x 364.36125pt>
 File: ../img/code/df/outliers.png Graphic file (type png)
 <use ../img/code/df/outliers.png>
-Package pdftex.def Info: ../img/code/df/outliers.png  used on input line 429.
+Package pdftex.def Info: ../img/code/df/outliers.png  used on input line 430.
 (pdftex.def)             Requested size: 236.01561pt x 190.39185pt.
-LaTeX Info: Redefining \. on input line 433.
-LaTeX Info: Redefining \% on input line 433.
+LaTeX Info: Redefining \. on input line 434.
+LaTeX Info: Redefining \% on input line 434.
  [15]
-<../img/code/normality_test.png, id=236, 1084.05pt x 361.35pt>
+<../img/code/normality_test.png, id=261, 1084.05pt x 361.35pt>
 File: ../img/code/normality_test.png Graphic file (type png)
 <use ../img/code/normality_test.png>
-Package pdftex.def Info: ../img/code/normality_test.png  used on input line 442
+Package pdftex.def Info: ../img/code/normality_test.png  used on input line 443
 .
 (pdftex.def)             Requested size: 472.03123pt x 157.34587pt.
-LaTeX Info: Redefining \. on input line 450.
-LaTeX Info: Redefining \% on input line 450.
+LaTeX Info: Redefining \. on input line 451.
+LaTeX Info: Redefining \% on input line 451.
  [16 <../img/code/df/outliers.png (PNG copy)> <../img/code/normality_test.png>]
-<../img/code/matriz_correlacion.png, id=242, 1373.13pt x 1373.13pt>
+<../img/code/matriz_correlacion.png, id=267, 1373.13pt x 1373.13pt>
 File: ../img/code/matriz_correlacion.png Graphic file (type png)
 <use ../img/code/matriz_correlacion.png>
 Package pdftex.def Info: ../img/code/matriz_correlacion.png  used on input line
- 467.
+ 468.
 (pdftex.def)             Requested size: 472.03123pt x 472.01228pt.
-LaTeX Info: Redefining \. on input line 471.
-LaTeX Info: Redefining \% on input line 471.
+LaTeX Info: Redefining \. on input line 472.
+LaTeX Info: Redefining \% on input line 472.
  [17]
-LaTeX Info: Redefining \. on input line 482.
-LaTeX Info: Redefining \% on input line 482.
+LaTeX Info: Redefining \. on input line 483.
+LaTeX Info: Redefining \% on input line 483.
  [18 <../img/code/matriz_correlacion.png>]
-<../img/code/matriz_correlacion_cleaned.png, id=257, 1011.78pt x 1011.78pt>
+<../img/code/matriz_correlacion_cleaned.png, id=282, 1011.78pt x 1011.78pt>
 File: ../img/code/matriz_correlacion_cleaned.png Graphic file (type png)
 <use ../img/code/matriz_correlacion_cleaned.png>
 Package pdftex.def Info: ../img/code/matriz_correlacion_cleaned.png  used on in
-put line 500.
+put line 501.
 (pdftex.def)             Requested size: 472.03123pt x 472.03212pt.
-LaTeX Info: Redefining \. on input line 504.
-LaTeX Info: Redefining \% on input line 504.
+LaTeX Info: Redefining \. on input line 505.
+LaTeX Info: Redefining \% on input line 505.
 
 [19]
-LaTeX Info: Redefining \. on input line 512.
-LaTeX Info: Redefining \% on input line 512.
+LaTeX Info: Redefining \. on input line 513.
+LaTeX Info: Redefining \% on input line 513.
  [20 <../img/code/matriz_correlacion_cleaned.png>]
 \openout4 = `main.pyg'.
 
 
 (./_minted-main/default.pygstyle)
-runsystem(pygmentize -l 'python' -f latex -P commandprefix=PYG -F tokenmerge -P
- stripnl='False' -o _minted-main/8332D8458ADC7BA78B9E1B5F6D5EEA09541C68F80C6A6F
-06151AFD63BAE50EBC.pygtex main.pyg)...disabled (restricted).
-
-
-
-! Package minted Error: Missing Pygments output; \inputminted was
-probably given a file that does not exist--otherwise, you may need 
-the outputdir package option, or may be using an incompatible build tool,
-or may be using frozencache with a missing file.
-
-See the minted package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.525     \end{minted}
-                      
-This could be caused by using -output-directory or -aux-directory 
-without setting minted's outputdir, or by using a build tool that 
-changes paths in ways minted cannot detect, 
-or using frozencache with a missing file.
-
+(./_minted-main/8332D8458ADC7BA78B9E1B5F6D5EEA09541C68F80C6A6F06151AFD63BAE50EB
+C.pygtex
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
+.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 2.
+)
 \openout4 = `main.pyg'.
 
-runsystem(pygmentize -l 'python' -f latex -P commandprefix=PYG -F tokenmerge -P
- stripnl='False' -o _minted-main/A60D017354D2A42B21FF400E0B35745B541C68F80C6A6F
-06151AFD63BAE50EBC.pygtex main.pyg)...disabled (restricted).
 
-
-! Package minted Error: Missing Pygments output; \inputminted was
-probably given a file that does not exist--otherwise, you may need 
-the outputdir package option, or may be using an incompatible build tool,
-or may be using frozencache with a missing file.
-
-See the minted package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.573     \end{minted}
-                      
-This could be caused by using -output-directory or -aux-directory 
-without setting minted's outputdir, or by using a build tool that 
-changes paths in ways minted cannot detect, 
-or using frozencache with a missing file.
-
-LaTeX Info: Redefining \. on input line 588.
-LaTeX Info: Redefining \% on input line 588.
-[21]
-<../img/code/relu_linear.png, id=279, 867.24pt x 361.35pt>
+(./_minted-main/A60D017354D2A42B21FF400E0B35745B541C68F80C6A6F06151AFD63BAE50EB
+C.pygtex
+LaTeX Info: Redefining \. on input line 5.
+LaTeX Info: Redefining \% on input line 5.
+ [21]
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
+6.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
+File: ts1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+)
+<../img/code/relu_linear.png, id=305, 867.24pt x 361.35pt>
 File: ../img/code/relu_linear.png Graphic file (type png)
 <use ../img/code/relu_linear.png>
-Package pdftex.def Info: ../img/code/relu_linear.png  used on input line 600.
+Package pdftex.def Info: ../img/code/relu_linear.png  used on input line 601.
 (pdftex.def)             Requested size: 472.03123pt x 196.68097pt.
-<../img/code/df/mse.png, id=281, 162.6075pt x 93.34875pt>
+LaTeX Info: Redefining \. on input line 605.
+LaTeX Info: Redefining \% on input line 605.
+
+[22]
+<../img/code/df/mse.png, id=315, 162.6075pt x 93.34875pt>
 File: ../img/code/df/mse.png Graphic file (type png)
 <use ../img/code/df/mse.png>
-Package pdftex.def Info: ../img/code/df/mse.png  used on input line 613.
+Package pdftex.def Info: ../img/code/df/mse.png  used on input line 614.
 (pdftex.def)             Requested size: 118.0078pt x 67.7466pt.
-LaTeX Info: Redefining \. on input line 621.
-LaTeX Info: Redefining \% on input line 621.
- [22 <../img/code/relu_linear.png> <../img/code/df/mse.png (PNG copy)>]
-LaTeX Info: Redefining \. on input line 632.
-LaTeX Info: Redefining \% on input line 632.
+LaTeX Info: Redefining \. on input line 628.
+LaTeX Info: Redefining \% on input line 628.
+ [23 <../img/code/relu_linear.png> <../img/code/df/mse.png (PNG copy)>]
+\openout4 = `main.pyg'.
 
-[23]
+
+(./_minted-main/015B5A4E9742EB15CF772ADFC3103824541C68F80C6A6F06151AFD63BAE50EB
+C.pygtex)
+<../img/mse/mse_hping3.png, id=326, 633.36626pt x 144.54pt>
+File: ../img/mse/mse_hping3.png Graphic file (type png)
+<use ../img/mse/mse_hping3.png>
+Package pdftex.def Info: ../img/mse/mse_hping3.png  used on input line 648.
+(pdftex.def)             Requested size: 354.02342pt x 80.79185pt.
+<../img/web/web.png, id=327, 1832.8475pt x 883.3pt>
+File: ../img/web/web.png Graphic file (type png)
+<use ../img/web/web.png>
+Package pdftex.def Info: ../img/web/web.png  used on input line 661.
+(pdftex.def)             Requested size: 472.03123pt x 227.48262pt.
+LaTeX Info: Redefining \. on input line 665.
+LaTeX Info: Redefining \% on input line 665.
+ [24 <../img/mse/mse_hping3.png>]
+\openout4 = `main.pyg'.
+
+
+(./_minted-main/3F57A97B94D153FB67DC347DF7AE749EA46D823041331DAC1412BE8B8E8B344
+1.pygtex)
+LaTeX Info: Redefining \. on input line 689.
+LaTeX Info: Redefining \% on input line 689.
+ [25 <../img/web/web.png>]
+\openout4 = `main.pyg'.
+
+
+(./_minted-main/B8394ED7319CD5738F518A9A7999A026A46D823041331DAC1412BE8B8E8B344
+1.pygtex)
+\openout4 = `main.pyg'.
+
+
+(./_minted-main/F155A8D23402C37E1A66EB59358D4699A46D823041331DAC1412BE8B8E8B344
+1.pygtex)
+\openout4 = `main.pyg'.
+
+
+(./_minted-main/CC1112B091E0A14053152D272757D4A4D3773C8B440B993359565A23D713B17
+A.pygtex
+LaTeX Info: Redefining \. on input line 3.
+LaTeX Info: Redefining \% on input line 3.
+ [26])
+<../img/mse/mse_sqlmap.png, id=347, 661.47125pt x 146.5475pt>
+File: ../img/mse/mse_sqlmap.png Graphic file (type png)
+<use ../img/mse/mse_sqlmap.png>
+Package pdftex.def Info: ../img/mse/mse_sqlmap.png  used on input line 736.
+(pdftex.def)             Requested size: 354.02342pt x 78.43231pt.
+\openout4 = `main.pyg'.
+
+
+(./_minted-main/F2B96741A577F65FEBEA909E6BC61EE5D3773C8B440B993359565A23D713B17
+A.pygtex)
+<../img/mse/mse_hydra.png, id=349, 661.47125pt x 146.5475pt>
+File: ../img/mse/mse_hydra.png Graphic file (type png)
+<use ../img/mse/mse_hydra.png>
+Package pdftex.def Info: ../img/mse/mse_hydra.png  used on input line 759.
+(pdftex.def)             Requested size: 354.02342pt x 78.43231pt.
+LaTeX Info: Redefining \. on input line 763.
+LaTeX Info: Redefining \% on input line 763.
+ [27 <../img/mse/mse_sqlmap.png>]
+\openout4 = `main.pyg'.
+
+
+(./_minted-main/AF1E3BA44C5FFA3B35E1A490EFA4C295541C68F80C6A6F06151AFD63BAE50EB
+C.pygtex)
+<../img/mse/mse_py.png, id=355, 661.47125pt x 146.5475pt>
+File: ../img/mse/mse_py.png Graphic file (type png)
+<use ../img/mse/mse_py.png>
+Package pdftex.def Info: ../img/mse/mse_py.png  used on input line 797.
+(pdftex.def)             Requested size: 354.02342pt x 78.43231pt.
+LaTeX Info: Redefining \. on input line 801.
+LaTeX Info: Redefining \% on input line 801.
+ [28 <../img/mse/mse_hydra.png>]
+LaTeX Info: Redefining \. on input line 827.
+LaTeX Info: Redefining \% on input line 827.
+ [29 <../img/mse/mse_py.png>]
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.636     \section{Demo}
+l.831     \section{Demo}
                         \label{sec: demo}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1496,7 +1563,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.636     \section{Demo}
+l.831     \section{Demo}
                         \label{sec: demo}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1505,26 +1572,10 @@ To recover gracefully from this error, it's best to
 delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
-[24] [25] (./main.bbl
+[30] [31] (./main.bbl
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 10.40245pt on input line 12.
-
-
-! LaTeX Error: Invalid UTF-8 byte sequence (�.).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.29 ...Brucher, M., Perrot, M., and Duchesnay, �.
-                                                  
-The document does not appear to be in UTF-8 encoding.
-Try adding \UseRawInputEncoding as the first line of the file
-or specify an encoding such as \usepackage [latin1]{inputenc}
-in the document preamble.
-Alternatively, save the file in UTF-8 using your editor or another tool
-
-) [26] (./main.aux
+(Font)              scaled to size 10.40245pt on input line 27.
+) [32] (./main.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -1538,36 +1589,41 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.28pt have occurred.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 73D2B5A5E0101F6E6FD93C16370D56FF;2090.
-runsystem(rm main.pyg)...disabled (restricted).
+(rerunfilecheck)             Checksum: 5CB442DDEB07654653AB5324E18AE265;2720.
+runsystem(rm main.pyg)...executed.
 
  ) 
 Here is how much of TeX's memory you used:
- 31821 strings out of 475526
- 583910 string characters out of 5776529
- 1934975 words of memory out of 5000000
- 53282 multiletter control sequences out of 15000+600000
- 597899 words of font info for 91 fonts, out of 8000000 for 9000
+ 32271 strings out of 475526
+ 596136 string characters out of 5776529
+ 1938975 words of memory out of 5000000
+ 53662 multiletter control sequences out of 15000+600000
+ 600095 words of font info for 99 fonts, out of 8000000 for 9000
  376 hyphenation exceptions out of 8191
- 84i,11n,131p,1001b,645s stack positions out of 10000i,1000n,20000p,200000b,200000s
- </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0800.600
-pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1200.60
-0pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.6
-00pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.
-600pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200
-.600pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx248
-8.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
-rw/helvetic/uhvr8a.pfb>
-Output written on main.pdf (27 pages, 912139 bytes).
+ 84i,11n,131p,1001b,897s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tctt1200.600
+pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0800.60
+0pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecit1200.6
+00pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1200.
+600pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1200
+.600pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx144
+0.600pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm12
+00.600pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1
+200.600pk> </home/moyis/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx
+2488.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
+/uhvr8a.pfb>
+Output written on main.pdf (33 pages, 1126766 bytes).
 PDF statistics:
- 641 PDF objects out of 1000 (max. 8388607)
- 308 compressed objects within 4 object streams
- 65 named destinations out of 1000 (max. 500000)
- 14027 words of extra memory for PDF output out of 14400 (max. 10000000)
+ 864 PDF objects out of 1000 (max. 8388607)
+ 384 compressed objects within 4 object streams
+ 84 named destinations out of 1000 (max. 500000)
+ 16636 words of extra memory for PDF output out of 17280 (max. 10000000)
 

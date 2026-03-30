@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{        }\PYG{k}{INSERT}\PYG{+w}{ }\PYG{k}{INTO}\PYG{+w}{ }\PYG{n}{users}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{username}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{password}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}admin\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}admin\PYGZus{}tfg\PYGZus{}uax\PYGZsq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{k}{INSERT}\PYG{+w}{ }\PYG{k}{INTO}\PYG{+w}{ }\PYG{n}{products}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{name}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{description}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{price}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{VALUES}
+\PYG{+w}{        }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Cable de Red Cat 6 \PYGZhy{} 5m\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Cable UTP Gigabit Ethernet, color azul.\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{8}\PYG{p}{.}\PYG{l+m+mi}{50}\PYG{p}{),}
+\PYG{+w}{        }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Cable HDMI 2.1 8K\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Alta velocidad 48Gbps, conectores dorados.\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{15}\PYG{p}{.}\PYG{l+m+mi}{99}\PYG{p}{),}
+\PYG{+w}{        }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Cable USB\PYGZhy{}C a USB\PYGZhy{}C 100W\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Cable trenzado para carga rápida y datos.\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{12}\PYG{p}{.}\PYG{l+m+mi}{00}\PYG{p}{),}
+\PYG{+w}{        }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Riser PCI\PYGZhy{}Express 4.0\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Cable extensor flexible para GPU.\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{29}\PYG{p}{.}\PYG{l+m+mi}{90}\PYG{p}{),}
+\PYG{+w}{        }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Cable DisplayPort 1.4\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Soporta 144Hz a 4K, ideal gaming.\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{18}\PYG{p}{.}\PYG{l+m+mi}{50}\PYG{p}{),}
+\PYG{+w}{        }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Fibra Óptica LC a LC \PYGZhy{} 10m\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Cable de parcheo multimodo dúplex.\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{24}\PYG{p}{.}\PYG{l+m+mi}{00}\PYG{p}{);}
+\end{Verbatim}

