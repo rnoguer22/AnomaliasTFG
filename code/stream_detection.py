@@ -4,6 +4,7 @@ import numpy as np
 import joblib
 import os
 import time
+import csv
 from dotenv import load_dotenv
 
 
@@ -16,6 +17,7 @@ class Detection:
         load_dotenv()
         self.repo_path = os.getenv('REPOSITORY_PATH')
         self.model_path = os.path.join(self.repo_path, 'data/model')
+        self.csv_mse_path = os.getenv('CSV_MSE_PATH')
         # Leemos tanto el scaler como el model que obtenemos a partir de la clase Anomalias (anomalias.py)
         self.scaler = joblib.load(os.path.join(self.model_path, 'scaler.pkl'))
         self.autoencoder = joblib.load(os.path.join(self.model_path, 'autoencoder.pkl'))
@@ -173,16 +175,15 @@ class Detection:
 
 
     # Este metodo es el que lo hace todo, obtiene el flujo de datos, los pasa por el autoencoder, predice el tipo de ataque, y manda la alerta por telegram
-    def get_and_predict_live_flow(self, net_if, server_ip):
+    def get_and_predict_live_flow(self):
         # Creamos el objeto de nfstream que nos captura los flujos de datos
-        nfstreamer = NFStreamer(#source=f"{net_if}", 
-                                source="any",
+        nfstreamer = NFStreamer(
+                            source="any",
                             statistical_analysis=True, # Muy importante para capturar metricas estadisticas de la red (si no, faltarian todavia mas variables para convertir los datos)
                             splt_analysis=0,
                             #bpf_filter=f"host {server_ip} and port 80",
                             bpf_filter=f"port 80",
                             promiscuous_mode=True,
-                            # snapshot_len=100,
                             idle_timeout=15, 
                             active_timeout=5)
 
@@ -215,6 +216,10 @@ class Detection:
                         print('Numero de paquetes: ', df_live[' Total Fwd Packets'])
                         print('MSE: ', mse)
 
+                        # Guardamos los datos en un fichero .csv
+                        # Hacemos esto para la deteccion del umbral 
+                        # self.save_data_csv(flow.src_ip, mse)
+
                         # Limpiamos el flujo del buffer para recibir nuevos datos
                         del self.buffer_flow[flow.src_ip]
                     
@@ -226,9 +231,23 @@ class Detection:
 
 
 
+    # Metodo para guardar tanto la IP como el MSE en un fichero csv, lo cual es util para determinar el umbral
+    def save_data_csv(self, ip, mse):
+        file_exists = os.path.isfile(self.csv_mse_path)
+        with open(self.csv_mse_path, mode='a', newline='') as f:
+            writer = csv.writer(f)
+            if not file_exists:
+                # Si el archivo no existe, escribimos el nombre de las columnas de los datos
+                writer.writerow(['ip', 'mse'])
+            
+            # Escribimos los datos introducidos como argumentos del metodo en el fichero .csv
+            writer.writerow([ip, mse])
+
+
+
 
 
 if __name__ == '__main__':
 
     detection = Detection()
-    detection.get_and_predict_live_flow('wlp2s0', '192.168.1.139')
+    detection.get_and_predict_live_flow()
