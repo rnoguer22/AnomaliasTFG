@@ -808,11 +808,89 @@
 
 
 
-    \subsection{Determinación del Umbral}
+    \subsection{Determinación del Umbral de Detección de Anomalias}\label{subsec: determinacion_umbral_deteccion_anomalias}
 
     \vspace{5mm}
 
+    Una vez ya se han realizado las pruebas de penetración anteriores y el modelo responde correctamente, se ha de determinar el umbral. Este umbral $(\tau)$ es la frontera que separa el tráfico benigno del malicioso, lo que en la práctica se traduce como el valor mínimo de MSE para detectar tráfico con intenciones maliciosas. Lo correcto es que este valor no sea escogido a la ligera, sino que se analicen distintos métodos para su obtención, comprobando el mecanismo más robusto para su implementación en nuestro sistema de detección de intrusiones en tiempo real.
 
+    \vspace{5mm}
+
+    En primera instancia, se tomaron valores reales de tráfico de paquetes en una red doméstica. Se pudo haber usado directamente los datos de entrenamiento, pero consideramos que esto es una mejor opción debido a la variabilidad de un entorno real, que frente a la naturaleza estadística de nuestros datos de entrenamiento, incluyen ruido del sistema operativo, latencia de red, diferencias en las cabeceras HTTP, etc. Es por esto que se almacenaron datos del MSE como resultado de pasar dichos flujos de red por el autoencoder, flujos realizados desde distintos dispositivos y cuyo archivo se encuentra en el repositorio de Github de este trabajo (\cite{github_tfg}).
+
+    \vspace{5mm}
+
+    Por ello, se implementaron tres distintas metodologías con el fin de que dicho umbral sea lo más robusto posible, minimizando falsos positivos pero sin llegar a comprometer el sistema ante ciberataques más sigilosos (como la prueba realizada con Hydra anteriormente en (\ref{fig: mse_hydra})).
+
+    \vspace{10mm}
+
+    \subsubsection{Método de la Desviación Estándar}\label{subsubsec: metodo_desviacion_estandar}
+
+    \vspace{5mm}
+
+    En este método asumimos que el MSE sigue una distribución normal. Entonces, podemos definir el umbral en función de la media ($\mu$) y la desviación estándar ($\sigma$):
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+        \tau = \mu + \left( k \cdot \sigma \right)
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Donde $k$ representa un factor de sensibilidad. En función de este valor se puede ser más conservador y abarcar prácticamente todo el tráfico benigno en su totalidad, o se puede tomar un enfoque más radical. No obstante, este último enfoque no es el más adecuado ya que generaría muchos falsos positivos. Inicialmente se propuso un valor $k = 3$ para las primeras pruebas, aunque más adelante se modificó este valor hasta $k = 5$ para garantizar un entorno altamente conservador. Con este dato y conociendo el valor de $\mu$ y $\sigma$ se puede hallar el umbral en función de la desviación estándar como sigue:
+
+    \vspace{2.5mm}
+
+    \begin{equation*}
+        \tau = \mu + \left( k \cdot \sigma \right) = 0.5618 + \left( 5 \cdot 0.6575 \right) = 3.8495
+    \end{equation*}
+
+    \vspace{2.5mm}
+
+    Con este método logramos obtener un umbral de $\tau = 3.8495$, el cual veremos que es el más conservador de los tres modelos de umbrales que se va a ver.
+
+    \vspace{10mm}
+
+    \subsubsection{Método de la Percentiles}\label{subsubsec: metodo_percentiles}
+
+    \vspace{5mm}
+
+    Este segundo enfoque, a diferencia del modelo anterior (\ref{subsubsec: metodo_desviacion_estandar}), no asume una distribución en específico, sino que se centra en la estadística, en el percentil $P$, lo que indica que el $P\%$ de los datos se encuentran por debajo del umbral, como sigue:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+        \tau = P_{99.9} \left( \text{MSE}_{benigno} \right) = 2.2675
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Sin embargo, como se puede observar, este valor es demasiado bajo, lo que indicaría un alto número de falsos positivos al analizar el flujo de red del servidor. Es por esto que este método quedó descartado.
+
+    \vspace{10mm}
+
+    \subsubsection{Método del Valor Máximo}\label{subsubsec: metodo_valor_maximo}
+
+    \vspace{5mm}
+
+    Esta última metodología consiste en identificar el valor máximo de los datos de prueba capturados previamente, añadiendo un margen de guarda para establecer el umbral:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+        \tau = \text{max}\left( MSE_{benigno} \right) + \Delta
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Sin embargo este método tampoco terminó de encajar, ya que depende mucho del margen de guarda que se escoja. Es por esto que se decidió implementar el método de la desviación estándar (\ref{subsubsec: metodo_desviacion_estandar}) con un valor de $k = 5$, ya que a diferencia de este último método, se tiene en cuenta la distribución de los datos, lo que permite ignorar picos de ruido de forma puntual mientras se mantiene la capacidad de detección de ciberataques como las pruebas de penetración vistas anteriormente en (\ref{subsec: pruebas_penetracion_sqlmap_hydra}), manteniendo un enfoque conservador y disminuyendo los falsos positivos.
+
+    \vspace{2.5mm}
+
+    \begin{equation*}
+        \boxed{\tau = 3.8495}
+    \end{equation*}
 
     \vspace{10mm}
 

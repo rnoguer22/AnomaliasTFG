@@ -4,52 +4,52 @@ The top-level auxiliary file: main.aux
 The style file: apalike.bst
 Database file #1: referencias.bib
 Warning--entry type for "CICIDS2017" isn't style-file defined
---line 9 of file referencias.bib
+--line 24 of file referencias.bib
 Warning--entry type for "nfstream_project" isn't style-file defined
---line 65 of file referencias.bib
-Warning--entry type for "sqlmap_project" isn't style-file defined
---line 73 of file referencias.bib
-Warning--entry type for "hydra_project" isn't style-file defined
 --line 80 of file referencias.bib
-You've used 11 entries,
+Warning--entry type for "sqlmap_project" isn't style-file defined
+--line 88 of file referencias.bib
+Warning--entry type for "hydra_project" isn't style-file defined
+--line 95 of file referencias.bib
+You've used 15 entries,
             1935 wiz_defined-function locations,
-            522 strings with 5222 characters,
-and the built_in function-call counts, 3147 in all, are:
-= -- 325
-> -- 105
-< -- 10
-+ -- 33
-- -- 32
-* -- 209
-:= -- 597
-add.period$ -- 32
-call.type$ -- 11
-change.case$ -- 70
-chr.to.int$ -- 10
-cite$ -- 11
-duplicate$ -- 131
-empty$ -- 201
-format.name$ -- 45
-if$ -- 599
+            544 strings with 5734 characters,
+and the built_in function-call counts, 4523 in all, are:
+= -- 454
+> -- 165
+< -- 13
++ -- 57
+- -- 52
+* -- 319
+:= -- 848
+add.period$ -- 44
+call.type$ -- 15
+change.case$ -- 99
+chr.to.int$ -- 14
+cite$ -- 15
+duplicate$ -- 186
+empty$ -- 294
+format.name$ -- 71
+if$ -- 860
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 3
-newline$ -- 56
-num.names$ -- 33
-pop$ -- 51
+missing$ -- 9
+newline$ -- 76
+num.names$ -- 45
+pop$ -- 79
 preamble$ -- 1
-purify$ -- 71
+purify$ -- 101
 quote$ -- 0
-skip$ -- 111
+skip$ -- 153
 stack$ -- 0
-substring$ -- 164
-swap$ -- 11
+substring$ -- 232
+swap$ -- 15
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 64
+type$ -- 84
 warning$ -- 0
-while$ -- 25
+while$ -- 35
 width$ -- 0
-write$ -- 133
+write$ -- 184
 (There were 4 warnings)
