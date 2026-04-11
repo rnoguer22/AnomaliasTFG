@@ -26,6 +26,7 @@ class Clasification_Model:
         self.df_path = os.path.join(self.repo_path, 'data/df')
         self.scaler = joblib.load(os.path.join(self.model_path, 'scaler.pkl'))
         self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_cleaned.csv'))
+        self.label_encoder = LabelEncoder()
         
 
 
@@ -89,29 +90,32 @@ class Clasification_Model:
 
     # Y por ultimo utilizamos un metodo para evaluar una entrada de datos (capturada en tiempo real en stream_detection.py)
     # con el fin de clasificar el tipo de ataque y evaluar las metricas, para optar por el modelo que mejor se ajuste a los datos de test
-    def predict_stream_flow(self, stream_flow, model = ''):            
-        scaled_stream_flow = self.scaler.transform(stream_flow)
-        # Habra que aplicar aqui tambien el label encoder a stream_flow
+    def predict_stream_flow(self, stream_flow, model_param = ''):   
+        #scaled_stream_flow = self.scaler.transform(stream_flow)
+
+        # Obtenemos el label_encoder que se uso previamente para entrenar los modelos
+        map_encoder_file = joblib.load(os.path.join(self.model_path, 'label_encoder.pkl'))
+        # Ahora tenemos que generar el encoder inverso, en lugar de {0: 'DoS', 1: ...} necesitamos {'DoS': 0, ...}
+        # ya que ahora vamos en el sentido contrario, necesitamos obtener el string en funcion del valor numerico
+        revert_map_encoder_dict = {v: k for k, v in map_encoder_file.items()}
+        print(revert_map_encoder_dict)
         
         models = ['RandomForestClassifier', 'XGBClassifier', 'KNeighborsClassifier', 'MLPClassifier']
-        
-        # Diccionario simulado de clases (ajusta según tus etiquetas reales)
-        # Ej: 0=Benigno, 1=FuerzaBruta, 2=SQLi
-        nombres_clases = {0: "Tráfico Benigno", 1: "Ataque Detectado"} 
-        
         for model_name in models:
+            # Comprobamos que los modelos existen antes de cargarlos directamente en memoria
             model_file_path = os.path.join(self.model_path, f'{model_name}.pkl')
             if os.path.exists(model_file_path):
                 model = joblib.load(model_file_path)
-                prediction = model.predict(scaled_stream_flow)[0]
+
+                # Realizamos la prediccion con el modelo, esta clasificacion sera un numero, por lo que tenemos que aplicar el label_encoder inverso que obtuvimos antes
+                prediction = model.predict(stream_flow)[0]
+                prediction_text = revert_map_encoder_dict.get(prediction, f"ID: {prediction}")
                 
-                # Obtener probabilidad (KNN y algunos SVM necesitan configuraciones especiales, pero estos lo soportan)
-                probs = model.predict_proba(scaled_stream_flow)[0]
+                # Obtenemos la confianza del resultado de la prediccion
+                probs = model.predict_proba(stream_flow)[0]
                 confianza = max(probs) * 100
-                
-                clase_texto = nombres_clases.get(prediction, f"Clase {prediction}")
-                
-                print(f" -> {model_name.ljust(15)} : {clase_texto} (Confianza: {confianza:.2f}%)")
+                                
+                print(f" -> {model_name.ljust(15)} : {prediction_text} (Confianza: {confianza:.2f}%)")
             else:
                 print(f" -> {model_name.ljust(15)} : [!] Modelo no encontrado")
 
@@ -129,11 +133,10 @@ if __name__ == "__main__":
 
     # Los modelos boosting necesitan que todos los valores sean numericos (La columna ' Label' contiene el tipo de ataque, en formato string)
     # Por ello tenemos que hacer un mapping y asignarle un numero a cada valor de ' Label'. Para ellos usamos un LabelEncoder clasico
-    label_encoder = LabelEncoder()
-    y_encoded = label_encoder.fit_transform(y)
+    y_encoded = clasif.label_encoder.fit_transform(y)
     # Guardamos el mapeo de clases, ya que lo necesitaremos usar cuando obtengamos la prediccion en stream_detection.py
     # De esta manera veremos el valor del string, y no el valor asociado por el encoder, para que sea mas legible
-    map = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
+    map = dict(zip(clasif.label_encoder.classes_, clasif.label_encoder.transform(clasif.label_encoder.classes_)))
     joblib.dump(map, os.path.join(clasif.model_path, 'label_encoder.pkl'))
     print(f"[*] Mapeo de clases generado: {map}")
 

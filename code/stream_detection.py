@@ -8,6 +8,7 @@ import csv
 from dotenv import load_dotenv
 
 from umbral import Umbral
+from clasification_models import Clasification_Model
 
 
 
@@ -227,6 +228,8 @@ class Detection:
                         if mse >= umbral:
                             print('Ataque detectado!')
                             print('Arrancando el sistema de prediccion de ataques...')
+                            clasification = Clasification_Model()
+                            clasification.predict_stream_flow(df_flow_scaled)
 
 
 
