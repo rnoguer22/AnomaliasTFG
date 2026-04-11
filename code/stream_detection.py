@@ -7,6 +7,8 @@ import time
 import csv
 from dotenv import load_dotenv
 
+from umbral import Umbral
+
 
 
 
@@ -212,13 +214,21 @@ class Detection:
                         # A continuacion pasamos el flujo de datos por el autoencoder
                         prediction = self.autoencoder.predict(df_flow_scaled)
                         # Y calculamos el error cuadratico medio MSE
-                        mse = np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0]
-                        print('Numero de paquetes: ', df_live[' Total Fwd Packets'])
+                        mse = round(np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0], 4)
+                        #print('Numero de paquetes: ', df_live[' Total Fwd Packets'])
                         print('MSE: ', mse)
 
                         # Guardamos los datos en un fichero .csv
                         # Hacemos esto para la deteccion del umbral 
                         # self.save_data_csv(flow.src_ip, mse)
+
+                        umbral_instance = Umbral()
+                        umbral = umbral_instance.metodo_desviacion_estandar()[0]
+                        if mse >= umbral:
+                            print('Ataque detectado!')
+                            print('Arrancando el sistema de prediccion de ataques...')
+
+
 
                         # Limpiamos el flujo del buffer para recibir nuevos datos
                         del self.buffer_flow[flow.src_ip]

@@ -22,6 +22,7 @@ class Anomalias:
         # Usamos load_dotenv() para obtener las variables del archivo .env, para evitar filtrar la ruta completa del repositorio
         self.repo_path = os.getenv('REPOSITORY_PATH')
         self.data_path = os.path.join(self.repo_path, 'data/csv/')
+        self.df_path = os.path.join(self.repo_path, 'data/df')
         self.model_path = os.path.join(self.repo_path, 'data/model')
         self.df_list = []
         self.drop_columns = []
@@ -39,6 +40,9 @@ class Anomalias:
         self.df = pd.concat(self.df_list, ignore_index=True)
         return self.df
     
+    def save_df_csv(self, df, df_name):
+        df.to_csv(os.path.join(self.df_path, f'{df_name}.csv'), index=False)
+
     # Metodos para obtener los dataframes unicamente con datos benignos o malignos, y el scaler
     def get_df_benign(self, df):
         self.df_benign = df[df[' Label'] == 'BENIGN']
@@ -182,7 +186,7 @@ class Anomalias:
     # Metodo para hacer una pequeña limpieza del dataset (ya que los datos estan previamente limpiados por el CIC)
     def clean_df(self, df_to_clean):
         # Eliminaoms la columna label porque la red solo entiende valores numericos, y eliminamos algunos valores que aparecen como infinitos en el df
-        df_to_clean = df_to_clean.drop(columns=[' Label'])
+        # df_to_clean = df_to_clean.drop(columns=[' Label'])
         df_to_clean = df_to_clean.replace([np.inf, -np.inf], np.nan).dropna()
         return df_to_clean
 
