@@ -5,10 +5,13 @@ from dotenv import load_dotenv
 
 
 # Con este fichero hacemos un ataque de fuerza bruta hacia nuestro servidor web
+# A partir del 854 en adelante de df_malign_captured.csv
+# 1108 y 1109 tienen menos paquetes de lo normal (se habia parado la ejecucion por un error de utf8)
+# LLega hasta el 1150 
 
 
 load_dotenv()
-url = "http://192.168.1.222/index.php"
+url = "http://192.168.1.25/index.php"
 username = "admin"
 password_file = os.getenv('ROCKYOU_PATH')
 

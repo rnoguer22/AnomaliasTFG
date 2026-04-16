@@ -21,6 +21,7 @@ class Detection:
         self.repo_path = os.getenv('REPOSITORY_PATH')
         self.model_path = os.path.join(self.repo_path, 'data/model')
         self.csv_mse_path = os.getenv('CSV_MSE_PATH')
+        self.csv_class_captured_path = os.getenv('CSV_CLASS_CAPTURED_PATH')
         # Leemos tanto el scaler como el model que obtenemos a partir de la clase Anomalias (anomalias.py)
         self.scaler = joblib.load(os.path.join(self.model_path, 'scaler.pkl'))
         self.autoencoder = joblib.load(os.path.join(self.model_path, 'autoencoder.pkl'))
@@ -204,10 +205,12 @@ class Detection:
                     self.buffer_flow[flow.src_ip]['flows'].append(flow)      
 
                     if init_time - self.buffer_flow[flow.src_ip]['init_time'] >= self.max_time:
+
                         flows = self.buffer_flow[flow.src_ip]['flows']
 
                         # Llamamos al metodo map_flow para que los datos tengan el mismo formato que el dataset                
                         df_live = self.map_flow(flows, flow.src_ip, flow.dst_port)
+                        print(f'Trafico recibido: {flow.src_ip}:{flow.dst_port}. {df_live[' Total Fwd Packets'].values[0]} packets')
 
                         # Aplicamos el scaler para que los datos tengan la misma escala que los datos de entrenamiento
                         df_flow_scaled = self.scaler.transform(df_live)
@@ -231,7 +234,7 @@ class Detection:
                             clasification = Clasification_Model()
                             clasification.predict_stream_flow(df_flow_scaled)
 
-
+                        #self.save_class_data_csv(df_live, 'SQL_Injection')    
 
                         # Limpiamos el flujo del buffer para recibir nuevos datos
                         del self.buffer_flow[flow.src_ip]
@@ -255,6 +258,23 @@ class Detection:
             
             # Escribimos los datos introducidos como argumentos del metodo en el fichero .csv
             writer.writerow([ip, mse])
+
+
+    # Este otro metodo es para generar un fichero csv con datos malignos generados por nosotros mismos, para comprobar que el modelo predice correctamente, ya que los datos de entrenamiento son muy distintos de los estamos generando con Hydra, SQLMap, hping3, etc.
+    def save_class_data_csv(self, df_row, classification_value):
+        file_exists = os.path.isfile(self.csv_class_captured_path)
+        with open(self.csv_class_captured_path, mode='a', newline='') as f:
+            writer = csv.writer(f)
+            if not file_exists:
+                # Si el archivo no existe, escribimos el nombre de las columnas de los datos
+                columns_csv = df_row.columns.to_list()
+                columns_csv.append(' Label')
+                writer.writerow(columns_csv)
+            
+            # Escribimos los datos introducidos como argumentos del metodo en el fichero .csv
+            data_values = df_row.iloc[0].to_list()
+            data_values.append(classification_value)
+            writer.writerow(data_values)
 
 
 

@@ -22,10 +22,12 @@ class Clasification_Model:
     def __init__(self):
         load_dotenv()
         self.repo_path = os.getenv('REPOSITORY_PATH')
-        self.model_path = os.path.join(self.repo_path, 'data/model')
+        self.model_path = os.path.join(self.repo_path, 'data/model/')
+        self.captured_model_path = os.path.join(self.model_path, 'captured/')
         self.df_path = os.path.join(self.repo_path, 'data/df')
         self.scaler = joblib.load(os.path.join(self.model_path, 'scaler.pkl'))
-        self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_cleaned.csv'))
+        #self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_cleaned.csv'))
+        self.df_malign_captured = pd.read_csv(os.path.join(self.df_path, 'df_malign_captured.csv'))
         self.label_encoder = LabelEncoder()
         
 
@@ -46,8 +48,8 @@ class Clasification_Model:
         print(f"F1-Score : {f1_score(y_test, y_pred, average='weighted', zero_division=0):.4f}")
             
         # Finalmente guardamos el modelo en la carpeta correspondiente
-        joblib.dump(model, os.path.join(self.model_path, f'{model_name}.pkl'))
-        print(f"[*] Modelo guardado en: {os.path.join(self.model_path, f"{model_name}.pkl")}")
+        joblib.dump(model, os.path.join(self.captured_model_path, f'{model_name}.pkl'))
+        print(f"[*] Modelo guardado en: {os.path.join(self.captured_model_path, f"{model_name}.pkl")}")
 
     
 
@@ -103,7 +105,7 @@ class Clasification_Model:
         models = ['RandomForestClassifier', 'XGBClassifier', 'KNeighborsClassifier', 'MLPClassifier']
         for model_name in models:
             # Comprobamos que los modelos existen antes de cargarlos directamente en memoria
-            model_file_path = os.path.join(self.model_path, f'{model_name}.pkl')
+            model_file_path = os.path.join(self.captured_model_path, f'{model_name}.pkl')
             if os.path.exists(model_file_path):
                 model = joblib.load(model_file_path)
 
@@ -128,8 +130,8 @@ if __name__ == "__main__":
     clasif = Clasification_Model()  
 
     # Obtenemos los datos de train y test de los logs con intenciones maliciosas, ya que son este tipo de anomalias las que queremos clasificar
-    X = clasif.df_malign.drop(" Label", axis=1)
-    y = clasif.df_malign[" Label"]  
+    X = clasif.df_malign_captured.drop(" Label", axis=1)
+    y = clasif.df_malign_captured[" Label"]  
 
     # Los modelos boosting necesitan que todos los valores sean numericos (La columna ' Label' contiene el tipo de ataque, en formato string)
     # Por ello tenemos que hacer un mapping y asignarle un numero a cada valor de ' Label'. Para ellos usamos un LabelEncoder clasico
