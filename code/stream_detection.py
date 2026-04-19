@@ -8,6 +8,7 @@ import csv
 from dotenv import load_dotenv
 
 from umbral import Umbral
+from config.columns import COLUMNS
 from clasification_models import Clasification_Model
 
 
@@ -24,6 +25,7 @@ class Detection:
         self.csv_class_captured_path = os.getenv('CSV_CLASS_CAPTURED_PATH')
         # Leemos tanto el scaler como el model que obtenemos a partir de la clase Anomalias (anomalias.py)
         self.scaler = joblib.load(os.path.join(self.model_path, 'scaler.pkl'))
+        self.scaler_class = joblib.load(os.path.join(self.model_path, 'scaler_class.pkl'))
         self.autoencoder = joblib.load(os.path.join(self.model_path, 'autoencoder.pkl'))
         print(self.autoencoder.summary())
 
@@ -31,53 +33,8 @@ class Detection:
         self.buffer_flow = {}
 
         # Definimos las columnas que debe tener el flujo de datos
-        self.columns = [
-            ' Destination Port',
-            ' Flow Duration',
-            ' Total Fwd Packets',
-            'Total Length of Fwd Packets',
-            ' Fwd Packet Length Max',
-            ' Fwd Packet Length Min',
-            ' Fwd Packet Length Mean',
-            'Bwd Packet Length Max',
-            ' Bwd Packet Length Min',
-            'Flow Bytes/s',
-            ' Flow Packets/s',
-            ' Flow IAT Mean',
-            ' Flow IAT Std',
-            ' Flow IAT Max',
-            ' Flow IAT Min',
-            ' Fwd IAT Mean',
-            ' Fwd IAT Std',
-            ' Fwd IAT Min',
-            'Bwd IAT Total',
-            ' Bwd IAT Mean',
-            ' Bwd IAT Std',
-            ' Bwd IAT Max',
-            ' Bwd IAT Min',
-            'Fwd PSH Flags',
-            ' Bwd PSH Flags',
-            ' Fwd URG Flags',
-            ' Bwd URG Flags',
-            'Fwd Packets/s',
-            ' Bwd Packets/s',
-            ' Min Packet Length',
-            ' Max Packet Length',
-            ' Packet Length Mean',
-            ' Packet Length Variance',
-            'FIN Flag Count',
-            ' RST Flag Count',
-            ' PSH Flag Count',
-            ' ACK Flag Count',
-            ' URG Flag Count',
-            ' Down/Up Ratio',
-            ' act_data_pkt_fwd',
-            'Active Mean',
-            ' Active Std',
-            ' Active Max',
-            ' Active Min',
-            ' Idle Std'
-            ]        
+        # Estas se encuentran definidas en el fichero code/config/columns.py
+        self.columns = COLUMNS    
 
 
 
@@ -97,41 +54,15 @@ class Detection:
         tot_bytes = sum(f.bidirectional_bytes for f in flows)
 
         # 2. Mapeamos calculando máximos, mínimos y promedios del bloque
-        row = {
-            # Tomamos el puerto del primer flujo como referencia (suelen apuntar al mismo)
-            ' Destination Port': flows[0].dst_port, 
-            ' Flow Duration': dur_ms * 1000,
-            
+        row = {            
             ' Total Fwd Packets': tot_fwd_pkts,
             'Total Length of Fwd Packets': tot_fwd_bytes,
+
             ' Fwd Packet Length Max': max(f.src2dst_max_ps for f in flows),
             ' Fwd Packet Length Min': min(f.src2dst_min_ps for f in flows),
             ' Fwd Packet Length Mean': (tot_fwd_bytes / tot_fwd_pkts) if tot_fwd_pkts > 0 else 0,
-            
             'Bwd Packet Length Max': max(f.dst2src_max_ps for f in flows),
             ' Bwd Packet Length Min': min(f.dst2src_min_ps for f in flows),
-            
-            # Tasas (Bytes y Paquetes por segundo sobre la ventana total)
-            'Flow Bytes/s': (tot_bytes / dur_sec),
-            ' Flow Packets/s': (tot_pkts / dur_sec),
-            'Fwd Packets/s': (tot_fwd_pkts / dur_sec),
-            ' Bwd Packets/s': (tot_bwd_pkts / dur_sec),
-
-            # Tiempos (Calculamos el promedio de los promedios como aproximación estadística)
-            ' Flow IAT Mean': np.mean([f.bidirectional_mean_piat_ms for f in flows]) * 1000,
-            ' Flow IAT Std': np.mean([f.bidirectional_stddev_piat_ms for f in flows]) * 1000,
-            ' Flow IAT Max': max(f.bidirectional_max_piat_ms for f in flows) * 1000,
-            ' Flow IAT Min': min(f.bidirectional_min_piat_ms for f in flows) * 1000,
-            
-            ' Fwd IAT Mean': np.mean([f.src2dst_mean_piat_ms for f in flows]) * 1000,
-            ' Fwd IAT Std': np.mean([f.src2dst_stddev_piat_ms for f in flows]) * 1000,
-            ' Fwd IAT Min': min(f.src2dst_min_piat_ms for f in flows) * 1000,
-            
-            'Bwd IAT Total': sum(f.dst2src_duration_ms for f in flows) * 1000,
-            ' Bwd IAT Mean': np.mean([f.dst2src_mean_piat_ms for f in flows]) * 1000,
-            ' Bwd IAT Std': np.mean([f.dst2src_stddev_piat_ms for f in flows]) * 1000,
-            ' Bwd IAT Max': max(f.dst2src_max_piat_ms for f in flows) * 1000,
-            ' Bwd IAT Min': min(f.dst2src_min_piat_ms for f in flows) * 1000,
 
             # Flags TCP (1 si CUALQUIER flujo en la ventana tiene esta flag)
             'Fwd PSH Flags': 1 if any(f.src2dst_psh_packets > 0 for f in flows) else 0,
@@ -153,20 +84,12 @@ class Detection:
             
             # Otros campos
             ' Down/Up Ratio': (tot_bwd_pkts / tot_fwd_pkts) if tot_fwd_pkts > 0 else 0,
-            ' act_data_pkt_fwd': tot_fwd_pkts,
-            
-            # Dejamos las variables Active a la duración total agregada
-            'Active Mean': dur_ms * 1000,
-            ' Active Std': 0,
-            ' Active Max': dur_ms * 1000,
-            ' Active Min': dur_ms * 1000,
-            ' Idle Std': 0,
         }
 
         # Creamos el DataFrame con los datos ya mapeados
         df_live_data_flow = pd.DataFrame([row])
         
-        # Si faltase alguna columna, la creamos y le asignamos un valor de 0 a todos sus registros
+        # Si faltase alguna columna, lanzamos un error
         for col in self.columns:
             if col not in df_live_data_flow.columns:
                 raise  KeyError(
@@ -219,7 +142,6 @@ class Detection:
                         prediction = self.autoencoder.predict(df_flow_scaled)
                         # Y calculamos el error cuadratico medio MSE
                         mse = round(np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0], 4)
-                        #print('Numero de paquetes: ', df_live[' Total Fwd Packets'])
                         print('MSE: ', mse)
 
                         # Guardamos los datos en un fichero .csv
@@ -231,10 +153,13 @@ class Detection:
                         if mse >= umbral:
                             print('Ataque detectado!')
                             print('Arrancando el sistema de prediccion de ataques...')
+                            df_flow_scaled = self.scaler_class.transform(df_live)
                             clasification = Clasification_Model()
-                            clasification.predict_stream_flow(df_flow_scaled)
+                            model_name, prediction_text, confianza = clasification.predict_stream_flow(df_flow_scaled, 'RandomForestClassifier')
+                            
+                            # Y ahora vendria la logica para enviar el mensaje de telegram
 
-                        #self.save_class_data_csv(df_live, 'SQL_Injection')    
+                        # self.save_class_data_csv(df_live, 'DoS', os.path.join(self.repo_path, 'data/df/dos_check.csv'))
 
                         # Limpiamos el flujo del buffer para recibir nuevos datos
                         del self.buffer_flow[flow.src_ip]
@@ -261,13 +186,19 @@ class Detection:
 
 
     # Este otro metodo es para generar un fichero csv con datos malignos generados por nosotros mismos, para comprobar que el modelo predice correctamente, ya que los datos de entrenamiento son muy distintos de los estamos generando con Hydra, SQLMap, hping3, etc.
-    def save_class_data_csv(self, df_row, classification_value):
-        file_exists = os.path.isfile(self.csv_class_captured_path)
-        with open(self.csv_class_captured_path, mode='a', newline='') as f:
+    def save_class_data_csv(self, df_row, classification_value, path=''):
+        if path == '':
+            path = self.csv_class_captured_path
+            columns_csv = df_row.columns.to_list()
+        else:
+            columns_csv = pd.read_csv(self.csv_class_captured_path, nrows=0).columns.tolist()
+            df_row = pd.DataFrame(df_row, columns=columns_csv[:-1])
+
+        file_exists = os.path.isfile(path)
+        with open(path, mode='a', newline='') as f:
             writer = csv.writer(f)
             if not file_exists:
                 # Si el archivo no existe, escribimos el nombre de las columnas de los datos
-                columns_csv = df_row.columns.to_list()
                 columns_csv.append(' Label')
                 writer.writerow(columns_csv)
             

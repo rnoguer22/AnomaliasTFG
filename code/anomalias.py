@@ -186,7 +186,7 @@ class Anomalias:
     # Metodo para hacer una pequeña limpieza del dataset (ya que los datos estan previamente limpiados por el CIC)
     def clean_df(self, df_to_clean):
         # Eliminaoms la columna label porque la red solo entiende valores numericos, y eliminamos algunos valores que aparecen como infinitos en el df
-        # df_to_clean = df_to_clean.drop(columns=[' Label'])
+        df_to_clean = df_to_clean.drop(columns=[' Label'])
         df_to_clean = df_to_clean.replace([np.inf, -np.inf], np.nan).dropna()
         return df_to_clean
 
