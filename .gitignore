@@ -10,3 +10,9 @@ latex/main.idx
 latex/main.lof
 latex/main.out
 latex/main.toc
+data/model/KNeighborsClassifier.pkl
+data/model/MLPClassifier.pkl
+data/model/XGBClassifier.pkl
+data/model/captured/KNeighborsClassifier.pkl
+data/model/captured/MLPClassifier.pkl
+data/model/captured/XGBClassifier.pkl
