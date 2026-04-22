@@ -23,9 +23,10 @@ class Detection:
         self.model_path = os.path.join(self.repo_path, 'data/model')
         self.csv_mse_path = os.getenv('CSV_MSE_PATH')
         self.csv_class_captured_path = os.getenv('CSV_CLASS_CAPTURED_PATH')
+
         # Leemos tanto el scaler como el model que obtenemos a partir de la clase Anomalias (anomalias.py)
         self.scaler = joblib.load(os.path.join(self.model_path, 'scaler.pkl'))
-        self.scaler_class = joblib.load(os.path.join(self.model_path, 'scaler_class.pkl'))
+        self.scaler_class = None
         self.autoencoder = joblib.load(os.path.join(self.model_path, 'autoencoder.pkl'))
         print(self.autoencoder.summary())
 
@@ -152,10 +153,15 @@ class Detection:
                         umbral = umbral_instance.metodo_desviacion_estandar()[0]
                         if mse >= umbral:
                             print('Ataque detectado!')
+
+                            '''
                             print('Arrancando el sistema de prediccion de ataques...')
+
+                            clasification = Clasification_Model(captured=True)
+                            self.scaler_class = joblib.load(os.path.join(clasification.model_path, 'scaler_class.pkl'))
                             df_flow_scaled = self.scaler_class.transform(df_live)
-                            clasification = Clasification_Model()
                             model_name, prediction_text, confianza = clasification.predict_stream_flow(df_flow_scaled, 'RandomForestClassifier')
+                            '''
                             
                             # Y ahora vendria la logica para enviar el mensaje de telegram
 

