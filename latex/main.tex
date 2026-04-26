@@ -290,9 +290,87 @@
 
     \vspace{10mm}
 
+    \subsection{Random Forest}\label{subsec: random_forest}
 
+    \vspace{5mm}
 
+    A continuación se va a ver detenidamente el funcionamiento teórico del modelo de clasificación utilizado en la implementación de este trabajo, el Random Forest. Este modelo fue escogido favorablemente en base a una comparación de resultados con otros modelos propuestos, debido a su mejor desempeño. Este apartado presenta un enfoque teórico - práctico, volcando la teoría a la práctica y su implementación en código.
 
+    \vspace{5mm}
+
+    \subsubsection{El estimador y el problema de la varianza}
+
+    \vspace{5mm}
+
+    Este modelo se compone de un boque de árboles, es decir, un conjunto de árboles de decisión. Un árbol de decisión es un modelo no paramétricos que segmenta el espacio de características mediante una serie de reglas que se van propagando hasta la decisión final. Por ello, destacan por su gran interpretabilidad y capacidad de capturar relaciones complejas entre las distintas variables de los datos, pero presentan un grave problema, la alta varianza. 
+
+    \vspace{5mm}
+
+    Imaginemos que un árbol de decisión contiene un sesgo ($bias$) reducido ya que es capaz de adaptarse con mucha precisión a la estructura del conjunto de datos de su entrenamiento. Esta sesgo reducido introduce una gran flexibilidad que lo convierte en un estimador inestable, ya que cualquier pequeña fluctuación en los datos de entrenamiento puede suponer un drástico cambio en la estructura de ramas y nodos del propio árbol, y esto es lo que se conoce como alta varianza. Entonces, si se tiene un conjunto de datos de entrenamiento $\mathbf{Z} = \{(x_1, y_1), \dots, (x_N, y_N)\}$, el algoritmo busca minimizar la impureza en cada partición, lo que suele conducir al sobreajuste ($overfitting$), comprometiendo la capacidad del modelo para generalizar datos distintos a los de su entrenamiento, ya que se memorizan dichos datos, perdiendo por completo la capacidad de predeicr correctamente cualquier otro dato.
+
+    \vspace{5mm}
+
+    \subsubsection{Bootstrap Aggregating (Bagging)}
+
+    \vspace{5mm}
+
+    Para aumentar la robustez de los árboles sin incrementar el sesgo, se emplea un método conocido como Bagging (\textit{Bootstrap Aggregating}), el cual se basa en que el promedio de múltiples estimadores independientes reduce la varianza global en el sistema de predicción. Si se dispusiera de $B$ conjuntos de entrenamiento independientes en un escenario ideal, cada uno con una varianza $\sigma^2$, la varianza del promedio sería $\sigma^2/B$. Sin embargo, en la práctica es imposible obtener múltiples conjuntos independientes, por lo que el Bagging simula esta condición mediante otro proceso conocido como \textbf{Bootstrap}.
+
+    \vspace{5mm}
+
+    Esta técnica consiste en generar $B$ muestras distintas $\mathbf{Z}^{*b}$ mediante la extracción aleatoria de $N$ instancias del conjunto original de árboles $\mathbf{Z}$, utilizando un muestreo con reemplazo. Esto produce que cada muestra de Bootstrap (cada árbol de nuestro modelo) contenga aproximadamente dos tercios de los datos originales, mientras que la cantidad restante se denominan datos \textit{Out-of-Bag} (OOB), los cuales son fundamentales para la validación interna del modelo.
+
+    \vspace{5mm}
+
+    Tras la fase de entrenamiento de cada árbol $T_b$ de cada muestra $\mathbf{Z}^{*b}$, la predicción final del modelo se obtiene comparando los resultados obtenidos de cada árbol. En un problema de clasificación como en nuestro caso, esto se traduce en el voto mayoritario de cada árbol:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+    \hat{f}_{bag}(x) = \frac{1}{B} \sum_{b=1}^{B} T_b(x)
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Donde $\hat{f}_{bag}(x)$ representa la predicción, $B$ el número total de estimadores (árboles) y $T_b(x)$ la salida de cada árbol independiente. De esta manera se reducen los errores de árboles sobreajustados, propiciando en un modelo significativamente más robusto frente al ruido inherente al tráfico de red.
+
+    \vspace{5mm}
+
+    \subsubsection{Feature Selection y Estimación Final}
+
+    \vspace{5mm}
+
+    La principal diferencia entre un \textit{Random Forest} con respecto a un \textit{Bagging} convencional es la segunda capa de aleatoriedad a la hora de construir los distintos árboles. En un modelo \textit{Bagging} se busca la mejor partición entre el conjunto de todas las $p$ variables posibles, mientras que en un \textit{Random Forest} no se tienen en cuenta todas las varibles del conjunto $p$, sino que se selecciona un conjunto aleatorio $m \le p$ de variables, y este número de variables en un problema de clasificación suele ser $m = \sqrt{p}$. 
+
+    \vspace{5mm}
+
+    Esta restricción es lo que nos permite reducir la correlación $\rho$ entre los árboles del bosque. Matemáticamente, la varianza del promedio de $B$ árboles de nuestro modelo, cuya varianza y correlación son $\sigma^2$ y $\rho$ respectivamente, se define como:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+    \text{Var}(\hat{f}_{rf}(x)) = \rho \sigma^2 + \frac{1-\rho}{B} \sigma^2
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Con esto se limitan las variables disponibles para cada nodo, por lo que se reduce el valor de $\rho$ y con ello la varianza total. Esto se conoce como decorrelación y es un proceso que un Bagging simple no puede alcanzar, siendo una de las características principales de un \textit{Random Forest}.
+    
+    \vspace{5mm}
+
+    Una vez se han entrenados los $B$ árboles del modelo y llega el momento de la predicción (en nuestro caso del tráfico de red en tiempo real) de una nueva observación $x$, entra en juego el estimador. Este estimadorla consolida las predicciones de cada árbol $T_b(x)$ y, en el caso de la clasificación multiclase (DoS, ataques de fuerza bruta, inyecciones SQL, etc.), la predicción final será aquella que se ha repetido un mayor número de veces en las predicciones individuales de los $B$ árboles:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+    \hat{C}_{rf}(x) = \text{mayoría} \{ \hat{C}_b(x) \}_{1}^{B}
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Este asegura que los errores aleatorios de un árbol individual (provocados por ruido o sobreajuste a su muestra de Bootstrap) se compensen con el resto de votos de los árboles restantes, mejorando la robustez del modelo.
+
+    \vspace{10mm}
 
     \newpage
     \thispagestyle{empty}
@@ -505,11 +583,47 @@
 
     \vspace{5mm}
 
-    Se puede apreciar que la matriz de correlación presenta una limpieza mucho más considerable, pues se han eliminado $22$ columnas repetitivas de los datos ($30$ en total si contamos las eliminadas antes de obtener la matriz de correlación), mejorando el rendimiento de la red. Por otra parte, cabe mencionar que se encontraron valores infinitos en el dataset, los cuales por supuesto han sido correspondiente eliminados, ya que un valor infinito no es válido para una red neuronal, ahorrando futuros problemas con nuestro autoencoder.
+    Se puede apreciar que la matriz de correlación presenta una limpieza mucho más considerable, pues se han eliminado $22$ columnas repetitivas de los datos ($30$ en total si contamos las eliminadas antes de obtener la matriz de correlación), mejorando el rendimiento de la red. No obstante, para evitar sesgos de red y un mejor funcionamiento del modelo de clasificación de ataques maliciosos (\ref{subsec: modelo_clasificacion_impl}), se ha reducido aún más las características de los datos, eliminando las siguientes variables y grupos de variables:
+
+    \vspace{5mm}
+    
+    \begin{table}[H]
+        \centering
+        \caption{Variables eliminadas del modelo para mejorar la generalización en tiempo real.}
+        \label{tab:variables_eliminadas}
+        \renewcommand{\arraystretch}{1.5}
+        \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{10cm}|}
+            \hline            
+            \textbf{Variable(s)} & \textbf{Justificación} \\ \hline
+            Flow Duration & La duración en entrenamiento corresponde a un flujo completo, mientras que al capturar en tiempo real se tiene un flujo parcial, ya que se desconoce la finalización del ataque. Esta discrepancia introduce errores al modelo. \\ \hline
+            Flow Bytes/s y Flow Packets/s & Métricas dependientes del rendimiento del hardware (CPU/NIC) y de la carga de la red en un momento dado. Su variabilidad impide una firma constante del ataque. \\ \hline
+            Flow IAT (Mean, Max, Std, Min) & El tiempo de llegada entre paquetes (Inter-Arrival Time) se ve alterado por la latencia de procesamiento del sistema de captura en vivo, introduciendo ruido que no existe en el dataset estático. \\ \hline
+            Active / Idle (Mean, Max, Min, Std) & Parámetros puramente temporales que describen el comportamiento de la sesión pero no la naturaleza maliciosa del paquete. Generan un fuerte sesgo hacia el entorno de laboratorio. \\ \hline
+        \end{tabular}
+    \end{table}
 
     \vspace{5mm}
 
-    La segunda parte de esta breve sección de preprocesamiento consiste en estandarizar los datos. Inicialmente los datos fueron normalizados entre 0 y 1, pero debido a diversos problemas que se tuvo a la hora de identificar anomalías, se ha optado por un \textit{Standard Score}. Este enfoque transforma las variables para que presenten una media de 0 y una desviación estándar de 1, lo que permite que el modelo detecte mucho mejor los valores atípicos (que se ha visto anteriormente su alta presencia en (\ref{subsec: eda})) al encontrarse ráfagas muy intensas de datos (propias de un cberataque) que se alejan muy significativamente de la media y aumentando muchísimo el error en la reconstrucción.
+    Con esto se evita que se memorice la velocidad de los paquetes en los datos de entrenamiento, con el fin de identificar el tipo de ataque malicioso únicamente en función de su comportamiento lógico, lo que incluye flags TCP, tamaño y métricas estadísticas de paquetes, etc. Adicionalmente con la implementación anterior, evitamos toda dependencia al hardware de la red, al no registrarse parámetros de velocidad de paquetes, causando un funcionamiento mucho más homogéneo de este proyecto al ser completamente independiente de la red donde se analice el tráfico en tiempo real. Finalmente, la matriz de correlación final se muestra a continuación: 
+    
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/matriz_correlacion_cleaned_final.png}\\
+        \caption{Matriz de correlación final}
+        \label{fig: corr_matrix_cleaned_final}
+    \end{figure}   
+
+    \vspace{5mm}
+
+    Por otra parte, cabe mencionar que se encontraron valores infinitos en el dataset, los cuales por supuesto han sido correspondiente eliminados, ya que un valor infinito no es válido para una red neuronal, ahorrando futuros problemas con nuestro autoencoder.
+
+    \vspace{5mm}
+
+    La segunda parte de esta breve sección de preprocesamiento consiste en estandarizar los datos. Inicialmente los datos fueron normalizados entre 0 y 1, pero debido a diversos problemas que se tuvo a la hora de identificar anomalías, se ha optado por un \textit{Standard Score}. Este enfoque transforma las variables para que presenten una media de 0 y una desviación estándar de 1, lo que permite que el modelo detecte mucho mejor los valores atípicos (vista su alta presencia anteriormente en (\ref{subsec: eda})) al encontrarse ráfagas muy intensas de datos (propias de un ciberataque) que se alejan muy significativamente de la media y aumentando muchísimo el error en la reconstrucción.
+
+    \vspace{2.5mm}
 
     \begin{minted}{python}
     def get_scaled_train_test_data(df_to_scale):
@@ -524,6 +638,8 @@
         X_test_scaled = scaler.transform(X_test)
         return X_train_scaled, X_test_scaled
     \end{minted}
+
+    \vspace{2.5mm}
 
     Con esta función nos estamos ayudando de la librería Scikit-Learn de Python, disponible en [\cite{sklearn-docs}]. Internamente, se está aplicando la siguiente transformación para el escalado de cada uno de los datos:
 
@@ -747,7 +863,7 @@
     Hydra es una de las herramientas de crackeo de credenciales más rápidas y versátiles que existen. El objetivo enfocado a este proyecto es obtener las credenciales del usuario admin creado con las consultas SQL de la sección anterior (\ref{subsec: servidor_web_apache}) a través de un ataque de diccionario, el cual se ha empleado el famoso rockyou.txt, uno de los diccionarios más famosos en el ámbito de la ciberseguridad, ya que contiene gran cantidad de credenciales filtradas a través de internet. 
 
     \begin{minted}[breaklines]{bash}
-        hydra -l admin -P ~/Desktop/Golum/Hacking/rockyou.txt 192.168.1.50 http-post-form "/index.php:username=^USER^&password=^PASS^:Inicio de sesión fallido" -t 4
+        hydra -l admin -P ~/rockyou.txt 192.168.1.50 http-post-form "/index.php:username=^USER^&password=^PASS^:Inicio de sesión fallido" -t 4
     \end{minted}
 
     Este comando nos genera un pico de peticiones POST sobre el formulario de inicio de sesión en un intervalo muy corto, capturando el siguiente error por la herramienta NFStream a partir del flujo de red en tiempo real:
