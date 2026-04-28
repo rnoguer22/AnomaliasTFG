@@ -154,14 +154,12 @@ class Detection:
                         if mse >= umbral:
                             print('Ataque detectado!')
 
-                            '''
                             print('Arrancando el sistema de prediccion de ataques...')
 
                             clasification = Clasification_Model(captured=True)
                             self.scaler_class = joblib.load(os.path.join(clasification.model_path, 'scaler_class.pkl'))
                             df_flow_scaled = self.scaler_class.transform(df_live)
                             model_name, prediction_text, confianza = clasification.predict_stream_flow(df_flow_scaled, 'RandomForestClassifier')
-                            '''
                             
                             # Y ahora vendria la logica para enviar el mensaje de telegram
 

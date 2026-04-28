@@ -2,13 +2,16 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
-from config.columns import COLUMNS
+import matplotlib.pyplot as plt
+from config.columns import COLUMNS, COLUMNS_ALL
+import dataframe_image as dfi
 
 from dotenv import load_dotenv
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
+from sklearn.inspection import permutation_importance
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 from sklearn.model_selection import train_test_split
@@ -41,7 +44,7 @@ class Clasification_Model:
 
     # Creamos una funcion auxiliar para evaluar los modelos y ver datos como la accuracy, precision, f1, etc.
     # Este metodo simplemente nos ayuda a ahorrar lineas de codigo
-    def predict_save_model(self, model, X_test, y_test):
+    def predict_save_model(self, model, X_test, y_test, save):
         # Para ello tenemos que predecir los datos de test con el modelo seleccionado y mostrar las metricas
         y_pred = model.predict(X_test)
         model_name = model.__class__.__name__
@@ -55,13 +58,14 @@ class Clasification_Model:
         print(f"F1-Score : {f1_score(y_test, y_pred, average='weighted', zero_division=0):.4f}")
             
         # Finalmente guardamos el modelo en la carpeta correspondiente
-        joblib.dump(model, os.path.join(self.model_path, f'{model_name}.pkl'))
-        print(f"\n[*] Modelo guardado en: {os.path.join(self.model_path, f"{model_name}.pkl")}")
+        if save:
+            joblib.dump(model, os.path.join(self.model_path, f'{model_name}.pkl'))
+            print(f"\n[*] Modelo guardado en: {os.path.join(self.model_path, f"{model_name}.pkl")}")
 
     
 
     # A continuacion tenemos las distintas funciones para entrenar los diferentes modelos que se van a evaluar
-    def train_rf(self, X_train, y_train, X_test, y_test):
+    def train_rf(self, X_train, y_train, X_test, y_test, save: bool):
         print("\n[*] Entrenando Random Forest...")
         rf = RandomForestClassifier(
                 n_estimators=300, 
@@ -71,7 +75,7 @@ class Clasification_Model:
                 n_jobs=-1
             )
         rf.fit(X_train, y_train)
-        self.predict_save_model(rf, X_test, y_test)
+        self.predict_save_model(rf, X_test, y_test, save)
 
 
     def train_xgb(self, X_train, y_train, X_test, y_test):
@@ -148,6 +152,63 @@ class Clasification_Model:
             confianza = max(probs) * 100
 
             return model_name, prediction_text, confianza
+    
+
+    # Metodo para obtener la impureza de gini a partir del RandomForest ya generado y entrenado anteriormente
+    # Esto nos permite ver que variables son las mas importantes para el modelo, y cuales no
+    def show_gini_importance(self):
+        rf_model_loaded = joblib.load(os.path.join(self.model_path, 'RandomForestClassifier.pkl'))
+        gini_importances = rf_model_loaded.feature_importances_
+        
+        # Creamos un dataframe y lo ordenamos, para ver las variables mejor
+        df_importancia = pd.DataFrame({
+            'Variable': COLUMNS,
+            'Importancia': gini_importances
+        }).sort_values(by='Importancia', ascending=False)
+        # dfi.export(df_importancia[:len(df_importancia)//2], "img/code/random_forest/gini_df_procesed_1.png")
+        # dfi.export(df_importancia[len(df_importancia)//2:], "img/code/random_forest/gini_df_procesed_2.png")
+
+        # Mostramos un grafico con los resultados
+        plt.figure(figsize=(12, 8))
+        plt.barh(df_importancia['Variable'][:15], df_importancia['Importancia'][:15], color='skyblue')
+        plt.xlabel('Importancia (Gini Impurity)')
+        plt.title('Top 15 Variables más influyentes en el Bosque')
+        plt.gca().invert_yaxis()
+        plt.grid(axis='x', linestyle='--', alpha=0.7)
+        plt.tight_layout()
+        plt.show()
+        
+        return df_importancia
+    
+
+    # Este otro metodo nos muestra la importancia por permutacion de las caracterisiticas
+    def show_permutation(self, X_test, y_test):
+        rf_model_loaded = joblib.load(os.path.join(self.model_path, 'RandomForestClassifier.pkl'))
+
+        print("\nCalculando importancia por permutación (esto puede tardar unos segundos)...")
+        X_test_values = X_test.values if isinstance(X_test, pd.DataFrame) else X_test
+        resultado = permutation_importance(
+            rf_model_loaded, X_test_values, y_test, n_repeats=10, random_state=42, n_jobs=-1
+        )
+
+        # De igual manera almacenamos los resultados en un dataframe
+        df_perm = pd.DataFrame({
+            'Variable': COLUMNS,
+            'Importancia_Media': resultado.importances_mean,
+            'Desviacion_Std': resultado.importances_std
+        }).sort_values(by='Importancia_Media', ascending=False)
+
+        # Y mostramos los resultados
+        plt.figure(figsize=(10, 6))
+        plt.barh(df_perm['Variable'][:15], df_perm['Importancia_Media'][:15], 
+                 xerr=df_perm['Desviacion_Std'][:15], color='salmon')
+        plt.xlabel('Caída en la precisión del modelo')
+        plt.title('Importancia por Permutación (Datos Out-of-Bag / Test)')
+        plt.gca().invert_yaxis()
+        plt.grid(axis='x', linestyle='--', alpha=0.7)
+        plt.show()
+
+        return df_perm
                             
 
 
@@ -155,7 +216,7 @@ class Clasification_Model:
 
 if __name__ == "__main__":  
 
-    clasif = Clasification_Model(captured=True)  
+    clasif = Clasification_Model(captured=False)  
 
     # Obtenemos los datos de train y test de los logs con intenciones maliciosas, ya que son este tipo de anomalias las que queremos clasificar
     # Podemos usar el df de los datos del CIC, o el df generado en mi propio entorno
@@ -187,12 +248,15 @@ if __name__ == "__main__":
     X_test_scaled = clasif.scaler_class.transform(X_test)
 
     # Guardamos el scaler
-    joblib.dump(clasif.scaler_class, os.path.join(clasif.model_path, 'scaler_class.pkl'))
+    # joblib.dump(clasif.scaler_class, os.path.join(clasif.model_path, 'scaler_class.pkl'))
 
     # Entrenamos los distintos modelos
-    clasif.train_rf(X_train_scaled, y_train, X_test_scaled, y_test)
+    clasif.train_rf(X_train_scaled, y_train, X_test_scaled, y_test, save = False)
     '''
     clasif.train_xgb(X_train_scaled, y_train, X_test_scaled, y_test)
     clasif.train_knn(X_train_scaled, y_train, X_test_scaled, y_test)
     clasif.train_mlp(X_train_scaled, y_train, X_test_scaled, y_test)
     '''
+
+    # print(clasif.show_gini_importance())
+    # print(clasif.show_permutation(X_test, y_test))

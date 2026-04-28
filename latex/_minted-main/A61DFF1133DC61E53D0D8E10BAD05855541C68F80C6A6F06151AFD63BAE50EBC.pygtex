@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+        \PYG{n}{rf} \PYG{o}{=} \PYG{n}{RandomForestClassifier}\PYG{p}{(}
+                \PYG{n}{n\PYGZus{}estimators}\PYG{o}{=}\PYG{l+m+mi}{300}\PYG{p}{,}
+                \PYG{n}{max\PYGZus{}depth}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,}
+                \PYG{n}{min\PYGZus{}samples\PYGZus{}split}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{,}
+                \PYG{n}{random\PYGZus{}state}\PYG{o}{=}\PYG{l+m+mi}{42}\PYG{p}{,}
+                \PYG{n}{n\PYGZus{}jobs}\PYG{o}{=\PYGZhy{}}\PYG{l+m+mi}{1}
+            \PYG{p}{)}
+\end{Verbatim}

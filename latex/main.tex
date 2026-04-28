@@ -298,7 +298,7 @@
 
     \vspace{5mm}
 
-    \subsubsection{El estimador y el problema de la varianza}
+    \subsubsection{El estimador y el problema de la varianza}\label{subsubsec: estimador_problema_varianza}
 
     \vspace{5mm}
 
@@ -1018,10 +1018,86 @@
 
     \vspace{5mm}
 
+    \subsection{Justificación de la captura de datos personalizada}
+
+    \vspace{5mm}
+
+    Para este proceso, se renunció a los datos propuestos por el \textit{Canadian Institute for Cybersecurity} (CIC) los cuales forman parte del conjunto de datos estándar para este trabajo. Esto fue para garantizar una captura de datos mucho más controlada y personalizada, ya que, aunque el CIC sea todo un referente en el ámbito de la investigación, puede suponer un gran desafío de generalización en un entorno personal.
+
+    \vspace{5mm}
+
+    El principal motivo por el que se tomó esta decisión fue la opacidad a la hora de capturar tráfico malicioso por parte del CIC, ya que en su correspondiente bibliografía [\cite{CICIDS2017_paper}] no se hace referencia ninguna herramienta utilizada para la reproducción de estos ataques, lo cual unido a la naturaleza altamente heterogénea de un ciberataque que puede etsar sujeto a múltiples configuraciones hace que sea una tarea muy complicada a la hora de reproducir tráfico malicioso en tiempo real en cualquier otro entorno, ya que las herramientas y métodos utilizados pueden diferir en gran medida de los utilizados por parte del CIC, provocando que los datos que se quieren predecir en tiempo real sean muy distintos de los datos de entrenamiento del modelo de clasificación, generando en la mayoría de casos una predicción errónea.
+
+    \vspace{5mm}
+
+    Esta discrepancia es la que, al clasificar tráfico en tiempo real sobre nuestro servidor, provoque fallos en el modelo al no reconocer patrones que, aunque sean maliciosos, no coinciden exactamente con la firma de los datos de entrenamiento. De esta manera, capturando nuestros propios datos utilizando ciertas herramientas con una configuración en específico, tanto en la fase de entrenamiento como en la de test, se garantiza que la clasificación aprenda la naturaleza específica del tráfico de red de nuestro propio entorno, lo que optimiza la precisión de la predicción en tiempo real, descartando errores y enfocando la clasficación correctamente.
+
+    \vspace{5mm}
+
+    \subsection{Configuración y parámetros del clasificador}
+
+    \vspace{5mm}
+
+    Una vez justificada la captura de los datos, pasamos a la implementación del \textit{Random Forest}. Para ello se ha  utilizado la librería \texttt{scikit-learn} [\cite{sklearn-docs}], seleccionando el algoritmo \texttt{RandomForestClassifier} con los siguientes hiperparámetros para equilibrar las capacidades de detección del modelo y previniendo el sobreajusteLa ($overfitting$):
+
+    \vspace{2.5mm}
+
+    \begin{minted}{python}
+        rf = RandomForestClassifier(
+                n_estimators=300, 
+                max_depth=20, 
+                min_samples_split=5,
+                random_state=42, 
+                n_jobs=-1
+            )
+    \end{minted}
+
+    \vspace{2.5mm}
+
+    Donde \texttt{n\_estimators=300} define el número de árboles de decisión en el bosque. Un valor entre 100 y 300 permite reducción significativa de la varianza que se vio anteriormente en (\ref{subsubsec: estimador_problema_varianza}), lo que estabiliza el error de predicción sin muchas limitaciones de cómputo a nivel de hardware. Por otra parte \texttt{max\_depth=20} limita la profundidad máxima de los árboles, lo que ayuda mucho a su regularización, evitando ruido y forzando a aprender patrones más generales. \texttt{min\_samples\_split=5} establece el número mínimo de muestras necesarias para dividir un nodo internamente en cualquiera de los árboles del bosque, mejorando la robustez, \texttt{random\_state=42} fija la semilla de aleatoriedad, con lo que nos aseguramos que el proceso de \textit{bootstrap} y la selección de características sean exactamente iguales en cada ejecución, y \texttt{n\_jobs=-1} simplemente habilita el procesamiento en paralelo para acelerar el entrenamiento del modelo.
+
+    \vspace{5mm}
+
+    \subsubsection{Resultados}
+
+    \vspace{5mm}
+
+
+    
+    \vspace{5mm}
+
+    \subsubsection{Importancia de Gini para la selección de Variables}
+
+    \vspace{5mm}
+
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.75\textwidth]{../img/code/random_forest/gini_columnas_all.png}\\
-        \caption{}
+        \includegraphics[width=1\textwidth]{../img/code/random_forest/gini_columnas_all.png}\\
+        \caption{Importancia de Gini sin procesamiento previo: Gráfico de barras}
+    \end{figure}  
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \includegraphics[height=0.6\textheight]{../img/code/random_forest/gini_df_all_1.png}
+        \end{minipage}
+        \hspace{0.05\textwidth}
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \includegraphics[height=0.6\textheight]{../img/code/random_forest/gini_df_all_2.png}
+        \end{minipage}
+        \caption{Importancia de Gini sin procesamiento previo: Dataframe}
+    \end{figure}
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/random_forest/gini_columnas_procesadas.png}\\
+        \caption{Importancia de Gini con datos procesados: Gráfico de barras}
         \label{}
     \end{figure}  
 
@@ -1029,28 +1105,18 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.75\textwidth]{../img/code/random_forest/gini_df_all.png}\\
-        \caption{}
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \includegraphics[height=0.35\textheight]{../img/code/random_forest/gini_df_procesed_1.png}
+        \end{minipage}
+        \hspace{0.1\textwidth}
+        \begin{minipage}{0.4\textwidth}
+            \centering
+            \includegraphics[height=0.35\textheight]{../img/code/random_forest/gini_df_procesed_2.png}
+        \end{minipage}
+        \caption{Importancia de Gini con datos procesados: Dataframe}
         \label{}
-    \end{figure}  
-
-    \vspace{5mm}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.75\textwidth]{../img/code/random_forest/gini_columnas_procesadas.png}\\
-        \caption{}
-        \label{}
-    \end{figure}  
-
-    \vspace{5mm}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.75\textwidth]{../img/code/random_forest/gini_df_procesed.png}\\
-        \caption{}
-        \label{}
-    \end{figure} 
+    \end{figure}
 
 
 
