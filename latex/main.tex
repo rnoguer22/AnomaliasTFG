@@ -372,13 +372,37 @@
 
     \vspace{10mm}
 
-    \newpage
-    \thispagestyle{empty}
-    \mbox{}
 
-    \section{Diseño de la Arquitectura}\label{sec: disenio_arquitectura}
+
+
+
+    \subsection{La Impureza de Gini en un Random Forest}
 
     \vspace{5mm}
+
+    En esta sección se va a ver una métrica que mide qué tan "mezcladas" se encuentran las distintas clases en un nodo en concreto de un árbol del bosque, la impuereza de Gini. Dado un conjunto de datos con $C$ clases, la impureza de Gini $G$ en un nodo $t$ de un determinado árbol se define como:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+    G(t) = 1 - \sum_{i=1}^{C} (p_i)^2
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Donde $p_i$ es la probabilidad relativa de la clase $i$ en dicho nodo. De esta manera, si $G$ es igual a 0 se dice que dicho nodo es puro. Así mismo, la importancia de una variable se puede calcular mediante la suma de todas las disminuciones de la impureza de Gini que dicha variable produce al ser utilizada para dividir los nodos en todos los árboles del bosque, ponderada por la cantidad de muestras que pasan por dichos nodos. La fórmula para el decremento de impureza $\Delta I$ tras una división $s$ en el nodo $t$ es:
+
+    \vspace{2.5mm}
+
+    \begin{equation}
+    \Delta I(s, t) = G(t) - \frac{N_{t_L}}{N_t} G(t_L) - \frac{N_{t_R}}{N_t} G(t_R)  
+    \end{equation}
+
+    \vspace{2.5mm}
+
+    Donde $N_{t_L}$ y $N_{t_R}$ son el número de muestras en los nodos hijos, tanto a la izquierda como a la derecha, respectivamente. Entonces, la importancia final de la variable $j$ sería finalmente la media de estas decrementaciones en todos los árboles del bosque. Esto es muy importante, ya que va a ser de gran de ayuda para identificar variables muy importantes para el modelo de clasificación, y otras en cambio, mucho más irrelevantes y que no aportan nada al modelo, incluso siendo negativas en algunos casos al introducir ruido. Esta teoría se implementará más adelante en (\ref{subsubsec: gini_impl}) para concluir con el proceso de \textit{feature selection}.
+
+    \vspace{10mm}
 
 
 
@@ -589,8 +613,6 @@
     
     \begin{table}[H]
         \centering
-        \caption{Variables eliminadas del modelo para mejorar la generalización en tiempo real.}
-        \label{tab:variables_eliminadas}
         \renewcommand{\arraystretch}{1.5}
         \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{10cm}|}
             \hline            
@@ -600,6 +622,8 @@
             Flow IAT (Mean, Max, Std, Min) & El tiempo de llegada entre paquetes (Inter-Arrival Time) se ve alterado por la latencia de procesamiento del sistema de captura en vivo, introduciendo ruido que no existe en el dataset estático. \\ \hline
             Active / Idle (Mean, Max, Min, Std) & Parámetros puramente temporales que describen el comportamiento de la sesión pero no la naturaleza maliciosa del paquete. Generan un fuerte sesgo hacia el entorno de laboratorio. \\ \hline
         \end{tabular}
+        \caption{Variables eliminadas del modelo para mejorar la generalización en tiempo real.}
+        \label{tab: variables_eliminadas}
     \end{table}
 
     \vspace{5mm}
@@ -1018,27 +1042,7 @@
 
     \vspace{5mm}
 
-    \subsection{Justificación de la captura de datos personalizada}
-
-    \vspace{5mm}
-
-    Para este proceso, se renunció a los datos propuestos por el \textit{Canadian Institute for Cybersecurity} (CIC) los cuales forman parte del conjunto de datos estándar para este trabajo. Esto fue para garantizar una captura de datos mucho más controlada y personalizada, ya que, aunque el CIC sea todo un referente en el ámbito de la investigación, puede suponer un gran desafío de generalización en un entorno personal.
-
-    \vspace{5mm}
-
-    El principal motivo por el que se tomó esta decisión fue la opacidad a la hora de capturar tráfico malicioso por parte del CIC, ya que en su correspondiente bibliografía [\cite{CICIDS2017_paper}] no se hace referencia ninguna herramienta utilizada para la reproducción de estos ataques, lo cual unido a la naturaleza altamente heterogénea de un ciberataque que puede etsar sujeto a múltiples configuraciones hace que sea una tarea muy complicada a la hora de reproducir tráfico malicioso en tiempo real en cualquier otro entorno, ya que las herramientas y métodos utilizados pueden diferir en gran medida de los utilizados por parte del CIC, provocando que los datos que se quieren predecir en tiempo real sean muy distintos de los datos de entrenamiento del modelo de clasificación, generando en la mayoría de casos una predicción errónea.
-
-    \vspace{5mm}
-
-    Esta discrepancia es la que, al clasificar tráfico en tiempo real sobre nuestro servidor, provoque fallos en el modelo al no reconocer patrones que, aunque sean maliciosos, no coinciden exactamente con la firma de los datos de entrenamiento. De esta manera, capturando nuestros propios datos utilizando ciertas herramientas con una configuración en específico, tanto en la fase de entrenamiento como en la de test, se garantiza que la clasificación aprenda la naturaleza específica del tráfico de red de nuestro propio entorno, lo que optimiza la precisión de la predicción en tiempo real, descartando errores y enfocando la clasficación correctamente.
-
-    \vspace{5mm}
-
-    \subsection{Configuración y parámetros del clasificador}
-
-    \vspace{5mm}
-
-    Una vez justificada la captura de los datos, pasamos a la implementación del \textit{Random Forest}. Para ello se ha  utilizado la librería \texttt{scikit-learn} [\cite{sklearn-docs}], seleccionando el algoritmo \texttt{RandomForestClassifier} con los siguientes hiperparámetros para equilibrar las capacidades de detección del modelo y previniendo el sobreajusteLa ($overfitting$):
+    A continuación se va a aplicar la teoría propuesta en (\ref{subsec: random_forest}) a la práctica, mediante la implementación de un \textit{Random Forest}. Para ello se ha  utilizado la librería \texttt{scikit-learn} [\cite{sklearn-docs}], seleccionando el algoritmo \texttt{RandomForestClassifier} con los siguientes hiperparámetros para equilibrar las capacidades de detección del modelo y previniendo el sobreajuste ($overfitting$):
 
     \vspace{2.5mm}
 
@@ -1058,15 +1062,11 @@
 
     \vspace{5mm}
 
-    \subsubsection{Resultados}
+    \subsubsection{Importancia de Gini para la selección de Variables}\label{subsubsec: gini_impl}
 
     \vspace{5mm}
 
-
-    
-    \vspace{5mm}
-
-    \subsubsection{Importancia de Gini para la selección de Variables}
+    En esta sección se va a justificar la eliminación de ciertas variables de los datos, ya que anteriormente en (\ref{tab: variables_eliminadas}) se eliminaron como medida previa al entrenamiento de la red neuronal, explicando a medias el razonamiento. Es aquí, gracias a la importancia de Gini que se puede justificar este cambio por completo. Inicialmente, nuestros datos parten de la siguiente manera (habiendo hecho un análisis de correlación previamente en (\ref{fig: corr_matrix_cleaned})):
 
     \vspace{5mm}
 
@@ -1075,6 +1075,10 @@
         \includegraphics[width=1\textwidth]{../img/code/random_forest/gini_columnas_all.png}\\
         \caption{Importancia de Gini sin procesamiento previo: Gráfico de barras}
     \end{figure}  
+
+    \vspace{5mm}
+
+    Sin embargo este gráfico únicamente nos muestra las 15 variables con mayor importancia en el dataset. Para ver de cuales se va a prescindir, nos vemos en la necesidad de mostrar todas las varables al completo:
 
     \vspace{5mm}
 
@@ -1091,6 +1095,10 @@
         \end{minipage}
         \caption{Importancia de Gini sin procesamiento previo: Dataframe}
     \end{figure}
+
+    \vspace{5mm}
+
+    En esta imagen se aprecia, a través de un dataframe previo que garantiza una mejor visualización de los datos, aquellos campos que carecen de significado para el modelo. Entre estos campos destacan algunos como \textit{Flow Duration} y tiempos de llegada entre paquetes (IAT) los cuales dependen en mayor medida de la velocidad del entorno de red donde se realicen las pruebas, otras métricas de rendimiento del hardware y de la carga de red en un momento dado (\textit{Flow Byte/s, Flow Packet/s}), y otros parámetros temporales que no interfieren en la naturaleza maliciosa del ataque
 
     \vspace{5mm}
 
@@ -1118,6 +1126,32 @@
         \label{}
     \end{figure}
 
+    \vspace{5mm}
+
+    Por ello, tras su correcta eliminación, se comprueba que las variables con mayor importancia permanecen prácticamente igual, lo que justifica perfectamente la eliminación de las variables anteriores, obteniendo un modelo mucho más ligero y preparado para analizar características intrínsecas propias de tráfico malicioso.
+
+    \vspace{5mm}
+
+    \subsection{Justificación de la captura de datos personalizada}
+
+    \vspace{5mm}
+
+    En este proceso de clasificación de un tráfico que se sabe a ciencia cierta su carácter malicioso, se han realizado dos distintas pruebas: La primera con los datos propuestos por el \textit{Canadian Institute for Cybersecurity} (CIC) ya que forman parte del conjunto de datos estándar para este trabajo, y una segunda en la que se renunció a dichos datos. Esto fue para garantizar una captura de datos mucho más controlada y personalizada, ya que, aunque el CIC sea todo un referente en el ámbito de la investigación, puede suponer un gran desafío de generalización en un entorno personal.
+
+    \vspace{5mm}
+
+    El principal motivo por el que se tomó esta decisión fue la opacidad a la hora de capturar tráfico malicioso por parte del CIC, ya que en su correspondiente bibliografía [\cite{CICIDS2017_paper}] no se hace referencia ninguna herramienta utilizada para la reproducción de estos ataques, lo cual unido a la naturaleza altamente heterogénea de un ciberataque que puede estar sujeto a múltiples configuraciones, hace que sea una tarea muy complicada a la hora de reproducir tráfico malicioso en tiempo real en cualquier otro entorno, ya que las herramientas y métodos utilizados pueden diferir en gran medida de aquellos propuestos por parte del CIC, provocando que los datos que se quieran predecir en tiempo real sean muy distintos de los datos de entrenamiento del modelo de clasificación, generando en la mayoría de casos una predicción errónea.
+
+    \vspace{5mm}
+
+    Esta discrepancia es la que, al clasificar tráfico en tiempo real sobre nuestro servidor, provoque fallos en el modelo al no reconocer patrones que, aunque sean maliciosos, no coinciden exactamente con la firma de los datos de entrenamiento. De esta manera, capturando nuestros propios datos utilizando ciertas herramientas con una configuración en específico, tanto en la fase de entrenamiento como en la de test, se garantiza que la clasificación aprenda la naturaleza específica del tráfico de red de nuestro propio entorno, lo que optimiza la precisión de la predicción en tiempo real, descartando errores y enfocando la clasficación correctamente.
+
+    \vspace{5mm}
+
+    \subsubsection{Resultados}
+
+    \vspace{5mm}
+
 
 
 
@@ -1128,7 +1162,7 @@
     \thispagestyle{empty}
     \mbox{}
 
-    \section{Demo}\label{sec: demo}
+    \section{conclusiones}\label{sec: conclusiones}
 
     \vspace{5mm}
 
