@@ -416,7 +416,7 @@
 
     \vspace{5mm}
 
-    En esta sección vamos a aplicar lo visto en la teoría de manera práctica. Para ello se ha utilizado un set de datos del \textbf{CIC} (\textit{Canadian Institute for Cibersecurity}), institución que nos ofrece datos de logs ya preprocesados, clasificados y con una limpieza previa para aplicarlos directamente a algoritmos de \textit{Machine Learning} y \textit{Deep Learning}, ahorrando bastante carga de trabajo. Los datos se encuentran disponibles en (\cite{CICIDS2017}).
+    En esta sección vamos a aplicar lo visto en la teoría de manera práctica. Para ello se ha utilizado un set de datos del \textbf{CIC} (\textit{Canadian Institute for Cibersecurity}), institución que nos ofrece datos de logs ya preprocesados, clasificados y con una limpieza previa para aplicarlos directamente a algoritmos de \textit{Machine Learning} y \textit{Deep Learning}, ahorrando bastante carga de trabajo. Los datos se encuentran disponibles en \cite{CICIDS2017}.
 
     \vspace{5mm}
 
@@ -665,7 +665,7 @@
 
     \vspace{2.5mm}
 
-    Con esta función nos estamos ayudando de la librería Scikit-Learn de Python, disponible en [\cite{sklearn-docs}]. Internamente, se está aplicando la siguiente transformación para el escalado de cada uno de los datos:
+    Con esta función nos estamos ayudando de la librería Scikit-Learn de Python, disponible en \cite{sklearn-docs}. Internamente, se está aplicando la siguiente transformación para el escalado de cada uno de los datos:
 
     \vspace{2.5mm}
 
@@ -773,7 +773,7 @@
 
     \vspace{5mm}
 
-    Durante esta etapa se probaron distintos ataques para verificar que el modelo detecta el tráfico inusual de red correctamente, detectando así tráfico malicioso hacia el servidor en tiempo real. El primer caso que se probó fue una denegación de servicio (\textbf{DoS}) a través de la herramienta \textbf{hping3}, generando así paquetes TCP/IP de gran tamaño y a muy alta velocidad con el fin de saturar el servidor. Es importante destacar que el servidor no quedó obsoleto por el número de paquetes debido a las características modernas de apache, aunque lo primordial con esta prueba es detectar el ciberataque antes de que tenga éxito para proteger nuestro servidor. Podemos encontrar documentación acerca de esta herramienta en (\cite{hping3_docs}), poniendo como ejemplo el siguiente comando para reproducir el envío masivo de paquetes:
+    Durante esta etapa se probaron distintos ataques para verificar que el modelo detecta el tráfico inusual de red correctamente, detectando así tráfico malicioso hacia el servidor en tiempo real. El primer caso que se probó fue una denegación de servicio (\textbf{DoS}) a través de la herramienta \textbf{hping3}, generando así paquetes TCP/IP de gran tamaño y a muy alta velocidad con el fin de saturar el servidor. Es importante destacar que el servidor no quedó obsoleto por el número de paquetes debido a las características modernas de apache, aunque lo primordial con esta prueba es detectar el ciberataque antes de que tenga éxito para proteger nuestro servidor. Podemos encontrar documentación acerca de esta herramienta en \cite{hping3_docs}, poniendo como ejemplo el siguiente comando para reproducir el envío masivo de paquetes:
 
     \begin{minted}{python}
             sudo hping3 -S -p 80 -s 5050 -i u100 127.0.0.1
@@ -956,7 +956,7 @@
 
     \vspace{5mm}
 
-    En primera instancia, se tomaron valores reales de tráfico de paquetes en una red doméstica. Se pudo haber usado directamente los datos de entrenamiento, pero consideramos que esto es una mejor opción debido a la variabilidad de un entorno real, que frente a la naturaleza estadística de nuestros datos de entrenamiento, incluyen ruido del sistema operativo, latencia de red, diferencias en las cabeceras HTTP, etc. Es por esto que se almacenaron datos del MSE como resultado de pasar dichos flujos de red por el autoencoder, flujos realizados desde distintos dispositivos y cuyo archivo se encuentra en el repositorio de Github de este trabajo (\cite{github_tfg}).
+    En primera instancia, se tomaron valores reales de tráfico de paquetes en una red doméstica. Se pudo haber usado directamente los datos de entrenamiento, pero consideramos que esto es una mejor opción debido a la variabilidad de un entorno real, que frente a la naturaleza estadística de nuestros datos de entrenamiento, incluyen ruido del sistema operativo, latencia de red, diferencias en las cabeceras HTTP, etc. Es por esto que se almacenaron datos del MSE como resultado de pasar dichos flujos de red por el autoencoder, flujos realizados desde distintos dispositivos y cuyo archivo se encuentra en el repositorio de Github de este trabajo \cite{github_tfg}.
 
     \vspace{5mm}
 
@@ -983,12 +983,12 @@
     \vspace{2.5mm}
 
     \begin{equation*}
-        \tau = \mu + \left( k \cdot \sigma \right) = 2.374 + \left( 5 \cdot 2.1401 \right) = 13.0748
+        \tau = \mu + \left( k \cdot \sigma \right) = 1.4366 + \left( 5 \cdot 1.5654 \right) = 9.2634
     \end{equation*}
 
     \vspace{2.5mm}
 
-    Con este método logramos obtener un umbral de $\tau = 13.0748$, el cual veremos que es el más conservador de los tres modelos de umbrales que se va a ver.
+    Con este método logramos obtener un umbral de $\tau = 9.2634$, el cual veremos que es el más conservador de los tres modelos de umbrales que se va a ver.
 
     \vspace{10mm}
 
@@ -1001,7 +1001,7 @@
     \vspace{2.5mm}
 
     \begin{equation}
-        \tau = P_{99.9} \left( \text{MSE}_{benigno} \right) = 10.8581
+        \tau = P_{99.9} \left( \text{MSE}_{benigno} \right) = 6.5387
     \end{equation}
 
     \vspace{2.5mm}
@@ -1029,7 +1029,7 @@
     \vspace{2.5mm}
 
     \begin{equation*}
-        \boxed{\tau = 13.0748}
+        \boxed{\tau = 9.2634}
     \end{equation*}
 
     \vspace{10mm}
@@ -1042,7 +1042,7 @@
 
     \vspace{5mm}
 
-    A continuación se va a aplicar la teoría propuesta en (\ref{subsec: random_forest}) a la práctica, mediante la implementación de un \textit{Random Forest}. Para ello se ha  utilizado la librería \texttt{scikit-learn} [\cite{sklearn-docs}], seleccionando el algoritmo \texttt{RandomForestClassifier} con los siguientes hiperparámetros para equilibrar las capacidades de detección del modelo y previniendo el sobreajuste ($overfitting$):
+    A continuación se va a aplicar la teoría propuesta en (\ref{subsec: random_forest}) a la práctica, mediante la implementación de un \textit{Random Forest}. Para ello se ha  utilizado la librería \texttt{scikit-learn} \cite{sklearn-docs}, seleccionando el algoritmo \texttt{RandomForestClassifier} con los siguientes hiperparámetros para equilibrar las capacidades de detección del modelo y previniendo el sobreajuste ($overfitting$):
 
     \vspace{2.5mm}
 
@@ -1132,24 +1132,112 @@
 
     \vspace{5mm}
 
-    \subsection{Justificación de la captura de datos personalizada}
+
+
+
+
+    \subsubsection{Primeros resultados}\label{subsubsec: primeros_resultados}
 
     \vspace{5mm}
 
-    En este proceso de clasificación de un tráfico que se sabe a ciencia cierta su carácter malicioso, se han realizado dos distintas pruebas: La primera con los datos propuestos por el \textit{Canadian Institute for Cybersecurity} (CIC) ya que forman parte del conjunto de datos estándar para este trabajo, y una segunda en la que se renunció a dichos datos. Esto fue para garantizar una captura de datos mucho más controlada y personalizada, ya que, aunque el CIC sea todo un referente en el ámbito de la investigación, puede suponer un gran desafío de generalización en un entorno personal.
+    Tras un primer entrenamiento del \textit{Random Forest}, lo resultados no coincidieron con lo esperado, y esto se debe a la naturaleza de los datos de partida. Tras un previo análisis, se identificó un fuerte sesgo en la distribución de muestras de carácter malicioso, ya que ciertos ataques, \textit{DoS Hulk} y \textit{DoS Goldeneye} para ser más específicos, representan una gran descompensación con el resto de amenazas:
 
     \vspace{5mm}
 
-    El principal motivo por el que se tomó esta decisión fue la opacidad a la hora de capturar tráfico malicioso por parte del CIC, ya que en su correspondiente bibliografía [\cite{CICIDS2017_paper}] no se hace referencia ninguna herramienta utilizada para la reproducción de estos ataques, lo cual unido a la naturaleza altamente heterogénea de un ciberataque que puede estar sujeto a múltiples configuraciones, hace que sea una tarea muy complicada a la hora de reproducir tráfico malicioso en tiempo real en cualquier otro entorno, ya que las herramientas y métodos utilizados pueden diferir en gran medida de aquellos propuestos por parte del CIC, provocando que los datos que se quieran predecir en tiempo real sean muy distintos de los datos de entrenamiento del modelo de clasificación, generando en la mayoría de casos una predicción errónea.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/class_distribution_malign_cleaned.png}\\
+        \caption{Distribución de clases de carácter malicioso tras análisis de duplicados}
+        \label{}
+    \end{figure}  
 
     \vspace{5mm}
 
-    Esta discrepancia es la que, al clasificar tráfico en tiempo real sobre nuestro servidor, provoque fallos en el modelo al no reconocer patrones que, aunque sean maliciosos, no coinciden exactamente con la firma de los datos de entrenamiento. De esta manera, capturando nuestros propios datos utilizando ciertas herramientas con una configuración en específico, tanto en la fase de entrenamiento como en la de test, se garantiza que la clasificación aprenda la naturaleza específica del tráfico de red de nuestro propio entorno, lo que optimiza la precisión de la predicción en tiempo real, descartando errores y enfocando la clasficación correctamente.
+    Este gráfico muestra el sesgo que se ha hablado anteriormente, mostrando que tras un análisis de datos duplicados la cantidad de datos maliciosos se concentra mucho más entorno a \textit{DoS Hulk} y \textit{DoS Goldeneye}, lo que hace que el resto de opciones sean de carácter invisible en la clasificación al no presentar apenas datos. Este desequilibrio conlleva una serie de problemas en la clasificación del modelo:
 
     \vspace{5mm}
 
-    \subsubsection{Resultados}
+    \begin{itemize}
+        \item \textbf{Sesgo Algorítmico:} Al presentar una desproporción tan grande de datos en las muestras de \textit{Hulk} y \textit{GoldenEye}, los distintos clasificadores del bosque aprenden con mayor detalle este tipo de tráfico pero quedan estancados en un aprendizaje mucho más superficial y general con el resto de ataques.
+        
+        \vspace{2.5mm}
 
+        \item \textbf{Predominancia de Falsos Positivos:} De manera ligada al punto anterior, al conocer mucho mejor las características de un par de clasificaciones en concreto, el modelo genera una fuerte tendencia a clasificar las opciones que mejor conoce, las cuales son \textit{DoS Hulk} y \textit{DoS Goldeneye}, por una mera cuestión de probabilidad derivada en el entrenamiento.
+        
+        \vspace{2.5mm}
+
+        \item \textbf{Generalización Deficiente:} Al presentar una gran escasez de muestras en ataques como \textit{SQL Injection} o \textit{Botnets} impiden que el algoritmo identifique patrones muy característicos, generando muy poca confianza en la predicción del resto de clases.
+    \end{itemize}
+
+    \vspace{5mm}
+
+    Tras esto se puede explicar el resultado de innumerables pruebas erróneas generadas por el modelo, reproduciendo ataques con distintas herramientas presentadas en (\ref{subsec: pruebas_penetracion_sqlmap_hydra}) y observando que los flujos de red generados son etiquetados incorrectamente como \textit{Dos GoldenEye} o \textit{DoS Hulk} en la gran mayoría de los casos. Además, sumado a una baja confianza del modelo a la hora de la clasificación final  (normalmente cercana al 40\%) quiere decir que el modelo se encuentra con mucha indecisión debido a este fuerte sesgo.
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.49\textwidth}
+            \centering
+            \includegraphics[width=0.37\textheight]{../img/mse/mse_hulk.png}
+        \end{minipage}
+        \begin{minipage}{0.49\textwidth}
+            \centering
+            \includegraphics[width=0.37\textheight]{../img/mse/mse_goldeneye.png}
+        \end{minipage}
+        \caption{Predicciones erróneas en la clasificación inicial}
+        \label{}
+    \end{figure}    
+
+    \vspace{5mm}
+
+    Con esto vemos que las predicciones no son correctas, por lo que se ha de buscar una solución para corregirlas. En la siguiente sección se muestra la medida adoptada para solucionar este problema, mediante la generación de tráfico  adicional, implementado directamente en un entorno de red propio y mucho más controlado, con total transparencia a la hora de mostrar las herramientas y metodologías implementadas para mitigar este problema y mejorar la equidad en la detección de todas las opciones posibles.
+
+    \vspace{5mm}
+
+
+
+
+
+    \subsubsection{Captura de datos personalizada}
+
+    \vspace{5mm}
+
+    Una vez se ha detectado el sesgo visto en la sección anterior (\ref{subsubsec: primeros_resultados}), se ha capturado el tráfico malicioso de la reproducción de ataques en una red doméstica, simulando un entorno de laboratorio controlado para la captura. Para la simulación de ataques de denegación de servicio \textit{DoS} se ha utilizado la herramienta \texttt{hping3}, la cual permite generar fuertes inundaciones de paquetes TCP/IP, al igual que \texttt{sqlmap} para inyecciones \textit{SQL}, ya que automatiza la detección de vulnerabildades \textit{SQL}.
+
+    \vspace{5mm}
+
+    Por otra parte, nos hemos apoyado en la herramienta de código abierto creada por Janse de Visser y Jan Seidl \cite{goldeneye_repo} para ataques \textit{DoS Goldeneye}, la cual se puede ejecutar a través de un fichero de Python, de la misma manera que uno de los scripts creados para este proyecto, \texttt{bruteforce.py}, el cual se puede encontrar en el repositorio de este trabajo \cite{github_tfg}, generando un ataque de fuerza bruta (\textit{Bruteforce}), al igual que se ha hecho con \texttt{hydra} como se vio anteriormente en (\ref{fig: mse_hydra}).
+
+    \vspace{5mm}
+
+    Por último, ya que no se han implementado todos los ataques que se disponen en los datos originales, se ha concluido con \texttt{slowhttptest}, especializándose en ataques de bajo ancho de banda como \textit{DoS Slowhttptest}. Con estos datos se puede entrenar correctamente un modelo mucho más homogéneo en cuanto a distribución de clases, propiciando un buen desempeño del modelo con predicciones mucho más precisas, ya que el flujo generado para el entrenamiento tiene características mucho más similares a los datos del entorno de pruebas, erradicando el sesgo que provocaba fuertes confusiones en la clasificación final:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/class_distribution_malign_cleaned.png}\\
+        \caption{Distribución de clases de carácter malicioso del tráfico capturado}
+        \label{}
+    \end{figure}  
+
+    \vspace{5mm}
+
+    Finalmene, esta captura personalizada de datos resultó ser fundamental para el equilibrio de los datos, ya que permite que el clasificador \textit{Random Forest} sea entrenado con una representación más equitativa y realista de cada categoría de ataque, lo que se traduce en unos resultados mucho más acorde a los esperado, como se verá en la siguiente sección.
+
+    \vspace{5mm}
+
+
+
+
+
+    \subsubsection{Resultados finales}
+
+    \vspace{5mm}
+
+
+    
     \vspace{5mm}
 
 
@@ -1180,7 +1268,7 @@
     \mbox{}
     
     \nocite{*} % Esto incluye todas las referencias aunque no se citen
-    \bibliographystyle{apalike} % Estilo APA
+    \bibliographystyle{ieeetr}
     \bibliography{referencias} % Archivo .bib con las referencias
 
 
