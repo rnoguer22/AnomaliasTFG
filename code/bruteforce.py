@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-url = "http://192.168.1.50/index.php"
+url = "http://192.168.1.176/index.php"
 username = "admin"
 password_file = os.getenv('ROCKYOU_PATH')
 

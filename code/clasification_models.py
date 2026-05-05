@@ -5,6 +5,8 @@ import os
 import matplotlib.pyplot as plt
 from config.columns import COLUMNS, COLUMNS_ALL
 import dataframe_image as dfi
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from dotenv import load_dotenv
 from sklearn.ensemble import RandomForestClassifier
@@ -33,13 +35,27 @@ class Clasification_Model:
         self.captured = captured
 
         if captured:
-            self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_captured.csv'))
+            self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_captured_cleaned.csv'))
             self.model_path = os.path.join(self.repo_path, 'data/model/captured/')
         else:
             self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_cleaned.csv'))
             self.model_path = os.path.join(self.repo_path, 'data/model/')
-        print('\nModel path: ', self.model_path)    
+        # print('\nModel path: ', self.model_path)    
 
+
+    # Metodo para obtener un dataframe con n muestras de los posibles valores en ' Label'
+    def get_df_samples(self, df, n_samples = 10):
+        labels = df[' Label'].unique()
+        sample_labels = []
+
+        for label in labels:
+            df_temp = df[df[' Label'] == label]
+            samples = df_temp.sample(n=min(n_samples, len(df_temp)), random_state=42)  
+            sample_labels.append(samples)
+
+        df_muestras = pd.concat(sample_labels, axis=0)
+        df_muestras = df_muestras.reset_index(drop=True)
+        return df_muestras
 
 
     # Creamos una funcion auxiliar para evaluar los modelos y ver datos como la accuracy, precision, f1, etc.
@@ -122,7 +138,6 @@ class Clasification_Model:
         models = ['RandomForestClassifier', 'XGBClassifier', 'KNeighborsClassifier', 'MLPClassifier']
         if model in models:
             model_name, prediction_text, confianza = self.get_model_results(model, stream_flow, revert_map_encoder_dict)  
-            print(f" -> {model_name.ljust(15)} : {prediction_text} (Confianza: {confianza:.2f}%)")
             return model_name, prediction_text, confianza
 
         else: 
@@ -130,7 +145,6 @@ class Clasification_Model:
             for model in models:
                 model_name, prediction_text, confianza = self.get_model_results(model, stream_flow, revert_map_encoder_dict)  
                 result_models_list.append([model_name, prediction_text, confianza])
-                print(f" -> {model_name.ljust(15)} : {prediction_text} (Confianza: {confianza:.2f}%)")
             return result_models_list    
 
 
@@ -140,7 +154,7 @@ class Clasification_Model:
         model_file_path = os.path.join(self.model_path, f'{model_name}.pkl')
 
         if os.path.exists(model_file_path):
-            print('Loading clasificatoin model: ', model_file_path)
+            # print('Loading clasificatoin model: ', model_file_path)
             model = joblib.load(model_file_path)
 
             # Realizamos la prediccion con el modelo, esta clasificacion sera un numero, por lo que tenemos que aplicar el label_encoder inverso que obtuvimos antes
@@ -219,10 +233,12 @@ if __name__ == "__main__":
     clasif = Clasification_Model(captured=False)  
 
     # Obtenemos los datos de train y test de los logs con intenciones maliciosas, ya que son este tipo de anomalias las que queremos clasificar
-    # Podemos usar el df de los datos del CIC, o el df generado en mi propio entorno
-    # df = clasif.df_malign_captured
-    # clasif.set_captured(True)
     df = clasif.df_malign
+    df = df.drop_duplicates()
+
+    # df_sample = clasif.get_df_samples(df)
+    # df_sample.to_csv(os.path.join(clasif.df_path, 'df_malign_captured_samples.csv'), index=False)
+    
     X = df.drop(" Label", axis=1)
     y = df[" Label"]  
 
@@ -251,12 +267,11 @@ if __name__ == "__main__":
     # joblib.dump(clasif.scaler_class, os.path.join(clasif.model_path, 'scaler_class.pkl'))
 
     # Entrenamos los distintos modelos
-    clasif.train_rf(X_train_scaled, y_train, X_test_scaled, y_test, save = False)
+    clasif.train_rf(X_train_scaled, y_train, X_test_scaled, y_test, save = True)
     '''
     clasif.train_xgb(X_train_scaled, y_train, X_test_scaled, y_test)
     clasif.train_knn(X_train_scaled, y_train, X_test_scaled, y_test)
     clasif.train_mlp(X_train_scaled, y_train, X_test_scaled, y_test)
     '''
-
     # print(clasif.show_gini_importance())
     # print(clasif.show_permutation(X_test, y_test))

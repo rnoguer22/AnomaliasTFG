@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
-import time
 import csv
 from dotenv import load_dotenv
 
@@ -30,9 +29,6 @@ class Detection:
         self.autoencoder = joblib.load(os.path.join(self.model_path, 'autoencoder.pkl'))
         print(self.autoencoder.summary())
 
-        self.max_time = 10
-        self.buffer_flow = {}
-
         # Definimos las columnas que debe tener el flujo de datos
         # Estas se encuentran definidas en el fichero code/config/columns.py
         self.columns = COLUMNS    
@@ -40,48 +36,39 @@ class Detection:
 
 
     # Metodo para mapear el flujo de datos que nos da nfstream al formato que tienen los dataframes con los datos de CICIDS2017
-    def map_flow(self, flows, ip, port):
-        print(f'Conviertiendo datos {ip}:{port}...')
+    def map_flow(self, flow):
+        tot_fwd_pkts = flow.src2dst_packets
+        tot_bwd_pkts = flow.dst2src_packets
+        tot_pkts = flow.bidirectional_packets
 
-        # 1. Agregamos las métricas sumables (Volumen y Duración)
-        dur_ms = sum(f.bidirectional_duration_ms for f in flows)
-        dur_sec = dur_ms / 1000.0 if dur_ms > 0 else 0.0001 # Evitar division por cero
-
-        tot_fwd_pkts = sum(f.src2dst_packets for f in flows)
-        tot_bwd_pkts = sum(f.dst2src_packets for f in flows)
-        tot_fwd_bytes = sum(f.src2dst_bytes for f in flows)
-        tot_bwd_bytes = sum(f.dst2src_bytes for f in flows)
-        tot_pkts = sum(f.bidirectional_packets for f in flows)
-        tot_bytes = sum(f.bidirectional_bytes for f in flows)
-
-        # 2. Mapeamos calculando máximos, mínimos y promedios del bloque
+        # Mapeamos calculando máximos, mínimos y promedios del bloque        
         row = {            
             ' Total Fwd Packets': tot_fwd_pkts,
-            'Total Length of Fwd Packets': tot_fwd_bytes,
+            'Total Length of Fwd Packets': flow.src2dst_bytes,
 
-            ' Fwd Packet Length Max': max(f.src2dst_max_ps for f in flows),
-            ' Fwd Packet Length Min': min(f.src2dst_min_ps for f in flows),
-            ' Fwd Packet Length Mean': (tot_fwd_bytes / tot_fwd_pkts) if tot_fwd_pkts > 0 else 0,
-            'Bwd Packet Length Max': max(f.dst2src_max_ps for f in flows),
-            ' Bwd Packet Length Min': min(f.dst2src_min_ps for f in flows),
+            ' Fwd Packet Length Max': flow.src2dst_max_ps,
+            ' Fwd Packet Length Min': flow.src2dst_min_ps,
+            ' Fwd Packet Length Mean': (flow.src2dst_bytes / tot_fwd_pkts) if tot_fwd_pkts > 0 else 0,
+            'Bwd Packet Length Max': flow.dst2src_max_ps,
+            ' Bwd Packet Length Min': flow.dst2src_min_ps,
 
-            # Flags TCP (1 si CUALQUIER flujo en la ventana tiene esta flag)
-            'Fwd PSH Flags': 1 if any(f.src2dst_psh_packets > 0 for f in flows) else 0,
-            ' Bwd PSH Flags': 1 if any(f.dst2src_psh_packets > 0 for f in flows) else 0,
-            ' Fwd URG Flags': 1 if any(f.src2dst_urg_packets > 0 for f in flows) else 0,
-            ' Bwd URG Flags': 1 if any(f.dst2src_urg_packets > 0 for f in flows) else 0,
-            'FIN Flag Count': 1 if any(f.bidirectional_fin_packets > 0 for f in flows) else 0,
-            ' SYN Flag Count': 1 if any(f.bidirectional_syn_packets > 0 for f in flows) else 0,
-            ' RST Flag Count': 1 if any(f.bidirectional_rst_packets > 0 for f in flows) else 0,
-            ' PSH Flag Count': 1 if any(f.bidirectional_psh_packets > 0 for f in flows) else 0,
-            ' ACK Flag Count': 1 if any(f.bidirectional_ack_packets > 0 for f in flows) else 0,
-            ' URG Flag Count': 1 if any(f.bidirectional_urg_packets > 0 for f in flows) else 0,
+            # Flags TCP (Se mapean directamente desde el flujo único)
+            'Fwd PSH Flags': 1 if flow.src2dst_psh_packets > 0 else 0,
+            ' Bwd PSH Flags': 1 if flow.dst2src_psh_packets > 0 else 0,
+            ' Fwd URG Flags': 1 if flow.src2dst_urg_packets > 0 else 0,
+            ' Bwd URG Flags': 1 if flow.dst2src_urg_packets > 0 else 0,
+            'FIN Flag Count': 1 if flow.bidirectional_fin_packets > 0 else 0,
+            ' SYN Flag Count': 1 if flow.bidirectional_syn_packets > 0 else 0,
+            ' RST Flag Count': 1 if flow.bidirectional_rst_packets > 0 else 0,
+            ' PSH Flag Count': 1 if flow.bidirectional_psh_packets > 0 else 0,
+            ' ACK Flag Count': 1 if flow.bidirectional_ack_packets > 0 else 0,
+            ' URG Flag Count': 1 if flow.bidirectional_urg_packets > 0 else 0,
 
             # Tamaños y Varianza global
-            ' Min Packet Length': min(f.bidirectional_min_ps for f in flows),
-            ' Max Packet Length': max(f.bidirectional_max_ps for f in flows),
-            ' Packet Length Mean': (tot_bytes / tot_pkts) if tot_pkts > 0 else 0,
-            ' Packet Length Variance': np.mean([f.bidirectional_stddev_ps**2 for f in flows]),
+            ' Min Packet Length': flow.bidirectional_min_ps,
+            ' Max Packet Length': flow.bidirectional_max_ps,
+            ' Packet Length Mean': (flow.bidirectional_bytes / tot_pkts) if tot_pkts > 0 else 0,
+            ' Packet Length Variance': flow.bidirectional_stddev_ps**2, 
             
             # Otros campos
             ' Down/Up Ratio': (tot_bwd_pkts / tot_fwd_pkts) if tot_fwd_pkts > 0 else 0,
@@ -109,65 +96,59 @@ class Detection:
                             source="any",
                             statistical_analysis=True, # Muy importante para capturar metricas estadisticas de la red (si no, faltarian todavia mas variables para convertir los datos)
                             splt_analysis=0,
-                            #bpf_filter=f"host {server_ip} and port 80",
                             bpf_filter=f"port 80",
                             promiscuous_mode=True,
                             idle_timeout=15, 
-                            active_timeout=5)
+                            active_timeout=120)
 
         print("Iniciando rastreo de datos en tiempo real...")
 
         try:
             # Entramos en un bucle hasta que se detecte algun flujo, o hasta que el usuario detenga el programa
             for flow in nfstreamer:
-                if 0 <= flow.dst_port < 1024 or flow.dst_port == 5050:
-                    init_time = time.time()
-
-                    if flow.src_ip not in self.buffer_flow:
-                        self.buffer_flow[flow.src_ip] = {'flows': [], 'init_time': init_time}
-
-                    self.buffer_flow[flow.src_ip]['flows'].append(flow)      
-
-                    if init_time - self.buffer_flow[flow.src_ip]['init_time'] >= self.max_time:
-
-                        flows = self.buffer_flow[flow.src_ip]['flows']
-
-                        # Llamamos al metodo map_flow para que los datos tengan el mismo formato que el dataset                
-                        df_live = self.map_flow(flows, flow.src_ip, flow.dst_port)
-                        print(f'Trafico recibido: {flow.src_ip}:{flow.dst_port}. {df_live[' Total Fwd Packets'].values[0]} packets')
-
-                        # Aplicamos el scaler para que los datos tengan la misma escala que los datos de entrenamiento
-                        df_flow_scaled = self.scaler.transform(df_live)
-
-                        # A continuacion pasamos el flujo de datos por el autoencoder
-                        prediction = self.autoencoder.predict(df_flow_scaled)
-                        # Y calculamos el error cuadratico medio MSE
-                        mse = round(np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0], 4)
-                        print('MSE: ', mse)
-
-                        # Guardamos los datos en un fichero .csv
-                        # Hacemos esto para la deteccion del umbral 
-                        # self.save_data_csv(flow.src_ip, mse)
-
-                        umbral_instance = Umbral()
-                        umbral = umbral_instance.metodo_desviacion_estandar()[0]
-                        if mse >= umbral:
-                            print('Ataque detectado!')
-
-                            print('Arrancando el sistema de prediccion de ataques...')
-
-                            clasification = Clasification_Model(captured=True)
-                            self.scaler_class = joblib.load(os.path.join(clasification.model_path, 'scaler_class.pkl'))
-                            df_flow_scaled = self.scaler_class.transform(df_live)
-                            model_name, prediction_text, confianza = clasification.predict_stream_flow(df_flow_scaled, 'RandomForestClassifier')
-                            
-                            # Y ahora vendria la logica para enviar el mensaje de telegram
-
-                        # self.save_class_data_csv(df_live, 'DoS', os.path.join(self.repo_path, 'data/df/dos_check.csv'))
-
-                        # Limpiamos el flujo del buffer para recibir nuevos datos
-                        del self.buffer_flow[flow.src_ip]
+                if 0 <= flow.dst_port < 1024 or flow.dst_port == 5050:   
                     
+                    # Evitamos flujos rotos o trafico residual
+                    # if flow.bidirectional_packets < 4 and flow.bidirectional_bytes < 200:
+                        # continue
+
+                    # Llamamos al metodo map_flow para que los datos tengan el mismo formato que el dataset                
+                    df_live = self.map_flow(flow)
+                    print(f'\nFlujo completado {flow.src_ip}:{flow.src_port} -> {flow.dst_ip}:{flow.dst_port} | Packets: {flow.bidirectional_packets}')
+
+                    # Aplicamos el scaler para que los datos tengan la misma escala que los datos de entrenamiento
+                    df_flow_scaled = self.scaler.transform(df_live)
+
+                    # A continuacion pasamos el flujo de datos por el autoencoder
+                    prediction = self.autoencoder.predict(df_flow_scaled)
+                    # Y calculamos el error cuadratico medio MSE
+                    mse = round(np.mean(np.power(df_flow_scaled - prediction, 2), axis=1)[0], 4)
+                    print(mse)
+
+                    # Guardamos los datos en un fichero .csv
+                    # Hacemos esto para la deteccion del umbral 
+                    # self.save_mse_data_csv(flow.src_ip, mse)
+
+                    self.save_class_data_csv(df_live, 'DOS')
+                    
+                    '''
+                    umbral_instance = Umbral()
+                    umbral = umbral_instance.metodo_desviacion_estandar()[0]
+                    if mse >= umbral:
+                        print('Ataque detectado! MSE: ', mse)
+                        # self.save_class_data_csv(df_live, 'Bruteforce')
+
+                        clasification = Clasification_Model(captured=False)
+                        self.scaler_class = joblib.load(os.path.join(clasification.model_path, 'scaler_class.pkl'))
+                        df_flow_scaled = self.scaler_class.transform(df_live)
+                        
+                        model_name, prediction_text, confianza = clasification.predict_stream_flow(df_flow_scaled, 'RandomForestClassifier')    
+                        print(f" -> {model_name.ljust(15)}: {prediction_text}, ({confianza:.2f}%)")
+
+                        # Y ahora vendria la logica para enviar el mensaje de telegram
+                    '''
+
+
                 else:
                     print(f'Obviando flujo en puerto residual: {flow.dst_port}')    
 
@@ -177,7 +158,7 @@ class Detection:
 
 
     # Metodo para guardar tanto la IP como el MSE en un fichero csv, lo cual es util para determinar el umbral
-    def save_data_csv(self, ip, mse):
+    def save_mse_data_csv(self, ip, mse):
         file_exists = os.path.isfile(self.csv_mse_path)
         with open(self.csv_mse_path, mode='a', newline='') as f:
             writer = csv.writer(f)
