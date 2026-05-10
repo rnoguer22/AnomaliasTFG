@@ -1199,7 +1199,7 @@
 
 
 
-    \subsubsection{Captura de datos personalizada}
+    \subsubsection{Captura de datos personalizada}\label{subsubsec: captura_datos_personalizada}
 
     \vspace{5mm}
 
@@ -1217,14 +1217,14 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=1\textwidth]{../img/code/class_distribution_malign_cleaned.png}\\
+        \includegraphics[width=1\textwidth]{../img/code/class_distribution_malign_captured_cleaned.png}\\
         \caption{Distribución de clases de carácter malicioso del tráfico capturado}
         \label{}
     \end{figure}  
 
     \vspace{5mm}
 
-    Finalmene, esta captura personalizada de datos resultó ser fundamental para el equilibrio de los datos, ya que permite que el clasificador \textit{Random Forest} sea entrenado con una representación más equitativa y realista de cada categoría de ataque, lo que se traduce en unos resultados mucho más acorde a los esperado, como se verá en la siguiente sección.
+    Finalmene, esta captura personalizada de datos resultó ser fundamental para el equilibrio de los datos, ya que permite que el clasificador \textit{Random Forest} sea entrenado con una representación más equitativa y realista de cada categoría de ataque, lo que se traduce en unos resultados mucho más acorde a lo esperado, como se verá en la siguiente sección.
 
     \vspace{5mm}
 
@@ -1236,10 +1236,66 @@
 
     \vspace{5mm}
 
+    Antes de mostrar las principales métricas como la \texttt{precision}, \texttt{accuracy}, \texttt{recall} o \texttt{score f1}, se van a analizar de manera detallada las muestras generadas ante el desequilibrio de datos que se vio en \ref{subsubsec: primeros_resultados}. Vamos a tomar como ejemplo las inyecciones SQL, tomadas a través de la herramienta \texttt{sqlmap}:
 
-    
     \vspace{5mm}
 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/df/sql_injection_samples.png}\\
+        \caption{Muestras de datos capturados: SQL Injection}
+        \label{}
+    \end{figure} 
+
+    \vspace{5mm}
+    
+    Esto revela una homogeneidad muy alta en los datos tomados, ya que se puede identificar muy fácilmente la presencia de patrones que determinan la estructura de este tipo de ataque en concreto. En particular, se pueden encontrar los siguientes patrones en flujos generados por la herramienta \texttt{sqlmap}:
+
+    \vspace{5mm}
+
+    \begin{itemize}
+        \item \textbf{Simetría de Flujo:} El ratio de subida/bajada (\texttt{Down/Up Ratio}) almacena un valor constante de 1.0, al igual que la cantidad total de paquetes enviados  (\texttt{Total Fwd Packets}) que también presenta el mismo valor, en este caso 5 paquetes por flujo.
+        
+        \vspace{2.5mm}
+
+        \item \textbf{Flags TCP:} También se puede observar que las banderas de control TCP (\texttt{FIN}, \texttt{PSH}, \texttt{ACK}) presentan el mismo patrón, activándose exactamente las mismas banderas en cada flujo de red generado.
+        
+        \vspace{2.5mm}
+
+        \item \textbf{Límites de Carga:} Por último se aprecia que las longitudes mínimas de los paquetes (\texttt{Min Packet Length}, \texttt{Fwd Packet Length Min}, \texttt{Bwd Packet Length Min}) presentan un valor homogéneo y constante en todos los flujos capturados, estabilizándose en un total de 68 bytes.
+    \end{itemize}
+
+    \vspace{5mm}
+ 
+    Esto provoca que, durante la fase de evaluación del modelo, se obtengan métricas casi perfectas, alcanzando valores de $0.99$ sobre $1$ en \textit{Accuracy}, \textit{Precision}, \textit{Recall} y \textit{F1-Score} como consecuencia de la alta homogeneidad de los datos capturados:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.50\textwidth]{../img/code/random_forest/resultados_entrenamiento.png}\\
+        \caption{Metricas del entrenamiento del modelo final: RandomForest}
+        \label{}
+    \end{figure} 
+
+    \vspace{5mm}
+
+    Desde una perspectiva analítica, esto justifica matemáticamente las métricas que se han obtenido. Sin embargo, esto salta las alarmas, ya que es un claro ejemplo de \textbf{sobreentrenamiento (overfitting)}, ante la grave dificultad para detectar un ataque de forma genérica, teniendo el modelo únicamente la capacidad de detectar la huella de red generada por ciertas herramientas, como \texttt{sqlmap}, bajo una configuración en específico en el entorno de pruebas. Si se hace la prueba, se puede verificar que se tiene mucha confianza en las predicciones, como resultado de los fenómenos recientemente explicados:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../img/mse/sqlmap_attack.png}\\
+        \caption{Prediciendo ataque malicioso creado con SQLMap}
+        \label{}
+    \end{figure}     
+
+    \vspace{5mm}
+
+    En conclusión, aunque esto pueda aparentar inicialmente un gran éxito del clasificador, el análisis pormenorizado de los flujos capturados sugiere una realidad más compleja. La presencia de patrones deterministas (firmas de red como las flags y métricas de volumen y longitud de datos) indica que el modelo converge a una solución muy óptima para  nuestro entorno controlado, pero a la vez es potencialmente frágil ante un escenario real. Este fenómeno recalca la importancia de la diversidad en los datos, ya que se demuestra una precisión excepcional para identificar ataques producidos por herramientas en concreto, con el coste de perder la capacidad de generalizar mucho más allá y lograr adaptarse a la enorme variabilidad intrínseca del tráfico malicioso.
+
+    \vspace{10mm}
 
 
 

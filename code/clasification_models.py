@@ -40,7 +40,6 @@ class Clasification_Model:
         else:
             self.df_malign = pd.read_csv(os.path.join(self.df_path, 'df_malign_cleaned.csv'))
             self.model_path = os.path.join(self.repo_path, 'data/model/')
-        # print('\nModel path: ', self.model_path)    
 
 
     # Metodo para obtener un dataframe con n muestras de los posibles valores en ' Label'
@@ -230,11 +229,12 @@ class Clasification_Model:
 
 if __name__ == "__main__":  
 
-    clasif = Clasification_Model(captured=False)  
+    clasif = Clasification_Model(captured=True)  
 
     # Obtenemos los datos de train y test de los logs con intenciones maliciosas, ya que son este tipo de anomalias las que queremos clasificar
     df = clasif.df_malign
-    df = df.drop_duplicates()
+    df = clasif.df_malign.dropna(subset=[' Label'])
+    # df = df.drop_duplicates()
 
     # df_sample = clasif.get_df_samples(df)
     # df_sample.to_csv(os.path.join(clasif.df_path, 'df_malign_captured_samples.csv'), index=False)
