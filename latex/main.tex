@@ -1299,6 +1299,42 @@
 
 
 
+
+
+    \subsection{Implementación de Notificaciones y Respuesta ante Incidentes vía Telegram API}
+
+    \vspace{5mm}
+
+    A continuación se ha decidido implementar la API de Telegram en este proyecto, lo que proporciona un sistema de respuesta y monitarización remota a través de un bot. Esta implementación permite establecer un canal de comunicación entre la detección del sistema y su propio administrador, lo que facilita la toma de decisiones frente a posibles intrusiones en tiempo real.
+
+    \vspace{5mm}
+
+    La notificación se produce inmediatamente después de la clasificación del \textit{Random Forest}, en caso de que se haya detectado tráfico malicioso, en caso contrario, no se envía ningún mensaje. Esta comunicación se establece mediante peticiones HTTP POST al \textit{endpoint} de la API de Telegram, y es muy importante recalcar que la comunicación es bidereccional, de manera que al detectarse un posible ataque el administrador puede decidir si bloquear la dirección IP o no, como se puede ver a continuación:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.49\textwidth}
+            \centering
+            \includegraphics[width=0.25\textheight]{../img/telegram/telegram_1.png}
+        \end{minipage}
+        \begin{minipage}{0.49\textwidth}
+            \centering
+            \includegraphics[width=0.25\textheight]{../img/telegram/telegram_2.png}
+        \end{minipage}
+        \caption{Implementación con la API de Telegram}
+        \label{}
+    \end{figure} 
+
+    \vspace{5mm}
+
+    Con la imagen anterior se puede apreciar el flujo del sistema. Se notifica al administrador, de manera que se puede proceder con el bloqueo de la IP atacante, y en caso afirmativo, se hace una comprobación previa para no bloquear ciertas IPs críticas para el servidor. En caso contrario, se continúa con la detección de anomalías. Esta es la cúlpide del sistema, ya que permite notificar al administrador del servidor de un posible ataque, ofreciendo las medidas necesarias para hacer frente a este tipo de amenazas y mitigando los daños que puedan causar.
+
+    \vspace{10mm}
+
+
+
     
 
 
