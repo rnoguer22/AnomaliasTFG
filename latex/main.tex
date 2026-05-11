@@ -5,10 +5,16 @@
 % Fuente y formato
 \usepackage[T1]{fontenc} % Para las ñ y letras con tilde
 % \usepackage{times}
+\usepackage{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{sansmath}
+\sansmath
+
 \usepackage[expansion=false]{microtype} % Mejora el espaciado de las palabras
 
 % --- Fuente Helvetica en la pagina de titulo ---
 \usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 \usepackage{titlesec}  % Paquete para personalizar secciones
 \newcommand{\helveticatitle}{%
     \fontfamily{phv}\selectfont 
@@ -95,21 +101,23 @@
 
     \begin{titlepage}
         \centering
-        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}\par}
+        {\fontsize{22pt}{22pt}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}\par}
+        \vspace{5mm}
+        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle BUSINESS \& TECH}\par}
+        \vspace{5mm}
+        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle GRADO EN INGENIERÍA MATEMÁTICA + INGENIERÍA INFORMÁTICA}\par}        
+        \vspace{5mm}
+        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle (GMAI)}\par}
+        \vspace{2.5cm}
+        {\includegraphics[width=0.35\textwidth]{../img/logo_uax.png}\par}
+        \vspace{1.5cm}
+        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle TRABAJO FIN DE GRADO}\par}
         \vspace{1cm}
-        {\fontsize{16pt}{22pt}\selectfont \textbf{\helveticatitle ESCUELA BUSINESS \& TECH}\par}
-        \vspace{1cm}
-        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle GRADO EN INGENIERÍA INFORMÁTICA}\par}
-        \vspace{2cm}
-        {\includegraphics[width=1\textwidth]{../img/portada.png}\par}
-        \vspace{0.5cm}
-        {\fontsize{20pt}{22pt}\selectfont \textbf{\helveticatitle TRABAJO DE FIN DE GRADO}\par}
-        \vspace{1cm}
-        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle Del Bit al Comportamiento: Redefiniendo la Frontera de la Seguridad Mediante el Aprendizaje Profundo}\par}
+        {\fontsize{14pt}{22pt}\selectfont \helveticatitle DEL BIT AL COMPORTAMIENTO: REDEFINIENDO LA FRONTERA DE LA SEGURIDAD MEDIANTE EL APRENDIZAJE PROFUNDO\par}
         \vfill
-        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle Rubén Nogueras González}\par}
+        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle RUBÉN NOGUERAS GONZÁLEZ}\par}
         \vspace{1cm}
-        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle Junio de 2026}\par}
+        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle JUNIO 2026}\par}
     \end{titlepage}
 
 
@@ -118,35 +126,38 @@
     \thispagestyle{empty}
     \begin{flushleft}
         \begin{center}
-            \includegraphics[width=0.25\textwidth]{../img/primera_hoja.png}\\
+            \includegraphics[width=0.35\textwidth]{../img/logo_uax.png}\\
         \end{center}
+        \vspace{2cm}
         \begin{center}
-            {\fontsize{16}{16}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}}\\
-            {\fontsize{14}{14}\selectfont \textbf{\helveticatitle ESCUELA BUSINESS \& TECH}}\\[0cm]
-            {\fontsize{12}{12}\selectfont \textbf{\helveticatitle GRADO EN INGENIERÍA INFORMÁTICA}}\\[0cm]
-            \textbf{}\\[0.3cm]
-            {\fontsize{14}{14}\selectfont \textbf{\helveticatitle DEL BIT AL COMPORTAMIENTO: REDEFINIENDO LA FRONTERA DE LA SEGURIDAD MEDIANTE EL APRENDIZAJE PROFUNDO}}\\[0cm]
+            {\fontsize{18}{18}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}}\\[5mm]
+            {\fontsize{14}{14}\selectfont \textbf{\helveticatitle BUSINESS \& TECH}}\\[5mm]
+            {\fontsize{14}{14}\selectfont \helveticatitle GRADO EN INGENIERÍA MATEMÁTICA + INGENIERÍA INFORMÁTICA - GMAI}\\[1.5cm]
+            {\fontsize{14}{14}\selectfont \helveticatitle DEL BIT AL COMPORTAMIENTO: REDEFINIENDO LA FRONTERA DE LA SEGURIDAD MEDIANTE EL APRENDIZAJE PROFUNDO}\\[1.5cm]
         \end{center}
 
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle ALUMNO:}} \helveticatitle RUBÉN NOGUERAS GONZÁLEZ\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle N.P.:}} \helveticatitle 139174\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle CÓDIGO TFG:}} \helveticatitle GMAI-25076\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle TUTOR ACADÉMICO:}} \helveticatitle SARA IGNACIO CERRATO\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle FECHA DE PRESENTACIÓN:} }\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle BREVE DESCRIPCIÓN:}}
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle ALUMNO:}} \helveticatitle RUBÉN NOGUERAS GONZÁLEZ\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle N.P.:}} \helveticatitle 139174\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle DIRECTOR DEL TRABAJO}} \helveticatitle SARA IGNACIO CERRATO\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle TUTOR ACADÉMICO:}} \helveticatitle JACINTO VELASCO REBOLLEDO\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle FECHA DE PRESENTACIÓN:} }\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle BREVE DESCRIPCIÓN:}}
     \end{flushleft}
 
-    {\helveticatitle
+    Este trabajo presenta el diseño e implementación de un sistema de detección y clasificación de ciberataques en tiempo real mediante técnicas de Deep Learning y aprendizaje supervisado. El proyecto se basa en el análisis del tráfico de red de un servidor web, empleando un Autoencoder como mecanismo principal para la identificación de anomalías. Este modelo utiliza el error de reconstrucción generado sobre flujos de red para distinguir entre comportamientos benignos y maliciosos. Para el entrenamiento y validación del sistema, se ha utilizado el conjunto de datos de referencia CICIDS2017, complementado con capturas de tráfico personalizadas obtenidas en un entorno de laboratorio controlado.
 
     \vspace{5mm}
 
-    \textcolor{red}{AÑADIR ESTO CUANDO ACABE EL TFG!!!}
+    Además de la detección de tráfico anómalo, se implementa un modelo de clasificación basado en el algoritmo Random Forest, capaz de categorizar distintos tipos de amenazas entre las que destacan ataques de denegación de servicio (DoS), fuerza bruta e inyecciones SQL. Durante la fase de desarrollo, se ejecutaron múltiples auditorías de seguridad mediante herramientas profesionales como SQLMap y Hydra. Estas pruebas permitieron validar el rendimiento del sistema frente a escenarios de explotación reales, facilitando un análisis crítico sobre la capacidad de generalización del modelo y la mitigación de problemas relacionados con el sobreajuste en entornos automatizados.
 
     \vspace{5mm}
-    }
 
-    {\fontsize{10}{10}\selectfont
-    \noindent  \textbf{\helveticatitle FIRMA DEL DIRECTOR DEL TRABAJO:}\hspace{4cm}\textbf{\helveticatitle FIRMA DEL ALUMNO:}}
+    Finalmente, el proyecto integra un sistema de monitorización y respuesta ante incidentes mediante la API de Telegram. Esta interfaz permite notificar al administrador de red de forma instantánea y facilita la aplicación de contramedidas defensivas en tiempo real. La arquitectura propuesta combina con éxito la detección de anomalías, la clasificación jerárquica de amenazas y la capacidad de respuesta interactiva, explorando el potencial de las técnicas actuales de inteligencia artificial aplicadas a la protección de infraestructuras críticas en el ámbito de la ciberseguridad.
+
+    \vspace{1cm}
+
+    {\fontsize{12}{20}\selectfont
+    \noindent \hspace{12cm}\textbf{\helveticatitle FIRMA DEL ALUMNO}}
     
     % Pagina en blanco
     \newpage
