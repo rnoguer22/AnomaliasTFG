@@ -187,13 +187,77 @@
     \mbox{}
 
     \thispagestyle{empty}
+
     \section{Introducción}\label{sec: introduccion}
 
     \vspace{5mm}
 
-
+    En el actual ecosistema digital, las páginas web son uno de los principales servicios más relevantes, ya que son usados continuamente por miles de usuarios en momentos determinados del día, suponiendo un gran riesgo a nivel de seguridad. Los ciberataques hoy en día están en auge, evolucionando en cuanto a complejidad y automatización, y esto hace que los sistemas tradicionales de detección de intrusiones (IDS) basados en patrones muy concretos se queden obsoletos, ya que se ven muy limitados a identificar ataques con fluctuaciones muy leves que no han sido previamente identificados.
 
     \vspace{5mm}
+
+    Por ello, este trabajo surge a partir de dicho problema, ante la necesidad de monitorizar en tiempo real flujos de red que llegan a un servicio web en concreto, distinguiendo lo mejor posible el tráfico benigno y el malicioso. Debido al volumen de datos que esto presenta, no es posible proponer una solución manual a este problema, y por ello se busca una solución basada en inteligencia artificial y modelos predictivos, aprendiendo la estructura intrínsica de los datos y reaccionando de manera proactiva ante desviaciones que puedan suponer una amenaza para un servicio.
+
+    \vspace{5mm}
+
+    \subsection{Solución Propuesta: Arquitectura Híbrida de Detección y Respuesta}
+
+    En este proyecto se propone una arquitectura que combina el aprendizaje no supervisado para detectar flujos de red maliciosos, para posteriormente proceder con la clasificación de la amenaza mediante aprendizaje supervisado, siendo el objetivo principal de este trabajo la transformación de datos de red masivos y en crudo a un formato mucho más legible para un administrador de seguridad que se encarga de monitorizar el servicio. En definitiva, este trabajo se constituye en cuatro etapas críticas:
+
+    \vspace{5mm}
+
+    \begin{enumerate}
+        \item \textbf{Ingesta de datos y extracción de características:} Con el apoyo de la librería \texttt{nfstream} \cite{nfstream_project} se transforma el tráfico de red en un flujo de datos, extrayendo variables muy significativas para los modelos de predicción, como el número de paquetes enviados y recibidos, métricas relacionadas con el tamaño de los paquetes o banderas TCP.
+    
+        \vspace{5mm}
+
+        \item \textbf{Detección de anomalías mediante Autoencoders:} Se destaca el uso de una red neuronal de tipo \textit{Autoencoder} entrenada únicamente con flujos benignos, pretendiendo recrear cada flujo de datos recibido por el servidor, de manera que si dicho flujo presenta un error de reconstrucción (\textit{MSE}) alto, se confirma la presencia de tráfico malicioso, ya que la red no reconoce los patrones de dicho flujo al no ser legítimo (ya que fue entrenada con datos no maliciosos) disparando el error de reconstrucción y actuando como una señal de alerta ante una posible amenaza.
+        
+        \vspace{5mm}
+
+        \item \textbf{Clasificación mediante Random Forest:} Una vez hemos detectado la anomalía, procedemos a su clasificación mediante un \textit{Random Forest} previamente entrenado con datos maliciosos, al contrario que la red neuronal. Esto permite clasificar el tipo de ataque recibido y dar una vista mucho más específica de la naturaleza del ataque
+        
+        \vspace{5mm}
+        
+        \item \textbf{Intervención del administrador: } Por último, nuestro sistema incluye una interfaz de respuesta mediante la API de Telegram, notificando la anomalía y abriendo la posibilidad de un bloqueo inmediato de la IP del atacante para proteger la integridad del servicio.
+    \end{enumerate}
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/mapa_introduccion.png}\\
+        \caption{Diseño de la arquitectura propuesta}
+        \label{fig: disenio_arquitectura_propuesta}
+    \end{figure}
+
+    \vspace{10mm}
+
+    \subsection{Metodología de Validación y Entorno de Laboratorio}
+
+    \vspace{5mm}
+
+    En cuanto al entorno del sistema se ha simulado un escenario de red completamente real, mediante un servidor web que sigue una arquitectura LAMP (\textit{Linux, Apache, MySQL, PHP}), el cual ha sido sometido a diferentes ataques y auditorías de seguridad para garantizar la efectivadad de la solución propuesta y un sistema de defensa activa significantemente robusto. Para generar los distintos flujos de red maliciosos hacia el servidor, se han empleado las siguientes herramientas, las cuales forman parte de cualquier set de herramientas de pentesting:
+
+    \vspace{5mm}
+
+    \begin{itemize}
+        \item \textbf{SQLMap:} Como su propio nombre indica, se centra en ataques de inyección SQL, lo que permite al sistema detectar cualquier intento de volcado de la base de datos con el fin, en la mayoría de casos, de obtención de credenciales.
+        
+        \vspace{5mm}
+
+        \item \textbf{Hydra:} Esta herramienta es muy popular ya que permite simular ataques de fuerza bruta a través de un diccionario, lo que genera una gran cantidad de flujos de escasa duración y tamaño de paquetes, un ataque clásico pero muy eficaz y de los más habituales en la actualidad.
+        
+        \vspace{5mm}
+
+        \item \textbf{Hulk/GoldenEye:} Empleados para la simulación de ataques de Denegación de Servicio (DoS), ya que saturan el propio servidor a través de peticiones HTTP. De esta manera se puede comprobar la respuesta del IDS bajo una alta situación de estrés.
+    \end{itemize}
+
+    \vspace{5mm}
+
+    En definitiva, el uso del conjunto de datos \texttt{CICIDS2017} constituye uno de los pilares principales de este proyecto, ya que forma la estructura necesaria de aprendizaje de cada uno de los modelos para aprender patrones de ataques estandarizados, además de capturas locales que se han debido implementar para una mayor adaptación a la infraestructura de nuestro sistema, lo que reduce la distancia entre la teoría propuesta y su correspondiente implementación en un servidor en producción.
+
+    \vspace{10mm}
 
 
 
