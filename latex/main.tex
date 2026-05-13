@@ -1307,7 +1307,7 @@
 
 
 
-    \subsubsection{Resultados finales}
+    \subsubsection{Resultados finales}\label{subsubsec: resultados_finales}
 
     \vspace{5mm}
 
@@ -1417,9 +1417,60 @@
     \thispagestyle{empty}
     \mbox{}
 
-    \section{conclusiones}\label{sec: conclusiones}
+    \section{Conclusiones y Trabajo Futuro}\label{sec: conclusiones}
 
     \vspace{5mm}
+
+    En este trabajo se ha cumplido perfectamente con el objetivo principal de este proyecto, el cual es la elaboración e implementación de una arquitectura híbrida para la detección de anomalías en el tráfico de red de un servicio en tiempo real. Durante el desarrollo, se ha demostrado la enorme potencia de la fusión de modelos de aprendizaje no supervisado (la red neuronal) y supervisado (el modelo de clasificación), ofreciendo un sistema de detección de intrusiones robusto y escalable ideal para proteger sistemas frente a ciberataques, como el servidor web empleado.
+
+    \vspace{5mm}
+
+    La red neuronal mencionada anteriormente permite la detección de flujos anómalos en función de su error de reconstrucción, como se vio en \ref{subsec: autoencoder_impl}, ofreciendo un motor de detección muy robusto sin la necesidad de conocer exactamente el ataque o su firma a nivel de red, lo cual es fundamental en el paradigma actual de la ciberseguridad, ya que cada día los \textit{malware} son mucho más potentes y cambiantes, infiltrándose en aquellos sistemas de detección que se basan en mediciones estáticas.
+
+    \vspace{5mm}
+
+    Por otra parte, la integración de un modelo de clasificación \textit{Random Forest} tras la red neuronal es de enorme ayuda para conocer en mejor medida las intenciones del atacante, sección cubierta en \ref{subsec: modelo_clasificacion_impl}. Con esto se converge hacia la naturaleza del ataque, añadiendo la posibilidad de bloquear la dirección IP atacante para mitigar la amenaza.
+
+    \vspace{10mm}    
+
+    \subsection{Análisis crítico y limitaciones obtenidas}
+
+    \vspace{5mm}
+
+    Pese a los excelentes resultados en la fase de test de la clasificación (obteniendo resultados casi perfectos), urge una de las conclusiones más relevantes de este proyecto, ya que durante dicha etapa se identificó una alta homogeneidad de los datos generados por herramientas como SQLMap o Hydra. Esto provoca que se clasifiquen prácticamente sin fallos aquellos flujos de red provenientes de estas herramientas, pero introduce un alto riesgo de sobreentramiento al modelo (\textit{overfitting}), como se vio en \ref{subsubsec: resultados_finales}.
+
+    \vspace{5mm}
+
+    Finalmente se concluye que la clasificación tiende a reconocer la huella digital producida por la herramienta más que la naturaleza del propio ataque, planteando un fuerte problema en cuanto a la generalización de la clasificación, ya que un atacante podría generar tráfico malicioso mediante herramientas no conocidas por el modelo, generando un error en el sistema. Sin embargo, lógcamente esto es un fallo importante pero no crucial, ya que el autoencoder ya se encargó de detectar la anomalía previamente, saltando las alarmas en el sistema aunque la clasificación no sea acertada. Creemos que esta reflexión final es de vital importancia ya que la inteligencia artificial en la ciberseguridad y en cualquier otro ámbito no debe ser vista como una caja negra que propone una solución infalible ante todos nuestros problemas, sino que es una herramienta más en nuestro abanico y que requiere ser actualizada constantemente, ante la diversidad de datos y progresión evolutiva de ciberataques.
+
+    \vspace{10mm}
+
+    \subsection{Trabajo futuro}
+
+    \vspace{5mm}
+
+    Debido al auge evolutivo de la ciberseguridad en los últimos años, como se ha mencionado anteriormente, se proponen los siguientes pasos para mejorar y ampliar la investigación de este proyecto:
+
+    \vspace{5mm}
+
+    \begin{enumerate}
+        \item \textbf{Ampliación del conjunto de datos:} Debido a los resultados obtenidos en la clasificación, se propone incorporar tráfico de redes más complejas y con una amplia variedad de opciones y herramientas, todo ello con el fin de mejorar la capacidad de generalización del \textit{Random Forest} y reduciendo la dependencia de firmas provenientes del tráfico generado por ciertas herramientas.
+        
+        \vspace{5mm}
+        
+        \item \textbf{Optimización para entornos Big Data:} Es muy interesante incorporar entornos distribuidos como Apache Spark o Kafka, migrando la lógica de preprocesamiento de cada flujo de red por \texttt{nfstream} a un entorno que maneja de una manera mucho más fluida grandes volúmenes de datos, escalando el sistema a un entorno de producción más escalable y empresarial.
+        
+        \vspace{5mm}
+
+        \item \textbf{Integración de modelos de lenguaje (LLM):} El reciente auge de la inteligencia artificial generativa abre un gran abanico de posibilidades, permitiendo una mejor comunicación con el administrador del sistema y no solo permitiendo el bloqueo de una dirección IP atacante, sino ofreciendo muchas más opciones y con una explicación mucho más natural de por qué un flujo de red ha sido detectado como malicioso, facilitndo la toma de decisiones.
+        
+    \end{enumerate}
+
+    \vspace{5mm}
+
+    Como conclusión final, con este proyecto se demuestra que es posible construir un sistema de detección de intrusiones (IDS) avanzado, escalable y eficaz integrando modelos de \textit{Machine Learning} y \textit{Deep Learning}, lo que cierra la brecha entre la teoría y su implementación en el mundo real.
+
+    \vspace{10mm}
 
 
 
