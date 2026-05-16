@@ -271,7 +271,45 @@
 
     \vspace{5mm}
 
+    Durante la historia de las infraestructuras digitales, estas arquitecturas siempre han dependido de un Sistema de Detección de Intrusiones (IDS) y, según se establece en \cite{garcia2009anomaly}, estos sistemas se dividen en función de su ubicación, ya que se clasifican en HIDS (basados en host) o NIDS (basados en red). No obstante, para este proyecto, se va a poner el foco en el método de detección que se ha empleado: SIDS (\textit{Signature-based Intrusion Detection Systems}) y AIDS (\textit{Anomaly-based Intrusion Detection Systems}).
 
+    \vspace{5mm}
+
+    Los sistemas SIDS, como se ve analizado en \cite{liao2013intrusion}, son bastante eficientes al comparar patrones o firmas de tráfico malicioso, pero sin embargo no son capaces de identificar ataques \textit{zero-day}, y es debido a esta fuerte limitación que se impulsó el desarrollo de AIDS. Este método modela el comportamiento habitual del tráfico, de manera que se puedan detectar desviaciones en dicho comportamiento. Sin embargo, este último método presenta un gran problema a nivel de aprendizaje automático, la alta tasa de falsos positivos, lo cual es algo que se está intentando mejorar \cite{buczak2016survey}.
+
+    \vspace{10mm}
+
+    \subsection{Aprendizaje Automático y la Frontera del Deep Learning}
+
+    \vspace{5mm}
+
+    Los algoritmos de \textit{Machine Learning} permiten que los IDS se basen en funciones de distintos modelos adaptativos, dejando atrás aquellos sistemas rígidos donde todo era blanco o negro y no existían los grises. Según el estudio de \cite{ahmad2021network}, en la clasificación de tráfico malicioso destacan algoritmos supervisados como \textit{Random Forest}, \textit{Support Vector Machines} (SVM) o \textit{Extreme Learning Machines}, los cuales destacan por su alta precisión a la hora de clasificar ciberataques.
+
+    \vspace{5mm}
+
+    Siendo más específicos, el modelo \textit{Random Forest} destaca como el modelo más relevante en los últimos años gracias a su capacidad de manejar altos volúmenes de datos y por su dificil sobreajuste en comparación con otros modelos de clasificación \cite{zafar2020survey}. No obstante, como cualquier modelo superviado, se tiene una alta dependencia de los datos de entrenamiento, de manera que se necesita una alta calidad de datos ya que de lo contrario puede dificultar su implementación en entornos donde no se han catalogado diversas variantes de un ataque en concreto.
+
+    \vspace{5mm}
+ 
+    Si hablamos de Aprendizaje Profundo, se ha introducido un nuevo paradigma en la detección de anomalías, ya que las redes neuronales permiten una extracción de características a partir de los datos de red en crudo, como se cita en \cite{kwon2019survey}, lo que las diferencia de otros métodos tradicionales. Es por esto que se destacan los \textit{Autoencoders} con respecto a cualquier otro método, siendo la principal refernecia para una detección no supervisada.
+
+    \vspace{5mm}
+
+    En el trabajo de \cite{mirsky2018kitsune} se demostró que estos sistemas mencionados anteriormente son perfectamente capaces de monitorizar flujos de red en tiempo real con una muy baja carga computacional del sistema, identificando tráfico malicioso en función del error de reconstrucción de la red. Este planteamiento es fundamental para los Sistemas de Detección de Intrusiones de la actualidad, ya que permite identificar posibles ataques teniendo únicamente en cuenta tráfico legítimo en el entrenamiento de la red, descartando muestras maliciosas en el entrenamiento \cite{javaid2016deep}. También se ha explorado el uso de RNN (redes neuronales recurrentes) y CNN (redes neuronales convoluciones) con la finalidad de obtener un comportamiento similar, en función de la estructura temporal y espacial de los paquetes \cite{vinayakumar2019deep}.
+
+    \vspace{10mm}
+
+    \subsection{Datasets de Referencia y el Impacto de CICIDS2017}
+
+    \vspace{5mm}
+
+    Como se mencionó anteriormente, la validez de un IDS depende de la calidad de los datos, como cualquier otro sistema basado en modelos predictivos e inteligencia artificial. Por ello, se descartaron sets de datos como KDD Cup 99 y NSL-KDD para este proyecto, ya que fueron criticados por su falta de realismo y ausencia de protocolos modernos, según se cita en la fuente \cite{hindy2020taxonomy}.
+
+    \vspace{5mm}
+
+    Por ello, la introducción del conjunt de datos \textbf{CICIDS2017} por el \textit{Canadian Institute for Cybersecurity} supuso un antes y un después en este ámbito. Como se detalla en \cite{sharafaldin2018toward}, para este dataset se ha capturado tráfico real y moderno de red, incluyendo un amplio conjunto de datos maliciosos como DoS, DDoS, fuerza bruta, inyecciones SQL, etc, por lo que se ha convertido en uno de los estándares de la actualidad ya que refleja la tanto flujos benignos como maliciosos, además de presentar flujos que representan la comlejidad de las redes actuales, lo que se traduce en un conjunto de datos fiable y de alta calidad para proyectos académicos o entornos profesionales y de producción.    
+
+    \vspace{10mm}
 
 
 
