@@ -4,7 +4,11 @@ import numpy as np
 import joblib
 import os
 import csv
+import requests
+import subprocess
+import socket
 from dotenv import load_dotenv
+from time import sleep
 
 from umbral import Umbral
 from config.columns import COLUMNS
@@ -32,6 +36,10 @@ class Detection:
         # Definimos las columnas que debe tener el flujo de datos
         # Estas se encuentran definidas en el fichero code/config/columns.py
         self.columns = COLUMNS    
+
+        # Definimos las variables para acceder a la api de telegram
+        self.telegram_token = os.getenv('TELEGRAM_TOKEN')
+        self.chat_id = os.getenv('CHAT_ID')
 
 
 
@@ -129,24 +137,37 @@ class Detection:
                     # Hacemos esto para la deteccion del umbral 
                     # self.save_mse_data_csv(flow.src_ip, mse)
 
-                    self.save_class_data_csv(df_live, 'DOS')
+                    #self.save_class_data_csv(df_live, 'Bruteforce')
                     
-                    '''
                     umbral_instance = Umbral()
                     umbral = umbral_instance.metodo_desviacion_estandar()[0]
                     if mse >= umbral:
-                        print('Ataque detectado! MSE: ', mse)
                         # self.save_class_data_csv(df_live, 'Bruteforce')
 
-                        clasification = Clasification_Model(captured=False)
+                        clasification = Clasification_Model(captured=True)
                         self.scaler_class = joblib.load(os.path.join(clasification.model_path, 'scaler_class.pkl'))
                         df_flow_scaled = self.scaler_class.transform(df_live)
                         
                         model_name, prediction_text, confianza = clasification.predict_stream_flow(df_flow_scaled, 'RandomForestClassifier')    
-                        print(f" -> {model_name.ljust(15)}: {prediction_text}, ({confianza:.2f}%)")
+                        message = f'Ataque detectado! MSE: {mse}\n' \
+                                  f'IP atacante --> {flow.src_ip}:{flow.src_port}\n' \
+                                  f'{model_name.ljust(15)}: {prediction_text}\n'
+                        print(message)
+                        message += f'\n¿Desea bloquear {flow.src_ip}?'
 
-                        # Y ahora vendria la logica para enviar el mensaje de telegram
-                    '''
+                        # Y por ultimo gestionamos el envio de la alerta con telegram
+                        self.send_telegram_alert(message)
+
+                        # Esperamos a que el usuario responda al mensaje...
+                        confirmacion = self.wait_for_user_response()
+
+                        # Una vez responde, procedemos a bloquear la IP o no, dependiendo de su respuesta
+                        if confirmacion:
+                            print(f"[*] El usuario confirmó el ataque. Bloqueando {flow.src_ip}...")
+                            self.block_ip(flow.src_ip)
+                        else:
+                            print("[*] El usuario descartó el ataque. Continuando detección...")
+                            self.send_telegram_alert("Ataque descartado. El sistema continúa monitorizando...")
 
 
                 else:
@@ -191,6 +212,84 @@ class Detection:
             data_values = df_row.iloc[0].to_list()
             data_values.append(classification_value)
             writer.writerow(data_values)
+
+
+    # Metodo para mostrar una alerta a traves de telegram
+    def send_telegram_alert(self, message):
+        # Nos conectamos a la api de telegram con el token del bot
+        url = f"https://api.telegram.org/bot{self.telegram_token}/sendMessage"
+        # Definimos el mensaje
+        payload = {
+            'chat_id': self.chat_id,
+            'text': message,
+            'parse_mode': 'Markdown',
+            'disable_notification': False
+        }
+        
+        try:
+            # Y mandamos el mensaje, creando asi una alerta en nuestro dispositivo
+            response = requests.post(url, data=payload)
+            if response.status_code != 200:
+                print(f"Error enviando a Telegram: {response.text}")
+        except Exception as e:
+            print(f"Error de conexión con Telegram: {e}")
+
+
+    # Metodo paar esperar la respuesta del usuario a traves de Telegram
+    def wait_for_user_response(self):
+        print("[*] Esperando validación del analista en Telegram...")
+        last_update_id = -1
+        
+        # Limpiamos mensajes antiguos obteniendo el último ID
+        updates_url = f"https://api.telegram.org/bot{self.telegram_token}/getUpdates"
+        try:
+            init_res = requests.get(updates_url).json()
+            if init_res["result"]:
+                last_update_id = init_res["result"][-1]["update_id"]
+        except: pass
+
+        # Necesitamos un bucle infinito que espere a la respuesta del usuario
+        while True:
+            try:
+                # Consultamos nuevos mensajes (offset garantiza que solo leemos lo nuevo)
+                res = requests.get(f"{updates_url}?offset={last_update_id + 1}").json()
+                for update in res.get("result", []):
+                    last_update_id = update["update_id"]
+                    if "message" in update and "text" in update["message"]:
+                        # Leemos el mensaje
+                        user_text = update["message"]["text"].lower().strip()
+                        
+                        # Devolvemos true o false dependiendo de la respuesta del usuario
+                        if user_text in ['si', 'sí']:
+                            return True
+                        elif user_text == 'no':
+                            return False
+                        else:
+                            self.send_telegram_alert("Introduzca una respuesta válida: [Si, No]...")
+
+            except Exception as e:
+                print(f"[!] Error consultando Telegram: {e}")
+            sleep(2)
+
+
+    # Metodo para bloquear la IP del atacante
+    def block_ip(self, ip):
+        mi_ip = socket.gethostbyname(socket.gethostname())
+        priviledges_ip = ['127.0.0.1', 'localhost', mi_ip]
+
+        # Comprobamos que la IP a bloquear no es la ip de este dispositivo, para ahorrar problemas 
+        if ip in priviledges_ip:
+            message = f"[!] No se puede bloquear la IP {ip}, IP privilegiada"          
+        else:    
+            try:
+                # Usamos iptables para bloquear todo el tráfico de esa IP
+                subprocess.run(['sudo', 'iptables', '-A', 'INPUT', '-s', ip, '-j', 'DROP'], check=True)
+                message = f"[!] IP {ip} bloqueada permanentemente"
+            except Exception as e:
+                message = f"[!] Error al bloquear IP: {e}"
+
+        print(message)
+        self.send_telegram_alert(message)
 
 
 

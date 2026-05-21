@@ -5,10 +5,16 @@
 % Fuente y formato
 \usepackage[T1]{fontenc} % Para las ñ y letras con tilde
 % \usepackage{times}
+\usepackage{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{sansmath}
+\sansmath
+
 \usepackage[expansion=false]{microtype} % Mejora el espaciado de las palabras
 
 % --- Fuente Helvetica en la pagina de titulo ---
 \usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 \usepackage{titlesec}  % Paquete para personalizar secciones
 \newcommand{\helveticatitle}{%
     \fontfamily{phv}\selectfont 
@@ -95,21 +101,23 @@
 
     \begin{titlepage}
         \centering
-        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}\par}
+        {\fontsize{22pt}{22pt}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}\par}
+        \vspace{5mm}
+        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle BUSINESS \& TECH}\par}
+        \vspace{5mm}
+        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle GRADO EN INGENIERÍA MATEMÁTICA + INGENIERÍA INFORMÁTICA}\par}        
+        \vspace{5mm}
+        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle (GMAI)}\par}
+        \vspace{2.5cm}
+        {\includegraphics[width=0.35\textwidth]{../img/logo_uax.png}\par}
+        \vspace{1.5cm}
+        {\fontsize{18pt}{22pt}\selectfont \textbf{\helveticatitle TRABAJO FIN DE GRADO}\par}
         \vspace{1cm}
-        {\fontsize{16pt}{22pt}\selectfont \textbf{\helveticatitle ESCUELA BUSINESS \& TECH}\par}
-        \vspace{1cm}
-        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle GRADO EN INGENIERÍA INFORMÁTICA}\par}
-        \vspace{2cm}
-        {\includegraphics[width=1\textwidth]{../img/portada.png}\par}
-        \vspace{0.5cm}
-        {\fontsize{20pt}{22pt}\selectfont \textbf{\helveticatitle TRABAJO DE FIN DE GRADO}\par}
-        \vspace{1cm}
-        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle Del Bit al Comportamiento: Redefiniendo la Frontera de la Seguridad Mediante el Aprendizaje Profundo}\par}
+        {\fontsize{14pt}{22pt}\selectfont \helveticatitle DEL BIT AL COMPORTAMIENTO: REDEFINIENDO LA FRONTERA DE LA SEGURIDAD MEDIANTE EL APRENDIZAJE PROFUNDO\par}
         \vfill
-        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle Rubén Nogueras González}\par}
+        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle RUBÉN NOGUERAS GONZÁLEZ}\par}
         \vspace{1cm}
-        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle Junio de 2026}\par}
+        {\fontsize{14pt}{22pt}\selectfont \textbf{\helveticatitle JUNIO 2026}\par}
     \end{titlepage}
 
 
@@ -118,35 +126,38 @@
     \thispagestyle{empty}
     \begin{flushleft}
         \begin{center}
-            \includegraphics[width=0.25\textwidth]{../img/primera_hoja.png}\\
+            \includegraphics[width=0.35\textwidth]{../img/logo_uax.png}\\
         \end{center}
+        \vspace{2cm}
         \begin{center}
-            {\fontsize{16}{16}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}}\\
-            {\fontsize{14}{14}\selectfont \textbf{\helveticatitle ESCUELA BUSINESS \& TECH}}\\[0cm]
-            {\fontsize{12}{12}\selectfont \textbf{\helveticatitle GRADO EN INGENIERÍA INFORMÁTICA}}\\[0cm]
-            \textbf{}\\[0.3cm]
-            {\fontsize{14}{14}\selectfont \textbf{\helveticatitle DEL BIT AL COMPORTAMIENTO: REDEFINIENDO LA FRONTERA DE LA SEGURIDAD MEDIANTE EL APRENDIZAJE PROFUNDO}}\\[0cm]
+            {\fontsize{18}{18}\selectfont \textbf{\helveticatitle UNIVERSIDAD ALFONSO X EL SABIO}}\\[5mm]
+            {\fontsize{14}{14}\selectfont \textbf{\helveticatitle BUSINESS \& TECH}}\\[5mm]
+            {\fontsize{14}{14}\selectfont \helveticatitle GRADO EN INGENIERÍA MATEMÁTICA + INGENIERÍA INFORMÁTICA - GMAI}\\[1.5cm]
+            {\fontsize{14}{14}\selectfont \helveticatitle DEL BIT AL COMPORTAMIENTO: REDEFINIENDO LA FRONTERA DE LA SEGURIDAD MEDIANTE EL APRENDIZAJE PROFUNDO}\\[1.5cm]
         \end{center}
 
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle ALUMNO:}} \helveticatitle RUBÉN NOGUERAS GONZÁLEZ\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle N.P.:}} \helveticatitle 139174\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle CÓDIGO TFG:}} \helveticatitle GMAI-25076\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle TUTOR ACADÉMICO:}} \helveticatitle SARA IGNACIO CERRATO\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle FECHA DE PRESENTACIÓN:} }\\
-        {\fontsize{12}{12}\selectfont \textbf{\helveticatitle BREVE DESCRIPCIÓN:}}
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle ALUMNO:}} \helveticatitle RUBÉN NOGUERAS GONZÁLEZ\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle N.P.:}} \helveticatitle 139174\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle DIRECTOR DEL TRABAJO}} \helveticatitle SARA IGNACIO CERRATO\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle TUTOR ACADÉMICO:}} \helveticatitle JACINTO VELASCO REBOLLEDO\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle FECHA DE PRESENTACIÓN:} }\\[2.5mm]
+        {\fontsize{12}{20}\selectfont \textbf{\helveticatitle BREVE DESCRIPCIÓN:}}
     \end{flushleft}
 
-    {\helveticatitle
+    Este trabajo presenta el diseño e implementación de un sistema de detección y clasificación de ciberataques en tiempo real mediante técnicas de Deep Learning y aprendizaje supervisado. El proyecto se basa en el análisis del tráfico de red de un servidor web, empleando un Autoencoder como mecanismo principal para la identificación de anomalías. Este modelo utiliza el error de reconstrucción generado sobre flujos de red para distinguir entre comportamientos benignos y maliciosos. Para el entrenamiento y validación del sistema, se ha utilizado el conjunto de datos de referencia CICIDS2017, complementado con capturas de tráfico personalizadas obtenidas en un entorno de laboratorio controlado.
 
     \vspace{5mm}
 
-    \textcolor{red}{AÑADIR ESTO CUANDO ACABE EL TFG!!!}
+    Además de la detección de tráfico anómalo, se implementa un modelo de clasificación basado en el algoritmo Random Forest, capaz de categorizar distintos tipos de amenazas entre las que destacan ataques de denegación de servicio (DoS), fuerza bruta e inyecciones SQL. Durante la fase de desarrollo, se ejecutaron múltiples auditorías de seguridad mediante herramientas profesionales como SQLMap y Hydra. Estas pruebas permitieron validar el rendimiento del sistema frente a escenarios de explotación reales, facilitando un análisis crítico sobre la capacidad de generalización del modelo y la mitigación de problemas relacionados con el sobreajuste en entornos automatizados.
 
     \vspace{5mm}
-    }
 
-    {\fontsize{10}{10}\selectfont
-    \noindent  \textbf{\helveticatitle FIRMA DEL DIRECTOR DEL TRABAJO:}\hspace{4cm}\textbf{\helveticatitle FIRMA DEL ALUMNO:}}
+    Finalmente, el proyecto integra un sistema de monitorización y respuesta ante incidentes mediante la API de Telegram. Esta interfaz permite notificar al administrador de red de forma instantánea y facilita la aplicación de contramedidas defensivas en tiempo real. La arquitectura propuesta combina con éxito la detección de anomalías, la clasificación jerárquica de amenazas y la capacidad de respuesta interactiva, explorando el potencial de las técnicas actuales de inteligencia artificial aplicadas a la protección de infraestructuras críticas en el ámbito de la ciberseguridad.
+
+    \vspace{1cm}
+
+    {\fontsize{12}{20}\selectfont
+    \noindent \hspace{12cm}\textbf{\helveticatitle FIRMA DEL ALUMNO}}
     
     % Pagina en blanco
     \newpage
@@ -176,13 +187,77 @@
     \mbox{}
 
     \thispagestyle{empty}
+
     \section{Introducción}\label{sec: introduccion}
 
     \vspace{5mm}
 
-
+    En el actual ecosistema digital, las páginas web son uno de los principales servicios más relevantes, ya que son usados continuamente por miles de usuarios en momentos determinados del día, suponiendo un gran riesgo a nivel de seguridad. Los ciberataques hoy en día están en auge, evolucionando en cuanto a complejidad y automatización, y esto hace que los sistemas tradicionales de detección de intrusiones (IDS) basados en patrones muy concretos se queden obsoletos, ya que se ven muy limitados a identificar ataques con fluctuaciones muy leves que no han sido previamente identificados.
 
     \vspace{5mm}
+
+    Por ello, este trabajo surge a partir de dicho problema, ante la necesidad de monitorizar en tiempo real flujos de red que llegan a un servicio web en concreto, distinguiendo lo mejor posible el tráfico benigno y el malicioso. Debido al volumen de datos que esto presenta, no es posible proponer una solución manual a este problema, y por ello se busca una solución basada en inteligencia artificial y modelos predictivos, aprendiendo la estructura intrínsica de los datos y reaccionando de manera proactiva ante desviaciones que puedan suponer una amenaza para un servicio.
+
+    \vspace{5mm}
+
+    \subsection{Solución Propuesta: Arquitectura Híbrida de Detección y Respuesta}
+
+    En este proyecto se propone una arquitectura que combina el aprendizaje no supervisado para detectar flujos de red maliciosos, para posteriormente proceder con la clasificación de la amenaza mediante aprendizaje supervisado, siendo el objetivo principal de este trabajo la transformación de datos de red masivos y en crudo a un formato mucho más legible para un administrador de seguridad que se encarga de monitorizar el servicio. En definitiva, este trabajo se constituye en cuatro etapas críticas:
+
+    \vspace{5mm}
+
+    \begin{enumerate}
+        \item \textbf{Ingesta de datos y extracción de características:} Con el apoyo de la librería \texttt{nfstream} \cite{nfstream_project} se transforma el tráfico de red en un flujo de datos, extrayendo variables muy significativas para los modelos de predicción, como el número de paquetes enviados y recibidos, métricas relacionadas con el tamaño de los paquetes o banderas TCP.
+    
+        \vspace{5mm}
+
+        \item \textbf{Detección de anomalías mediante Autoencoders:} Se destaca el uso de una red neuronal de tipo \textit{Autoencoder} entrenada únicamente con flujos benignos, pretendiendo recrear cada flujo de datos recibido por el servidor, de manera que si dicho flujo presenta un error de reconstrucción (\textit{MSE}) alto, se confirma la presencia de tráfico malicioso, ya que la red no reconoce los patrones de dicho flujo al no ser legítimo (ya que fue entrenada con datos no maliciosos) disparando el error de reconstrucción y actuando como una señal de alerta ante una posible amenaza.
+        
+        \vspace{5mm}
+
+        \item \textbf{Clasificación mediante Random Forest:} Una vez hemos detectado la anomalía, procedemos a su clasificación mediante un \textit{Random Forest} previamente entrenado con datos maliciosos, al contrario que la red neuronal. Esto permite clasificar el tipo de ataque recibido y dar una vista mucho más específica de la naturaleza del ataque
+        
+        \vspace{5mm}
+        
+        \item \textbf{Intervención del administrador: } Por último, nuestro sistema incluye una interfaz de respuesta mediante la API de Telegram, notificando la anomalía y abriendo la posibilidad de un bloqueo inmediato de la IP del atacante para proteger la integridad del servicio.
+    \end{enumerate}
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/mapa_introduccion.png}\\
+        \caption{Diseño de la arquitectura propuesta}
+        \label{fig: disenio_arquitectura_propuesta}
+    \end{figure}
+
+    \vspace{10mm}
+
+    \subsection{Metodología de Validación y Entorno de Laboratorio}
+
+    \vspace{5mm}
+
+    En cuanto al entorno del sistema se ha simulado un escenario de red completamente real, mediante un servidor web que sigue una arquitectura LAMP (\textit{Linux, Apache, MySQL, PHP}), el cual ha sido sometido a diferentes ataques y auditorías de seguridad para garantizar la efectivadad de la solución propuesta y un sistema de defensa activa significantemente robusto. Para generar los distintos flujos de red maliciosos hacia el servidor, se han empleado las siguientes herramientas, las cuales forman parte de cualquier set de herramientas de pentesting:
+
+    \vspace{5mm}
+
+    \begin{itemize}
+        \item \textbf{SQLMap:} Como su propio nombre indica, se centra en ataques de inyección SQL, lo que permite al sistema detectar cualquier intento de volcado de la base de datos con el fin, en la mayoría de casos, de obtención de credenciales.
+        
+        \vspace{5mm}
+
+        \item \textbf{Hydra:} Esta herramienta es muy popular ya que permite simular ataques de fuerza bruta a través de un diccionario, lo que genera una gran cantidad de flujos de escasa duración y tamaño de paquetes, un ataque clásico pero muy eficaz y de los más habituales en la actualidad.
+        
+        \vspace{5mm}
+
+        \item \textbf{Hulk/GoldenEye:} Empleados para la simulación de ataques de Denegación de Servicio (DoS), ya que saturan el propio servidor a través de peticiones HTTP. De esta manera se puede comprobar la respuesta del IDS bajo una alta situación de estrés.
+    \end{itemize}
+
+    \vspace{5mm}
+
+    En definitiva, el uso del conjunto de datos \texttt{CICIDS2017} constituye uno de los pilares principales de este proyecto, ya que forma la estructura necesaria de aprendizaje de cada uno de los modelos para aprender patrones de ataques estandarizados, además de capturas locales que se han debido implementar para una mayor adaptación a la infraestructura de nuestro sistema, lo que reduce la distancia entre la teoría propuesta y su correspondiente implementación en un servidor en producción.
+
+    \vspace{10mm}
 
 
 
@@ -196,7 +271,45 @@
 
     \vspace{5mm}
 
+    Durante la historia de las infraestructuras digitales, estas arquitecturas siempre han dependido de un Sistema de Detección de Intrusiones (IDS) y, según se establece en \cite{garcia2009anomaly}, estos sistemas se dividen en función de su ubicación, ya que se clasifican en HIDS (basados en host) o NIDS (basados en red). No obstante, para este proyecto, se va a poner el foco en el método de detección que se ha empleado: SIDS (\textit{Signature-based Intrusion Detection Systems}) y AIDS (\textit{Anomaly-based Intrusion Detection Systems}).
 
+    \vspace{5mm}
+
+    Los sistemas SIDS, como se ve analizado en \cite{liao2013intrusion}, son bastante eficientes al comparar patrones o firmas de tráfico malicioso, pero sin embargo no son capaces de identificar ataques \textit{zero-day}, y es debido a esta fuerte limitación que se impulsó el desarrollo de AIDS. Este método modela el comportamiento habitual del tráfico, de manera que se puedan detectar desviaciones en dicho comportamiento. Sin embargo, este último método presenta un gran problema a nivel de aprendizaje automático, la alta tasa de falsos positivos, lo cual es algo que se está intentando mejorar \cite{buczak2016survey}.
+
+    \vspace{10mm}
+
+    \subsection{Aprendizaje Automático y la Frontera del Deep Learning}
+
+    \vspace{5mm}
+
+    Los algoritmos de \textit{Machine Learning} permiten que los IDS se basen en funciones de distintos modelos adaptativos, dejando atrás aquellos sistemas rígidos donde todo era blanco o negro y no existían los grises. Según el estudio de \cite{ahmad2021network}, en la clasificación de tráfico malicioso destacan algoritmos supervisados como \textit{Random Forest}, \textit{Support Vector Machines} (SVM) o \textit{Extreme Learning Machines}, los cuales destacan por su alta precisión a la hora de clasificar ciberataques.
+
+    \vspace{5mm}
+
+    Siendo más específicos, el modelo \textit{Random Forest} destaca como el modelo más relevante en los últimos años gracias a su capacidad de manejar altos volúmenes de datos y por su dificil sobreajuste en comparación con otros modelos de clasificación \cite{zafar2020survey}. No obstante, como cualquier modelo superviado, se tiene una alta dependencia de los datos de entrenamiento, de manera que se necesita una alta calidad de datos ya que de lo contrario puede dificultar su implementación en entornos donde no se han catalogado diversas variantes de un ataque en concreto.
+
+    \vspace{5mm}
+ 
+    Si hablamos de Aprendizaje Profundo, se ha introducido un nuevo paradigma en la detección de anomalías, ya que las redes neuronales permiten una extracción de características a partir de los datos de red en crudo, como se cita en \cite{kwon2019survey}, lo que las diferencia de otros métodos tradicionales. Es por esto que se destacan los \textit{Autoencoders} con respecto a cualquier otro método, siendo la principal refernecia para una detección no supervisada.
+
+    \vspace{5mm}
+
+    En el trabajo de \cite{mirsky2018kitsune} se demostró que estos sistemas mencionados anteriormente son perfectamente capaces de monitorizar flujos de red en tiempo real con una muy baja carga computacional del sistema, identificando tráfico malicioso en función del error de reconstrucción de la red. Este planteamiento es fundamental para los Sistemas de Detección de Intrusiones de la actualidad, ya que permite identificar posibles ataques teniendo únicamente en cuenta tráfico legítimo en el entrenamiento de la red, descartando muestras maliciosas en el entrenamiento \cite{javaid2016deep}. También se ha explorado el uso de RNN (redes neuronales recurrentes) y CNN (redes neuronales convoluciones) con la finalidad de obtener un comportamiento similar, en función de la estructura temporal y espacial de los paquetes \cite{vinayakumar2019deep}.
+
+    \vspace{10mm}
+
+    \subsection{Datasets de Referencia y el Impacto de CICIDS2017}
+
+    \vspace{5mm}
+
+    Como se mencionó anteriormente, la validez de un IDS depende de la calidad de los datos, como cualquier otro sistema basado en modelos predictivos e inteligencia artificial. Por ello, se descartaron sets de datos como KDD Cup 99 y NSL-KDD para este proyecto, ya que fueron criticados por su falta de realismo y ausencia de protocolos modernos, según se cita en la fuente \cite{hindy2020taxonomy}.
+
+    \vspace{5mm}
+
+    Por ello, la introducción del conjunt de datos \textbf{CICIDS2017} por el \textit{Canadian Institute for Cybersecurity} supuso un antes y un después en este ámbito. Como se detalla en \cite{sharafaldin2018toward}, para este dataset se ha capturado tráfico real y moderno de red, incluyendo un amplio conjunto de datos maliciosos como DoS, DDoS, fuerza bruta, inyecciones SQL, etc, por lo que se ha convertido en uno de los estándares de la actualidad ya que refleja la tanto flujos benignos como maliciosos, además de presentar flujos que representan la comlejidad de las redes actuales, lo que se traduce en un conjunto de datos fiable y de alta calidad para proyectos académicos o entornos profesionales y de producción.    
+
+    \vspace{10mm}
 
 
 
@@ -1199,7 +1312,7 @@
 
 
 
-    \subsubsection{Captura de datos personalizada}
+    \subsubsection{Captura de datos personalizada}\label{subsubsec: captura_datos_personalizada}
 
     \vspace{5mm}
 
@@ -1217,14 +1330,14 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=1\textwidth]{../img/code/class_distribution_malign_cleaned.png}\\
+        \includegraphics[width=1\textwidth]{../img/code/class_distribution_malign_captured_cleaned.png}\\
         \caption{Distribución de clases de carácter malicioso del tráfico capturado}
         \label{}
     \end{figure}  
 
     \vspace{5mm}
 
-    Finalmene, esta captura personalizada de datos resultó ser fundamental para el equilibrio de los datos, ya que permite que el clasificador \textit{Random Forest} sea entrenado con una representación más equitativa y realista de cada categoría de ataque, lo que se traduce en unos resultados mucho más acorde a los esperado, como se verá en la siguiente sección.
+    Finalmene, esta captura personalizada de datos resultó ser fundamental para el equilibrio de los datos, ya que permite que el clasificador \textit{Random Forest} sea entrenado con una representación más equitativa y realista de cada categoría de ataque, lo que se traduce en unos resultados mucho más acorde a lo esperado, como se verá en la siguiente sección.
 
     \vspace{5mm}
 
@@ -1232,14 +1345,106 @@
 
 
 
-    \subsubsection{Resultados finales}
+    \subsubsection{Resultados finales}\label{subsubsec: resultados_finales}
 
     \vspace{5mm}
 
+    Antes de mostrar las principales métricas como la \texttt{precision}, \texttt{accuracy}, \texttt{recall} o \texttt{score f1}, se van a analizar de manera detallada las muestras generadas ante el desequilibrio de datos que se vio en \ref{subsubsec: primeros_resultados}. Vamos a tomar como ejemplo las inyecciones SQL, tomadas a través de la herramienta \texttt{sqlmap}:
 
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/code/df/sql_injection_samples.png}\\
+        \caption{Muestras de datos capturados: SQL Injection}
+        \label{}
+    \end{figure} 
+
+    \vspace{5mm}
     
+    Esto revela una homogeneidad muy alta en los datos tomados, ya que se puede identificar muy fácilmente la presencia de patrones que determinan la estructura de este tipo de ataque en concreto. En particular, se pueden encontrar los siguientes patrones en flujos generados por la herramienta \texttt{sqlmap}:
+
     \vspace{5mm}
 
+    \begin{itemize}
+        \item \textbf{Simetría de Flujo:} El ratio de subida/bajada (\texttt{Down/Up Ratio}) almacena un valor constante de 1.0, al igual que la cantidad total de paquetes enviados  (\texttt{Total Fwd Packets}) que también presenta el mismo valor, en este caso 5 paquetes por flujo.
+        
+        \vspace{2.5mm}
+
+        \item \textbf{Flags TCP:} También se puede observar que las banderas de control TCP (\texttt{FIN}, \texttt{PSH}, \texttt{ACK}) presentan el mismo patrón, activándose exactamente las mismas banderas en cada flujo de red generado.
+        
+        \vspace{2.5mm}
+
+        \item \textbf{Límites de Carga:} Por último se aprecia que las longitudes mínimas de los paquetes (\texttt{Min Packet Length}, \texttt{Fwd Packet Length Min}, \texttt{Bwd Packet Length Min}) presentan un valor homogéneo y constante en todos los flujos capturados, estabilizándose en un total de 68 bytes.
+    \end{itemize}
+
+    \vspace{5mm}
+ 
+    Esto provoca que, durante la fase de evaluación del modelo, se obtengan métricas casi perfectas, alcanzando valores de $0.99$ sobre $1$ en \textit{Accuracy}, \textit{Precision}, \textit{Recall} y \textit{F1-Score} como consecuencia de la alta homogeneidad de los datos capturados:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.50\textwidth]{../img/code/random_forest/resultados_entrenamiento.png}\\
+        \caption{Metricas del entrenamiento del modelo final: RandomForest}
+        \label{}
+    \end{figure} 
+
+    \vspace{5mm}
+
+    Desde una perspectiva analítica, esto justifica matemáticamente las métricas que se han obtenido. Sin embargo, esto salta las alarmas, ya que es un claro ejemplo de \textbf{sobreentrenamiento (overfitting)}, ante la grave dificultad para detectar un ataque de forma genérica, teniendo el modelo únicamente la capacidad de detectar la huella de red generada por ciertas herramientas, como \texttt{sqlmap}, bajo una configuración en específico en el entorno de pruebas. Si se hace la prueba, se puede verificar que se tiene mucha confianza en las predicciones, como resultado de los fenómenos recientemente explicados:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../img/mse/sqlmap_attack.png}\\
+        \caption{Prediciendo ataque malicioso creado con SQLMap}
+        \label{}
+    \end{figure}     
+
+    \vspace{5mm}
+
+    En conclusión, aunque esto pueda aparentar inicialmente un gran éxito del clasificador, el análisis pormenorizado de los flujos capturados sugiere una realidad más compleja. La presencia de patrones deterministas (firmas de red como las flags y métricas de volumen y longitud de datos) indica que el modelo converge a una solución muy óptima para  nuestro entorno controlado, pero a la vez es potencialmente frágil ante un escenario real. Este fenómeno recalca la importancia de la diversidad en los datos, ya que se demuestra una precisión excepcional para identificar ataques producidos por herramientas en concreto, con el coste de perder la capacidad de generalizar mucho más allá y lograr adaptarse a la enorme variabilidad intrínseca del tráfico malicioso.
+
+    \vspace{10mm}
+
+
+
+
+
+    \subsection{Implementación de Notificaciones y Respuesta ante Incidentes vía Telegram API}
+
+    \vspace{5mm}
+
+    A continuación se ha decidido implementar la API de Telegram en este proyecto, lo que proporciona un sistema de respuesta y monitarización remota a través de un bot. Esta implementación permite establecer un canal de comunicación entre la detección del sistema y su propio administrador, lo que facilita la toma de decisiones frente a posibles intrusiones en tiempo real.
+
+    \vspace{5mm}
+
+    La notificación se produce inmediatamente después de la clasificación del \textit{Random Forest}, en caso de que se haya detectado tráfico malicioso, en caso contrario, no se envía ningún mensaje. Esta comunicación se establece mediante peticiones HTTP POST al \textit{endpoint} de la API de Telegram, y es muy importante recalcar que la comunicación es bidereccional, de manera que al detectarse un posible ataque el administrador puede decidir si bloquear la dirección IP o no, como se puede ver a continuación:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.49\textwidth}
+            \centering
+            \includegraphics[width=0.25\textheight]{../img/telegram/telegram_1.png}
+        \end{minipage}
+        \begin{minipage}{0.49\textwidth}
+            \centering
+            \includegraphics[width=0.25\textheight]{../img/telegram/telegram_2.png}
+        \end{minipage}
+        \caption{Implementación con la API de Telegram}
+        \label{}
+    \end{figure} 
+
+    \vspace{5mm}
+
+    Con la imagen anterior se puede apreciar el flujo del sistema. Se notifica al administrador, de manera que se puede proceder con el bloqueo de la IP atacante, y en caso afirmativo, se hace una comprobación previa para no bloquear ciertas IPs críticas para el servidor. En caso contrario, se continúa con la detección de anomalías. Esta es la cúlpide del sistema, ya que permite notificar al administrador del servidor de un posible ataque, ofreciendo las medidas necesarias para hacer frente a este tipo de amenazas y mitigando los daños que puedan causar.
+
+    \vspace{10mm}
 
 
 
@@ -1250,9 +1455,60 @@
     \thispagestyle{empty}
     \mbox{}
 
-    \section{conclusiones}\label{sec: conclusiones}
+    \section{Conclusiones y Trabajo Futuro}\label{sec: conclusiones}
 
     \vspace{5mm}
+
+    En este trabajo se ha cumplido perfectamente con el objetivo principal de este proyecto, el cual es la elaboración e implementación de una arquitectura híbrida para la detección de anomalías en el tráfico de red de un servicio en tiempo real. Durante el desarrollo, se ha demostrado la enorme potencia de la fusión de modelos de aprendizaje no supervisado (la red neuronal) y supervisado (el modelo de clasificación), ofreciendo un sistema de detección de intrusiones robusto y escalable ideal para proteger sistemas frente a ciberataques, como el servidor web empleado.
+
+    \vspace{5mm}
+
+    La red neuronal mencionada anteriormente permite la detección de flujos anómalos en función de su error de reconstrucción, como se vio en \ref{subsec: autoencoder_impl}, ofreciendo un motor de detección muy robusto sin la necesidad de conocer exactamente el ataque o su firma a nivel de red, lo cual es fundamental en el paradigma actual de la ciberseguridad, ya que cada día los \textit{malware} son mucho más potentes y cambiantes, infiltrándose en aquellos sistemas de detección que se basan en mediciones estáticas.
+
+    \vspace{5mm}
+
+    Por otra parte, la integración de un modelo de clasificación \textit{Random Forest} tras la red neuronal es de enorme ayuda para conocer en mejor medida las intenciones del atacante, sección cubierta en \ref{subsec: modelo_clasificacion_impl}. Con esto se converge hacia la naturaleza del ataque, añadiendo la posibilidad de bloquear la dirección IP atacante para mitigar la amenaza.
+
+    \vspace{10mm}    
+
+    \subsection{Análisis crítico y limitaciones obtenidas}
+
+    \vspace{5mm}
+
+    Pese a los excelentes resultados en la fase de test de la clasificación (obteniendo resultados casi perfectos), urge una de las conclusiones más relevantes de este proyecto, ya que durante dicha etapa se identificó una alta homogeneidad de los datos generados por herramientas como SQLMap o Hydra. Esto provoca que se clasifiquen prácticamente sin fallos aquellos flujos de red provenientes de estas herramientas, pero introduce un alto riesgo de sobreentramiento al modelo (\textit{overfitting}), como se vio en \ref{subsubsec: resultados_finales}.
+
+    \vspace{5mm}
+
+    Finalmente se concluye que la clasificación tiende a reconocer la huella digital producida por la herramienta más que la naturaleza del propio ataque, planteando un fuerte problema en cuanto a la generalización de la clasificación, ya que un atacante podría generar tráfico malicioso mediante herramientas no conocidas por el modelo, generando un error en el sistema. Sin embargo, lógcamente esto es un fallo importante pero no crucial, ya que el autoencoder ya se encargó de detectar la anomalía previamente, saltando las alarmas en el sistema aunque la clasificación no sea acertada. Creemos que esta reflexión final es de vital importancia ya que la inteligencia artificial en la ciberseguridad y en cualquier otro ámbito no debe ser vista como una caja negra que propone una solución infalible ante todos nuestros problemas, sino que es una herramienta más en nuestro abanico y que requiere ser actualizada constantemente, ante la diversidad de datos y progresión evolutiva de ciberataques.
+
+    \vspace{10mm}
+
+    \subsection{Trabajo futuro}
+
+    \vspace{5mm}
+
+    Debido al auge evolutivo de la ciberseguridad en los últimos años, como se ha mencionado anteriormente, se proponen los siguientes pasos para mejorar y ampliar la investigación de este proyecto:
+
+    \vspace{5mm}
+
+    \begin{enumerate}
+        \item \textbf{Ampliación del conjunto de datos:} Debido a los resultados obtenidos en la clasificación, se propone incorporar tráfico de redes más complejas y con una amplia variedad de opciones y herramientas, todo ello con el fin de mejorar la capacidad de generalización del \textit{Random Forest} y reduciendo la dependencia de firmas provenientes del tráfico generado por ciertas herramientas.
+        
+        \vspace{5mm}
+        
+        \item \textbf{Optimización para entornos Big Data:} Es muy interesante incorporar entornos distribuidos como Apache Spark o Kafka, migrando la lógica de preprocesamiento de cada flujo de red por \texttt{nfstream} a un entorno que maneja de una manera mucho más fluida grandes volúmenes de datos, escalando el sistema a un entorno de producción más escalable y empresarial.
+        
+        \vspace{5mm}
+
+        \item \textbf{Integración de modelos de lenguaje (LLM):} El reciente auge de la inteligencia artificial generativa abre un gran abanico de posibilidades, permitiendo una mejor comunicación con el administrador del sistema y no solo permitiendo el bloqueo de una dirección IP atacante, sino ofreciendo muchas más opciones y con una explicación mucho más natural de por qué un flujo de red ha sido detectado como malicioso, facilitndo la toma de decisiones.
+        
+    \end{enumerate}
+
+    \vspace{5mm}
+
+    Como conclusión final, con este proyecto se demuestra que es posible construir un sistema de detección de intrusiones (IDS) avanzado, escalable y eficaz integrando modelos de \textit{Machine Learning} y \textit{Deep Learning}, lo que cierra la brecha entre la teoría y su implementación en el mundo real.
+
+    \vspace{10mm}
 
 
 
