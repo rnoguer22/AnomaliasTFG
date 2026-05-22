@@ -328,17 +328,21 @@
 
 
 
+    
+
     \subsection{Detección de Anomalías}\label{subsec: deteccion_anomalias}
 
     \vspace{5mm}
 
-    En esta sección vamos a explicar una parte vital de este proyecto, la cual consiste en la \textbf{detección de anomalías}. En el contexto de nuestro servidor web, una anomalía es un comportamiento extraño en el tráfico de red del servidor, sobre el cual nos vamos a centrar en aquellas peticiones de red fuera de lo común que se envían al servidor.
+    El principal componente de este sistema es la detección de anomalías y, para la seguridad de un servidor web, una anomalía se define como un patrón específico de red que se desvía en cierta medida del tráfico legítimo que se espera recibir. Por tanto, el objetivo principal de esta sección es identificar aquel tráfico de red que se aleje de las características principales que envuelven el tráfico legítimo de la red, permitiendo identificar variables inusuales o sospechosas que puedan suponer una amenaza para el servicio.
 
     \vspace{5mm}
 
-    Más adelante vamos a saber diferenciar el tipo de ciberataque que se está intentando realizar por parte del atacante, pero en esta primera parte de la detección tenemos que diferenciar peticiones de red con un comportamiento benigno de uno maligno, y para ello vamos a utilizar un \textbf{autoencoder}.
+    Aunque más adelante en una etapa posterior del trabajo se procederá a la clasificación más en detalle del tipo de amenaza en concreto mediante modelos supervisados, la primera barrera que se encuentra un administrador de seguridad es la identificación de tráfico malicioso, y para ello se va a emplear un \textit{Autoencoder}. Esto es una red neuronal capaz de aprender la firma del tráfico benigno, lo que permite separar con una alta fiabilidad el tráfico legítico del aquel potencialmente malicioso.
 
     \vspace{5mm}
+
+
 
 
 
@@ -346,11 +350,25 @@
 
     \vspace{5mm}
 
-    Un \textbf{autoencoder} es una red neuronal que intenta replicar los datos recibidos de su capa de entrada $x$ en la capa de salida $r$. No obstante, en esta copia no nos vamos a fijar al utilizar cualquier \textit{autoencoder} en general, ya que nos interesa conocer el \textbf{error} que la red comete al intentar replicar los datos en la capa de salida $r$. De esta manera, si obtenemos un valor de error alto, los datos introducidos no se asemeja a los datos de entrenamiento de la red, y si obtenemos un valor de error bajo, lo contrario. Precisamente esto es en lo que nos vamos a basar para detectar logs malignos en el servidor, ya que si entrenamos la red con un set de datos benignos y comparamos el error producido por otras entradas benignas y malignas, el error será mucho mayor en los conjuntos de datos que el modelo no conoce, es decir, los datos malignos. 
+    Un \textbf{autoencoder} es una red neuronal que intenta replicar los datos recibidos de su capa de entrada $x$ en la capa de salida $r$, de manera que se recibe un vector entrante $x$ y se proyecta sobre un vector de salida $r$ tras pasar por las capas de la red. De esta manera se consigue replicar con cierto error los datos de entrada $x$, y es en el análisis de dicho error donde reside la capacidad para detectar cualquier anomalía, el cual se bautiza como error de reconstrucción de la red.
+    
+    \vspace{5mm}
+
+    Según se especifica en \cite{goodfellow2016deep}, este tipo de redes se componen en dos partes:
 
     \vspace{5mm}
 
-    Según se especifica en \cite{goodfellow2016deep}, este tipo de redes se componen en dos partes: El primer componente se denomina \textbf{encoder} $f$ (transforma lo datos de entrada $x$ en $h$), el cual identifica las variables más significativas y descarta el ruido innecesario, y un \textbf{decoder} $g$, que obtiene la reconstrucción del modelo $r$ a partir de $h$. Esta es la estructura básica de la red y se puede ver reflejada en la siguiente imagen:
+    \begin{itemize}
+        \item \textbf{Encoder ($f$):} Encargado de proyectar los datos de entrada $x$ en un espacio de dimensión reducida $h$, de manera que se extraen las características más relevantes de $x$ y se elimina mayoritariamente el ruido.
+
+        \vspace{5mm}
+
+        \item \textbf{Decoder ($g$):} El cual realiza la operación inversa, es decir, reconstruye el vector de entrada $x$ original a través del espacio comprimido, formando así el vector de salida $r = g(h)$.
+    \end{itemize}    
+
+    \vspace{5mm}
+
+    La detección se basa en un principio fundamental. Al haber sido entrenada únicamente con tráfico benigno, la red será capaz de reconstruir entradas similares con un error de reconstrucción bajo, mientras que ante un posible flujo malicioso, al no ser la red capaz de replicar las características principales de dicho flujo, se obtendrá un error de reconstrucción significativamente mayor, lo que se traduce en una fuerte y ruidosa alerta ante una posible amenaza. 
 
     \vspace{5mm}
 
@@ -363,9 +381,13 @@
 
     \vspace{5mm}
 
-    Donde las funciones $f$ y $g$ serán definidas en la sección de implementación (\ref{subsec: autoencoder}). Una vez se ha visto la estructura básica de un \textit{autoencoder}, nos vamos a adentrar más específicamente en la red que se va a implementrar de manera práctica en este proyecto.
+    Las funciones $f$ y $g$ se definirán detalladamente en la sección de implementación (\ref{subsec: autoencoder}). A continuación, se profundiza en la configuración específica del modelo implementado en este estudio.
+
+    Las funciones $f$ y $g$ serán definidas más detalladamente en la sección de implementación \ref{subsec: autoencoder}. A continuación, una vez se ha declarado la estructura básica de un \textit{autoencoder}, se va a detallar más específicamente en la red en concreto que se va a implementar de manera práctica en este proyecto.
 
     \vspace{10mm}
+
+
 
 
 
@@ -373,11 +395,7 @@
 
     \vspace{5mm}
 
-    Se ha visto en la sección anterior que nuestro modelo tiene que aprender de sus datos de entrenamiento, y esto se puede lograr con un \textbf{autoencoder subcompleto}. La diferencia con respecto a un autoencoder genérico es que se van a limitar los datos obtenidos en $h$, obligando a que tengan una dimensión inferior que $x$. De esta manera $h$ es forzada a aprender las propiedades más representativas de los datos de entrenamiento, lo cual resultará en una reconstrucción final $r$ con ciertas discrepancias con respecto a los datos de entrada $x$. 
-
-    \vspace{5mm}
-
-    Podemos medir dichas discrepancias minimizando una función, la función de pérdida del modelo:
+    Para evitar la memorización de los datos durante la fase de entrenamiento y se garantice su correcto aprendizaje por parte de la red, se ha implementado un \textit{Autoencoder} subcompleto. Este modelo en específico reduce la dimensión del espacio latente $h$ de manera que sea inferior a la de los vectores de entrada $x$, lo que obliga al modelo a identificar y extraer las propiedades más representativas de los datos de entrenamiento, lo que se traduce en una reconstrucción final $r$ similar en caso de tráfico benigno al contrario que en un flujo de red malicioso, donde la reconstrucción presentará muchas discrepancias. La eficacia de dicha reconstrucción $r$ se cuantifica a través de una función de pérdida $L$, la cual mide la discrepancia entre el vector de entrada $x$ y el vector de reconstrucción $g(f(xc))$:
 
     \vspace{2.5mm}
 
@@ -388,7 +406,7 @@
 
     \vspace{2.5mm}
 
-    Donde $L$ es la función de pérdida que identifica si la reconstrucción del modelo $r = g(f(x))$ obtiene resultados similares a $x$. El entrenamiento de la red se basa en minimizar la función de pérdida que acabamos de ver (\ref{eq: loss_function}), y la función de pérdida que se va a usar en este trabajo es el \textbf{error cuadrático medio} \textit{MSE}, ya que penaliza los errores en mayor medida al elevar al cuadrado, es fácil de optimizar al ser continua y derivable en todo punto del espacio (esto facilita el entrenamiento de la red), representa la distancia euclídea por lo que facilita la representación, etc.
+    Donde se ha seleccionado el \textbf{Error Cuadrático Medio (MSE)} como función de pérdida $L$. El \textit{MSE} resulta muy útil ya que penaliza de forma cuadrática las desviaciones, propias de un flujo malicioso de datos, favoreciendo la convergencia y la estabilidad durante la fase de entrenamiento debido a sus propiedades de continuidad y derivabilidad en todo el espacio vectorial:    
 
     \vspace{2.5mm}
 
@@ -399,9 +417,13 @@
 
     \vspace{2.5mm}
 
-    Siendo $x$ los datos de entrada, $r$ los valores de la reconstrucción, y $n$ el número total de datos en la capa de entrada y salida del modelo.
+    Siendo $n$ la dimensionalidad de los vectores tanto de entrada $x_i$ como de salida $r_i$. Esto permite una alta precisión al cuantificar el grado de la posible anomalía, lo que facilita la definición de umbrales para el proceso de detección de intrusiones (\ref{subsec: determinacion_umbral_deteccion_anomalias}).
 
     \vspace{10mm}
+
+
+
+
 
     \subsection{Random Forest}\label{subsec: random_forest}
 
