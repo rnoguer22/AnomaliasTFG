@@ -228,6 +228,7 @@
         \centering
         \includegraphics[width=1\textwidth]{../img/mapa_introduccion.png}\\
         \caption{Diseño de la arquitectura propuesta}
+        \small Obtenida a partir de Google Gemini \cite{google_gemini_2025}.
         \label{fig: disenio_arquitectura_propuesta}
     \end{figure}
 
@@ -437,7 +438,17 @@
 
     \vspace{5mm}
 
-    Este modelo se compone de un boque de árboles, es decir, un conjunto de árboles de decisión. Un árbol de decisión es un modelo no paramétricos que segmenta el espacio de características mediante una serie de reglas que se van propagando hasta la decisión final. Por ello, destacan por su gran interpretabilidad y capacidad de capturar relaciones complejas entre las distintas variables de los datos, pero presentan un grave problema, la alta varianza. 
+    Este modelo se compone de un bosque de árboles, es decir, un conjunto de árboles de decisión. Un árbol de decisión es un modelo no paramétricos que segmenta el espacio de características mediante una serie de reglas que se van propagando hasta la decisión final. Por ello, destacan por su gran interpretabilidad y capacidad de capturar relaciones complejas entre las distintas variables de los datos, pero presentan un grave problema, la alta varianza. 
+
+    \vspace{5mm}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\textwidth]{../img/arbol_decision_structure.png}\\
+        \caption{Estructura elemental de un Árbol de Decisión.}
+        \small  Obtenida a partir de \cite{google_gemini_2025}.
+        \label{fig: arbol_decision_structure}
+    \end{figure}
 
     \vspace{5mm}
 
@@ -498,12 +509,22 @@
     \vspace{2.5mm}
 
     \begin{equation}
-    \hat{C}_{rf}(x) = \text{mayoría} \{ \hat{C}_b(x) \}_{1}^{B}
+    \hat{C}_{rf}(x) = \text{mode} \{ \hat{C}_b(x) \}_{1}^{B}
     \end{equation}
 
     \vspace{2.5mm}
 
-    Este asegura que los errores aleatorios de un árbol individual (provocados por ruido o sobreajuste a su muestra de Bootstrap) se compensen con el resto de votos de los árboles restantes, mejorando la robustez del modelo.
+    Este asegura que los errores aleatorios de un árbol individual (provocados por ruido o sobreajuste a su muestra de Bootstrap) se compensen con el resto de votos de los árboles restantes, mejorando la robustez del modelo:
+
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\textwidth]{../img/random_forest_structure.png}\\
+        \caption{Mapa conceptual de un Random Forest}
+        \small Obtenida a partir de Google Gemini \cite{google_gemini_2025}.
+        \label{fig: random_forest_structure}
+    \end{figure}
 
     \vspace{10mm}
 
