@@ -29,17 +29,15 @@ El sistema monitoriza el tráfico de red de un servidor web en tiempo real utili
 ## 📂 Estructura del Repositorio
 ```text
 AnomaliasTFG/
-├── data/               # Datasets (CICIDS2017 y capturas de laboratorio)
-├── models/             # Modelos entrenados (.h5, .pkl)
-├── src/
-│   ├── detection/      # Lógica del Autoencoder y stream processing
-│   ├── classification/ # Lógica del Random Forest
-│   ├── notification/   # Integración con Telegram API
-│   └── utils/          # Scripts de utilidad y configuración
-├── notebooks/          # Experimentos y análisis de datos
-├── .env.example        # Plantilla de variables de entorno
-├── requirements.txt    # Dependencias del sistema
-└── README.md           # Documentación principal
+├── code/               # Scripts .py utilizados para la ejecucion y recapitulación de datos del proyecto
+├── data/
+    ├── csv             # Ficheros csv descargados de \cite{CICIDS2017}. No se encuentran subidos al repositorio por falta de espacio     
+    ├── df              # Dataframes utilizados para la implementación del proyecto. Datos preprocesados y analizados    
+    ├── model           # Distintos modelos, tanto redes neuronales, algoritmos de clasificación,  label encoders, scalers, etc.
+    ├── umbral          # Datos capturados para la determinación del umbral definido en (\ref{subsec: determinacion_umbral_deteccion_anomalias})
+├── .env                # Fichero de configuración. Importante crearlo y asignar propiedades en función del usuario que utilice la herramienta
+├── requirements.txt    # Registro de dependencias del sistema
+└── README.md           # Documentación técnica principal
 ```
 
 ---
