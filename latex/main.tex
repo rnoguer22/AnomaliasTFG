@@ -27,7 +27,7 @@
 \usepackage{float} % Para poner las imagenes justo donde queramos
 
 \usepackage{xcolor} % Para definir colores personalizados
-\usepackage{hyperref}
+\usepackage[colorlinks=true, urlcolor=blue, linkcolor=blue, citecolor=blue]{hyperref}
 \usepackage{subcaption}
 \usepackage{url}
 \usepackage{natbib}
@@ -1542,6 +1542,41 @@
     \vspace{5mm}
 
     Como conclusión final, con este proyecto se demuestra que es posible construir un sistema de detección de intrusiones (IDS) avanzado, escalable y eficaz integrando modelos de \textit{Machine Learning} y \textit{Deep Learning}, lo que cierra la brecha entre la teoría y su implementación en el mundo real.
+
+    \vspace{10mm}
+
+
+
+
+
+    \subsection{Anexo: Estructura y Organización del Repositorio de Código}\label{subsec:anexo_repositorio}
+
+    \vspace{5mm}
+
+    Todo el código fuente así como los distintos modelos entrenados y el conjunto de datos utilizado se encuentre disponible en el \href{https://github.com/rnoguer22/AnomaliasTFG.git}{repositorio de este proyecto}. Se ha organizado el repositorio de manera que sea lo más sencillo de entender posible, y a continuación se muestra un árbol de los directorios más relevantes del proyecto, incluyendo su funcionalidad:
+
+    \vspace{5mm}
+
+    \begin{table}[H]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.5} % Aumenta la separación entre filas
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{10cm}|}
+    \hline            
+    \textbf{Archivo / Directorio} & \textbf{Descripción} \\ \hline
+    \texttt{AnomaliasTFG/} & Raíz del repositorio del proyecto. \\ \hline
+    \texttt{code/} & Scripts \texttt{.py} utilizados para la ejecución y recapitulación de datos. \\ \hline
+    \texttt{data/csv/} & Ficheros csv descargados de \cite{CICIDS2017}. No se encuentran subidos al repositorio por falta de espacio \\ \hline
+    \texttt{data/df/} & Dataframes utilizados para la implementación del proyecto. Datos preprocesados y analizados \\ \hline
+    \texttt{data/model/} & Distintos modelos, tanto redes neuronales, algoritmos de clasificación, label encoders, scalers, etc. \\ \hline
+    \texttt{data/umbral} & Datos capturados para la determinación del umbral definido en \ref{subsec: determinacion_umbral_deteccion_anomalias} \\ \hline
+    \texttt{.env} & Fichero de configuración. Importante crearlo y asignar propiedades en función del usuario que utilice la herramienta \\ \hline
+    \texttt{requirements.txt} & Registro de dependencias de Python requeridas por el sistema. \\ \hline
+    \texttt{README.md} & Documentación técnica principal del repositorio. \\ \hline
+    \end{tabular}
+    \caption{Estructura de directorios y organización del código fuente.}
+    \label{tab:estructura_archivos}
+    \end{table}
 
     \vspace{10mm}
 
