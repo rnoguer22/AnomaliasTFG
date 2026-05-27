@@ -31,10 +31,10 @@ El sistema monitoriza el tráfico de red de un servidor web en tiempo real utili
 AnomaliasTFG/
 ├── code/               # Scripts .py utilizados para la ejecucion y recapitulación de datos del proyecto
 ├── data/
-    ├── csv             # Ficheros csv descargados de \cite{CICIDS2017}. No se encuentran subidos al repositorio por falta de espacio     
-    ├── df              # Dataframes utilizados para la implementación del proyecto. Datos preprocesados y analizados    
-    ├── model           # Distintos modelos, tanto redes neuronales, algoritmos de clasificación,  label encoders, scalers, etc.
-    ├── umbral          # Datos capturados para la determinación del umbral definido en (\ref{subsec: determinacion_umbral_deteccion_anomalias})
+    ├── csv/            # Ficheros csv descargados de \cite{CICIDS2017}. No se encuentran subidos al repositorio por falta de espacio     
+    ├── df/             # Dataframes utilizados para la implementación del proyecto. Datos preprocesados y analizados    
+    ├── model/          # Distintos modelos, tanto redes neuronales, algoritmos de clasificación,  label encoders, scalers, etc.
+    ├── umbral/         # Datos capturados para la determinación del umbral definido en (\ref{subsec: determinacion_umbral_deteccion_anomalias})
 ├── .env                # Fichero de configuración. Importante crearlo y asignar propiedades en función del usuario que utilice la herramienta
 ├── requirements.txt    # Registro de dependencias del sistema
 └── README.md           # Documentación técnica principal
