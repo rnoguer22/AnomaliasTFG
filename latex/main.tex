@@ -272,7 +272,7 @@
 
     \vspace{5mm}
 
-    Durante la historia de las infraestructuras digitales, estas arquitecturas siempre han dependido de un Sistema de Detección de Intrusiones (IDS) y, según se establece en \cite{garcia2009anomaly}, estos sistemas se dividen en función de su ubicación, ya que se clasifican en HIDS (basados en host) o NIDS (basados en red). No obstante, para este proyecto, se va a poner el foco en el método de detección que se ha empleado: SIDS (\textit{Signature-based Intrusion Detection Systems}) y AIDS (\textit{Anomaly-based Intrusion Detection Systems}).
+    Históricamente, la protección de las infraestructuras digitales se ha apoyado en sistemas de detección de intrusiones (IDS) y, según se establece en \cite{garcia2009anomaly}, se dividen en función de su ubicación, ya que se clasifican en HIDS (basados en host) o NIDS (basados en red). No obstante, para este proyecto, se va a poner el foco en el método de detección que se ha empleado: SIDS (\textit{Signature-based Intrusion Detection Systems}) y AIDS (\textit{Anomaly-based Intrusion Detection Systems}). (IDS) y, según se establece en \cite{garcia2009anomaly}, estos sistemas se dividen en función de su ubicación, ya que se clasifican en HIDS (basados en host) o NIDS (basados en red). No obstante, para este proyecto, se va a poner el foco en el método de detección que se ha empleado: SIDS (\textit{Signature-based Intrusion Detection Systems}) y AIDS (\textit{Anomaly-based Intrusion Detection Systems}).
 
     \vspace{5mm}
 
@@ -284,15 +284,15 @@
 
     \vspace{5mm}
 
-    Los algoritmos de \textit{Machine Learning} permiten que los IDS se basen en funciones de distintos modelos adaptativos, dejando atrás aquellos sistemas rígidos donde todo era blanco o negro y no existían los grises. Según el estudio de \cite{ahmad2021network}, en la clasificación de tráfico malicioso destacan algoritmos supervisados como \textit{Random Forest}, \textit{Support Vector Machines} (SVM) o \textit{Extreme Learning Machines}, los cuales destacan por su alta precisión a la hora de clasificar ciberataques.
+    Los algoritmos de \textit{Machine Learning} permiten que los IDS se basen en funciones de distintos modelos adaptativos, dejando atrás aquellos sistemas rígidos donde todo se concebía de forma binaria, ignorando matices y situaciones intermedias. Según el estudio de \cite{ahmad2021network}, en la clasificación de tráfico malicioso destacan algoritmos supervisados como \textit{Random Forest}, \textit{Support Vector Machines} (SVM) o \textit{Extreme Learning Machines}, los cuales destacan por su alta precisión a la hora de clasificar ciberataques.
 
     \vspace{5mm}
 
-    Siendo más específicos, el modelo \textit{Random Forest} destaca como el modelo más relevante en los últimos años gracias a su capacidad de manejar altos volúmenes de datos y por su dificil sobreajuste en comparación con otros modelos de clasificación \cite{zafar2020survey}. No obstante, como cualquier modelo superviado, se tiene una alta dependencia de los datos de entrenamiento, de manera que se necesita una alta calidad de datos ya que de lo contrario puede dificultar su implementación en entornos donde no se han catalogado diversas variantes de un ataque en concreto.
+    Siendo más específicos, el modelo \textit{Random Forest} destaca como el modelo más relevante en los últimos años gracias a su capacidad de manejar altos volúmenes de datos y por su menor tendencia al sobreajuste en comparación con otros modelos de clasificación \cite{zafar2020survey}. No obstante, como cualquier modelo supervisado, se tiene una alta dependencia de los datos de entrenamiento, de manera que se necesita una alta calidad de datos ya que de lo contrario puede dificultar su implementación en entornos donde no se han catalogado diversas variantes de un ataque en concreto.
 
     \vspace{5mm}
  
-    Si hablamos de Aprendizaje Profundo, se ha introducido un nuevo paradigma en la detección de anomalías, ya que las redes neuronales permiten una extracción de características a partir de los datos de red en crudo, como se cita en \cite{kwon2019survey}, lo que las diferencia de otros métodos tradicionales. Es por esto que se destacan los \textit{Autoencoders} con respecto a cualquier otro método, siendo la principal refernecia para una detección no supervisada.
+    Si hablamos de Aprendizaje Profundo, se ha introducido un nuevo paradigma en la detección de anomalías, ya que las redes neuronales permiten una extracción de características a partir de los datos de red en crudo, como se cita en \cite{kwon2019survey}, lo que las diferencia de otros métodos tradicionales. Es por esto que se destacan los \textit{Autoencoders} con respecto a cualquier otro método, siendo la principal referencia para una detección no supervisada.
 
     \vspace{5mm}
 
@@ -300,7 +300,7 @@
 
     \vspace{10mm}
 
-    \subsection{Datasets de Referencia y el Impacto de CICIDS2017}
+    \subsection{Análisis de Datasets de Referencia e Impacto de CICIDS2017}
 
     \vspace{5mm}
 
@@ -308,7 +308,31 @@
 
     \vspace{5mm}
 
-    Por ello, la introducción del conjunt de datos \textbf{CICIDS2017} por el \textit{Canadian Institute for Cybersecurity} supuso un antes y un después en este ámbito. Como se detalla en \cite{sharafaldin2018toward}, para este dataset se ha capturado tráfico real y moderno de red, incluyendo un amplio conjunto de datos maliciosos como DoS, DDoS, fuerza bruta, inyecciones SQL, etc, por lo que se ha convertido en uno de los estándares de la actualidad ya que refleja la tanto flujos benignos como maliciosos, además de presentar flujos que representan la comlejidad de las redes actuales, lo que se traduce en un conjunto de datos fiable y de alta calidad para proyectos académicos o entornos profesionales y de producción.    
+    Por ello, la introducción del conjunto de datos \textbf{CICIDS2017} por el \textit{Canadian Institute for Cybersecurity} supuso un antes y un después en este ámbito. Como se detalla en \cite{sharafaldin2018toward}, para este dataset se ha capturado tráfico real y moderno de red, incluyendo un amplio conjunto de datos maliciosos como DoS, DDoS, fuerza bruta, inyecciones SQL, etc, por lo que se ha convertido en uno de los estándares de la actualidad ya que refleja tanto flujos benignos como maliciosos, además de presentar flujos que representan la complejidad de las redes actuales, lo que se traduce en un conjunto de datos fiable y de alta calidad para proyectos académicos o entornos profesionales y de producción.    
+
+    \vspace{5mm}
+
+    A fin de evaluar de manera crítica el panorama actual, en la Tabla~\ref{tab:comparativa_estado_arte} se contrastan las principales familias de métodos identificadas en la literatura, analizando sus ventajas, limitaciones estructurales, métricas de evaluación, tipos de amenaza abordados, los conjuntos de datos empleados y su grado de convergencia con el enfoque de esta investigación.
+
+    \begin{table}[htbp]
+    \centering
+    \caption{Tabla comparativa de metodologías en el estado del arte.}
+    \label{tab:comparativa_estado_arte}
+    \small
+    \begin{tabular}{|p{2.3cm}|p{2.2cm}|p{2.2cm}|p{1.4cm}|p{1.8cm}|p{1.8cm}|p{1.8cm}|}
+    \hline
+    \textbf{Metodología / Trabajo} & \textbf{Ventajas} & \textbf{Limitaciones} & \textbf{Métricas} & \textbf{Tipos de Ataque} & \textbf{Datasets} & \textbf{Cercanía} \\ \hline
+    Sistemas Basados en Reglas y Firmas & Alta interpretabilidad, bajo coste computacional en ejecución. & Incapacidad absoluta ante ataques día cero o mutaciones. & Precisión, Tasa de Falsos Positivos. & Ataques e intrusiones conocidas. & Locales / Sintéticos de fabricante. & Distante (carece de componentes predictivos). \\ \hline
+    Modelos de Aprendizaje Automático Clásico & Eficientes en datos estructurados y tabulares. & Alta dependencia de ingeniería de características manual. & F1-Score, AUC-ROC, Accuracy. & Anomalías de tráfico, fases tempranas. & NSL-KDD, KDD Cup. & Moderada (fundamento predictivo básico). \\ \hline
+    Modelos de Aprendizaje Profundo (DL) & Extracción autónoma de patrones complejos y temporales. & Elevado coste de cómputo y opacidad en la toma de decisiones. & Recall, Tiempo de detección, F1. & Infiltraciones complejas y malware avanzado. & CICIDS2017, UNSW-NB15. & Cercana (comparte el uso de redes neuronales). \\ \hline
+    \textbf{Propuesta (Este TFG)} & \textbf{Contextualización semántica, adaptabilidad y resiliencia.} & \textbf{Dependencia inicial de la calidad del corpus base.} & \textbf{Precisión, F1-Score, Latencia de respuesta.} & \textbf{Amenazas dinámicas, Zero-day, Ransomware.} & \textbf{[Especificar Dataset o Caso Práctico].} & \textbf{Identidad (Solución desarrollada).} \\ \hline
+    \end{tabular}
+    \end{table}
+
+    \subsection{Brecha de Investigación y Contribución del TFG}
+    El análisis comparativo pone de manifiesto una brecha crítica en el estado del arte: las soluciones tradicionales adolecen de una rigidez operativa insostenible frente a vectores de ataque dinámicos, mientras que los enfoques basados estrictamente en aprendizaje profundo cuantitativo suelen operar como cajas negras aisladas del contexto conceptual del entorno de red. 
+
+    Este Trabajo de Fin de Grado cubre dicho vacío mediante el diseño e implementación de un marco metodológico que unifica la capacidad predictiva de los modelos de aprendizaje automático con arquitecturas avanzadas de procesamiento y extracción de conocimiento. De este modo, la propuesta no solo optimiza la detección cualitativa de anomalías y amenazas críticas, sino que introduce un nivel de abstracción y contextualización superior, permitiendo mitigar las limitaciones de falsos positivos y ofreciendo una solución robusta y escalable adaptada a los requisitos de las infraestructuras modernas.
 
     \vspace{10mm}
 
