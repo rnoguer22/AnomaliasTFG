@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.27)  17 JUN 2026 23:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.27)  19 JUN 2026 22:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1083,7 +1083,7 @@ See the natbib package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.210 ...and\NAT@force@numbers{}\NAT@force@numbers
+l.211 ...and\NAT@force@numbers{}\NAT@force@numbers
                                                   
 Check the bibliography entries for non-compliant syntax,
 or select author-year BibTeX style, e.g. plainnat
@@ -1202,7 +1202,7 @@ LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 17.09995pt on input line 106.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 17.09995pt on input line 106.
-<../img/logo_uax.png, id=151, 683.55376pt x 288.07625pt>
+<../img/logo_uax.png, id=155, 683.55376pt x 288.07625pt>
 File: ../img/logo_uax.png Graphic file (type png)
 <use ../img/logo_uax.png>
 Package pdftex.def Info: ../img/logo_uax.png  used on input line 112.
@@ -1326,36 +1326,36 @@ two letters. (See Chapter 27 of The TeXbook.)
 
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 13.67995pt on input line 203.
+[7]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 2
-10.
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+38.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [7]
-<../img/mapa_introduccion.png, id=291, 1409.265pt x 709.65125pt>
+LaTeX Info: Redefining \. on input line 251.
+LaTeX Info: Redefining \% on input line 251.
+ [8]
+<../img/mapa_introduccion.png, id=305, 1409.265pt x 709.65125pt>
 File: ../img/mapa_introduccion.png Graphic file (type png)
 <use ../img/mapa_introduccion.png>
-Package pdftex.def Info: ../img/mapa_introduccion.png  used on input line 229.
+Package pdftex.def Info: ../img/mapa_introduccion.png  used on input line 257.
 (pdftex.def)             Requested size: 472.03123pt x 237.69403pt.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 10.40245pt on input line 231.
-LaTeX Info: Redefining \. on input line 234.
-LaTeX Info: Redefining \% on input line 234.
- [8]
-LaTeX Info: Redefining \. on input line 255.
-LaTeX Info: Redefining \% on input line 255.
+(Font)              scaled to size 10.40245pt on input line 259.
+LaTeX Info: Redefining \. on input line 283.
+LaTeX Info: Redefining \% on input line 283.
  [9 <../img/mapa_introduccion.png>]
-LaTeX Info: Redefining \. on input line 267.
-LaTeX Info: Redefining \% on input line 267.
+LaTeX Info: Redefining \. on input line 299.
+LaTeX Info: Redefining \% on input line 299.
  [10]
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.271     \section{Estado del Arte}
+l.303     \section{Estado del Arte}
                                    
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1364,7 +1364,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.271     \section{Estado del Arte}
+l.303     \section{Estado del Arte}
                                    
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1376,33 +1376,33 @@ two letters. (See Chapter 27 of The TeXbook.)
 [11]
 
 LaTeX Font Warning: Font shape `OT1/qhv/m/sl' in size <10.95> not available
-(Font)              Font shape `OT1/qhv/m/it' tried instead on input line 323.
+(Font)              Font shape `OT1/qhv/m/it' tried instead on input line 355.
 
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 10.40245pt on input line 325.
+(Font)              scaled to size 10.40245pt on input line 357.
 
-Overfull \hbox (0.9934pt too wide) in paragraph at lines 325--325
+Overfull \hbox (0.9934pt too wide) in paragraph at lines 357--357
  []|\T1/phv/b/n/10.95 Limitaciones| 
  []
 
 
-Overfull \hbox (1.37872pt too wide) in paragraph at lines 328--328
+Overfull \hbox (1.37872pt too wide) in paragraph at lines 360--360
  []|\T1/phv/m/n/10.95 Infiltraciones 
  []
 
-LaTeX Info: Redefining \. on input line 330.
-LaTeX Info: Redefining \% on input line 330.
+LaTeX Info: Redefining \. on input line 362.
+LaTeX Info: Redefining \% on input line 362.
 [12]
-LaTeX Info: Redefining \. on input line 343.
-LaTeX Info: Redefining \% on input line 343.
+LaTeX Info: Redefining \. on input line 375.
+LaTeX Info: Redefining \% on input line 375.
  [13]
-LaTeX Info: Redefining \. on input line 348.
-LaTeX Info: Redefining \% on input line 348.
+LaTeX Info: Redefining \. on input line 380.
+LaTeX Info: Redefining \% on input line 380.
  [14]
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.357     \section{Marco Teórico}
+l.389     \section{Marco Teórico}
                                   
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1411,7 +1411,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.357     \section{Marco Teórico}
+l.389     \section{Marco Teórico}
                                   
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1421,57 +1421,57 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 [15{/usr/share/texmf/fonts/enc/dvips/tex-gyre/q-rm.enc}]
-<../img/autoencoder_structure.png, id=371, 343.2825pt x 168.63pt>
+<../img/autoencoder_structure.png, id=376, 343.2825pt x 168.63pt>
 File: ../img/autoencoder_structure.png Graphic file (type png)
 <use ../img/autoencoder_structure.png>
 Package pdftex.def Info: ../img/autoencoder_structure.png  used on input line 4
-01.
+33.
 (pdftex.def)             Requested size: 188.8096pt x 92.74678pt.
-LaTeX Info: Redefining \. on input line 422.
-LaTeX Info: Redefining \% on input line 422.
+LaTeX Info: Redefining \. on input line 454.
+LaTeX Info: Redefining \% on input line 454.
  [16 <../img/autoencoder_structure.png>]
-<../img/arbol_decision_structure.png, id=381, 1541.76pt x 1027.84pt>
+<../img/arbol_decision_structure.png, id=386, 1541.76pt x 1027.84pt>
 File: ../img/arbol_decision_structure.png Graphic file (type png)
 <use ../img/arbol_decision_structure.png>
 Package pdftex.def Info: ../img/arbol_decision_structure.png  used on input lin
-e 469.
+e 501.
 (pdftex.def)             Requested size: 354.02342pt x 236.00613pt.
-LaTeX Info: Redefining \. on input line 474.
-LaTeX Info: Redefining \% on input line 474.
+LaTeX Info: Redefining \. on input line 506.
+LaTeX Info: Redefining \% on input line 506.
  [17]
 LaTeX Font Info:    Font shape `OT1/qhv/bx/n' in size <12> not available
-(Font)              Font shape `OT1/qhv/b/n' tried instead on input line 477.
+(Font)              Font shape `OT1/qhv/b/n' tried instead on input line 509.
 LaTeX Font Info:    Font shape `OT1/qhv/bx/n' in size <8> not available
-(Font)              Font shape `OT1/qhv/b/n' tried instead on input line 477.
+(Font)              Font shape `OT1/qhv/b/n' tried instead on input line 509.
 LaTeX Font Info:    Font shape `OT1/qhv/bx/n' in size <6> not available
-(Font)              Font shape `OT1/qhv/b/n' tried instead on input line 477.
-LaTeX Info: Redefining \. on input line 490.
-LaTeX Info: Redefining \% on input line 490.
+(Font)              Font shape `OT1/qhv/b/n' tried instead on input line 509.
+LaTeX Info: Redefining \. on input line 522.
+LaTeX Info: Redefining \% on input line 522.
  [18 <../img/arbol_decision_structure.png (PNG copy)>]
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 7.59998pt on input line 520.
+(Font)              scaled to size 7.59998pt on input line 552.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 5.69998pt on input line 520.
-LaTeX Info: Redefining \. on input line 530.
-LaTeX Info: Redefining \% on input line 530.
+(Font)              scaled to size 5.69998pt on input line 552.
+LaTeX Info: Redefining \. on input line 562.
+LaTeX Info: Redefining \% on input line 562.
 
 [19]
-<../img/random_forest_structure.png, id=405, 1412.27625pt x 676.5275pt>
+<../img/random_forest_structure.png, id=410, 1412.27625pt x 676.5275pt>
 File: ../img/random_forest_structure.png Graphic file (type png)
 <use ../img/random_forest_structure.png>
 Package pdftex.def Info: ../img/random_forest_structure.png  used on input line
- 545.
+ 577.
 (pdftex.def)             Requested size: 472.03123pt x 226.11421pt.
-LaTeX Info: Redefining \. on input line 567.
-LaTeX Info: Redefining \% on input line 567.
+LaTeX Info: Redefining \. on input line 599.
+LaTeX Info: Redefining \% on input line 599.
  [20 <../img/random_forest_structure.png>]
-LaTeX Info: Redefining \. on input line 589.
-LaTeX Info: Redefining \% on input line 589.
+LaTeX Info: Redefining \. on input line 621.
+LaTeX Info: Redefining \% on input line 621.
  [21]
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.593     \section{Implementación}
+l.625     \section{Implementación}
                                    \label{sec: implementacion}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1480,7 +1480,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.593     \section{Implementación}
+l.625     \section{Implementación}
                                    \label{sec: implementacion}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1490,102 +1490,102 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 [22]
-<../img/code/df/df_head.png, id=429, 945.5325pt x 364.36125pt>
+<../img/code/df/df_head.png, id=434, 945.5325pt x 364.36125pt>
 File: ../img/code/df/df_head.png Graphic file (type png)
 <use ../img/code/df/df_head.png>
-Package pdftex.def Info: ../img/code/df/df_head.png  used on input line 621.
+Package pdftex.def Info: ../img/code/df/df_head.png  used on input line 653.
 (pdftex.def)             Requested size: 472.03123pt x 181.90218pt.
-<../img/code/df/benignos_vs_malignos.png, id=431, 307.1475pt x 93.34875pt>
+<../img/code/df/benignos_vs_malignos.png, id=436, 307.1475pt x 93.34875pt>
 File: ../img/code/df/benignos_vs_malignos.png Graphic file (type png)
 <use ../img/code/df/benignos_vs_malignos.png>
 Package pdftex.def Info: ../img/code/df/benignos_vs_malignos.png  used on input
- line 643.
+ line 675.
 (pdftex.def)             Requested size: 236.01561pt x 71.7306pt.
-LaTeX Info: Redefining \. on input line 647.
-LaTeX Info: Redefining \% on input line 647.
+LaTeX Info: Redefining \. on input line 679.
+LaTeX Info: Redefining \% on input line 679.
  [23 <../img/code/df/df_head.png (PNG copy)>]
-<../img/code/class_distribution_benign_vs_malign.png, id=436, 867.24pt x 433.62
+<../img/code/class_distribution_benign_vs_malign.png, id=441, 867.24pt x 433.62
 pt>
 File: ../img/code/class_distribution_benign_vs_malign.png Graphic file (type pn
 g)
 <use ../img/code/class_distribution_benign_vs_malign.png>
 Package pdftex.def Info: ../img/code/class_distribution_benign_vs_malign.png  u
-sed on input line 650.
+sed on input line 682.
 (pdftex.def)             Requested size: 472.03123pt x 236.01717pt.
-<../img/code/df/counts_malignos.png, id=440, 425.59pt x 463.7325pt>
+<../img/code/df/counts_malignos.png, id=445, 425.59pt x 463.7325pt>
 File: ../img/code/df/counts_malignos.png Graphic file (type png)
 <use ../img/code/df/counts_malignos.png>
 Package pdftex.def Info: ../img/code/df/counts_malignos.png  used on input line
- 667.
+ 699.
 (pdftex.def)             Requested size: 236.01561pt x 257.16937pt.
-LaTeX Info: Redefining \. on input line 671.
-LaTeX Info: Redefining \% on input line 671.
+LaTeX Info: Redefining \. on input line 703.
+LaTeX Info: Redefining \% on input line 703.
  [24 <../img/code/df/benignos_vs_malignos.png (PNG copy)> <../img/code/class_di
 stribution_benign_vs_malign.png>]
-<../img/code/class_distribution_malign.png, id=447, 867.24pt x 433.62pt>
+<../img/code/class_distribution_malign.png, id=452, 867.24pt x 433.62pt>
 File: ../img/code/class_distribution_malign.png Graphic file (type png)
 <use ../img/code/class_distribution_malign.png>
 Package pdftex.def Info: ../img/code/class_distribution_malign.png  used on inp
-ut line 674.
+ut line 706.
 (pdftex.def)             Requested size: 472.03123pt x 236.01717pt.
-LaTeX Info: Redefining \. on input line 682.
-LaTeX Info: Redefining \% on input line 682.
+LaTeX Info: Redefining \. on input line 714.
+LaTeX Info: Redefining \% on input line 714.
  [25 <../img/code/df/counts_malignos.png (PNG copy)> <../img/code/class_distrib
 ution_malign.png>]
-<../img/code/df/outliers.png, id=453, 451.6875pt x 364.36125pt>
+<../img/code/df/outliers.png, id=458, 451.6875pt x 364.36125pt>
 File: ../img/code/df/outliers.png Graphic file (type png)
 <use ../img/code/df/outliers.png>
-Package pdftex.def Info: ../img/code/df/outliers.png  used on input line 711.
+Package pdftex.def Info: ../img/code/df/outliers.png  used on input line 743.
 (pdftex.def)             Requested size: 236.01561pt x 190.39185pt.
-LaTeX Info: Redefining \. on input line 715.
-LaTeX Info: Redefining \% on input line 715.
+LaTeX Info: Redefining \. on input line 747.
+LaTeX Info: Redefining \% on input line 747.
  [26]
-<../img/code/normality_test.png, id=460, 1084.05pt x 361.35pt>
+<../img/code/normality_test.png, id=465, 1084.05pt x 361.35pt>
 File: ../img/code/normality_test.png Graphic file (type png)
 <use ../img/code/normality_test.png>
-Package pdftex.def Info: ../img/code/normality_test.png  used on input line 724
+Package pdftex.def Info: ../img/code/normality_test.png  used on input line 756
 .
 (pdftex.def)             Requested size: 472.03123pt x 157.34587pt.
-LaTeX Info: Redefining \. on input line 732.
-LaTeX Info: Redefining \% on input line 732.
+LaTeX Info: Redefining \. on input line 764.
+LaTeX Info: Redefining \% on input line 764.
  [27 <../img/code/df/outliers.png (PNG copy)> <../img/code/normality_test.png>]
-<../img/code/matriz_correlacion.png, id=467, 1373.13pt x 1373.13pt>
+<../img/code/matriz_correlacion.png, id=472, 1373.13pt x 1373.13pt>
 File: ../img/code/matriz_correlacion.png Graphic file (type png)
 <use ../img/code/matriz_correlacion.png>
 Package pdftex.def Info: ../img/code/matriz_correlacion.png  used on input line
- 749.
+ 781.
 (pdftex.def)             Requested size: 472.03123pt x 472.01228pt.
-LaTeX Info: Redefining \. on input line 753.
-LaTeX Info: Redefining \% on input line 753.
+LaTeX Info: Redefining \. on input line 785.
+LaTeX Info: Redefining \% on input line 785.
  [28]
-LaTeX Info: Redefining \. on input line 764.
-LaTeX Info: Redefining \% on input line 764.
+LaTeX Info: Redefining \. on input line 796.
+LaTeX Info: Redefining \% on input line 796.
  [29 <../img/code/matriz_correlacion.png>]
-<../img/code/matriz_correlacion_cleaned.png, id=481, 1011.78pt x 1011.78pt>
+<../img/code/matriz_correlacion_cleaned.png, id=486, 1011.78pt x 1011.78pt>
 File: ../img/code/matriz_correlacion_cleaned.png Graphic file (type png)
 <use ../img/code/matriz_correlacion_cleaned.png>
 Package pdftex.def Info: ../img/code/matriz_correlacion_cleaned.png  used on in
-put line 782.
+put line 814.
 (pdftex.def)             Requested size: 472.03123pt x 472.03212pt.
-LaTeX Info: Redefining \. on input line 786.
-LaTeX Info: Redefining \% on input line 786.
+LaTeX Info: Redefining \. on input line 818.
+LaTeX Info: Redefining \% on input line 818.
 
 [30]
-LaTeX Info: Redefining \. on input line 807.
-LaTeX Info: Redefining \% on input line 807.
+LaTeX Info: Redefining \. on input line 839.
+LaTeX Info: Redefining \% on input line 839.
  [31 <../img/code/matriz_correlacion_cleaned.png>]
-<../img/code/matriz_correlacion_cleaned_final.png, id=493, 1011.78pt x 1011.78p
+<../img/code/matriz_correlacion_cleaned_final.png, id=498, 1011.78pt x 1011.78p
 t>
 File: ../img/code/matriz_correlacion_cleaned_final.png Graphic file (type png)
 <use ../img/code/matriz_correlacion_cleaned_final.png>
 Package pdftex.def Info: ../img/code/matriz_correlacion_cleaned_final.png  used
- on input line 816.
+ on input line 848.
 (pdftex.def)             Requested size: 472.03123pt x 472.03212pt.
-LaTeX Info: Redefining \. on input line 820.
-LaTeX Info: Redefining \% on input line 820.
+LaTeX Info: Redefining \. on input line 852.
+LaTeX Info: Redefining \% on input line 852.
  [32]
-LaTeX Info: Redefining \. on input line 828.
-LaTeX Info: Redefining \% on input line 828.
+LaTeX Info: Redefining \. on input line 860.
+LaTeX Info: Redefining \% on input line 860.
  [33 <../img/code/matriz_correlacion_cleaned_final.png>]
 \openout4 = `main.pyg'.
 
@@ -1629,43 +1629,43 @@ LaTeX Font Warning: Font shape `T1/cmtt/b/n' undefined
 (Font)              using `T1/cmtt/bx/n' instead on input line 22.
 
 )
-<../img/code/relu_linear.png, id=514, 867.24pt x 361.35pt>
+<../img/code/relu_linear.png, id=519, 867.24pt x 361.35pt>
 File: ../img/code/relu_linear.png Graphic file (type png)
 <use ../img/code/relu_linear.png>
-Package pdftex.def Info: ../img/code/relu_linear.png  used on input line 920.
+Package pdftex.def Info: ../img/code/relu_linear.png  used on input line 952.
 (pdftex.def)             Requested size: 472.03123pt x 196.68097pt.
-LaTeX Info: Redefining \. on input line 924.
-LaTeX Info: Redefining \% on input line 924.
+LaTeX Info: Redefining \. on input line 956.
+LaTeX Info: Redefining \% on input line 956.
  [35]
-<../img/code/df/mse.png, id=523, 162.6075pt x 93.34875pt>
+<../img/code/df/mse.png, id=528, 162.6075pt x 93.34875pt>
 File: ../img/code/df/mse.png Graphic file (type png)
 <use ../img/code/df/mse.png>
-Package pdftex.def Info: ../img/code/df/mse.png  used on input line 933.
+Package pdftex.def Info: ../img/code/df/mse.png  used on input line 965.
 (pdftex.def)             Requested size: 118.0078pt x 67.7466pt.
 
 
-LaTeX Warning: Reference `sec: demo' on page 36 undefined on input line 940.
+LaTeX Warning: Reference `sec: demo' on page 36 undefined on input line 972.
 
-LaTeX Info: Redefining \. on input line 947.
-LaTeX Info: Redefining \% on input line 947.
+LaTeX Info: Redefining \. on input line 979.
+LaTeX Info: Redefining \% on input line 979.
 [36 <../img/code/relu_linear.png> <../img/code/df/mse.png (PNG copy)>]
 \openout4 = `main.pyg'.
 
 
 (./_minted-main/015B5A4E9742EB15CF772ADFC3103824541C68F80C6A6F06151AFD63BAE50EB
 C.pygtex)
-<../img/mse/mse_hping3.png, id=533, 625.33624pt x 149.55875pt>
+<../img/mse/mse_hping3.png, id=538, 625.33624pt x 149.55875pt>
 File: ../img/mse/mse_hping3.png Graphic file (type png)
 <use ../img/mse/mse_hping3.png>
-Package pdftex.def Info: ../img/mse/mse_hping3.png  used on input line 967.
+Package pdftex.def Info: ../img/mse/mse_hping3.png  used on input line 999.
 (pdftex.def)             Requested size: 354.02342pt x 84.672pt.
-<../img/web/web.png, id=534, 1832.8475pt x 883.3pt>
+<../img/web/web.png, id=539, 1832.8475pt x 883.3pt>
 File: ../img/web/web.png Graphic file (type png)
 <use ../img/web/web.png>
-Package pdftex.def Info: ../img/web/web.png  used on input line 980.
+Package pdftex.def Info: ../img/web/web.png  used on input line 1012.
 (pdftex.def)             Requested size: 472.03123pt x 227.48262pt.
-LaTeX Info: Redefining \. on input line 984.
-LaTeX Info: Redefining \% on input line 984.
+LaTeX Info: Redefining \. on input line 1016.
+LaTeX Info: Redefining \% on input line 1016.
  [37 <../img/mse/mse_hping3.png>]
 \openout4 = `main.pyg'.
 
@@ -1737,8 +1737,8 @@ LaTeX Font Warning: Font shape `T1/cmtt/b/n' undefined
 (Font)              using `T1/cmtt/bx/n' instead on input line 13.
 
 )
-LaTeX Info: Redefining \. on input line 1008.
-LaTeX Info: Redefining \% on input line 1008.
+LaTeX Info: Redefining \. on input line 1040.
+LaTeX Info: Redefining \% on input line 1040.
  [38 <../img/web/web.png>]
 \openout4 = `main.pyg'.
 
@@ -1850,23 +1850,23 @@ A.pygtex
 LaTeX Info: Redefining \. on input line 3.
 LaTeX Info: Redefining \% on input line 3.
  [39])
-<../img/mse/mse_sqlmap.png, id=553, 625.33624pt x 149.55875pt>
+<../img/mse/mse_sqlmap.png, id=558, 625.33624pt x 149.55875pt>
 File: ../img/mse/mse_sqlmap.png Graphic file (type png)
 <use ../img/mse/mse_sqlmap.png>
-Package pdftex.def Info: ../img/mse/mse_sqlmap.png  used on input line 1055.
+Package pdftex.def Info: ../img/mse/mse_sqlmap.png  used on input line 1087.
 (pdftex.def)             Requested size: 354.02342pt x 84.672pt.
 \openout4 = `main.pyg'.
 
 
 (./_minted-main/EE897447AC10901FE7CE80FC46C1CC9BD3773C8B440B993359565A23D713B17
 A.pygtex)
-<../img/mse/mse_hydra.png, id=555, 625.33624pt x 149.55875pt>
+<../img/mse/mse_hydra.png, id=560, 625.33624pt x 149.55875pt>
 File: ../img/mse/mse_hydra.png Graphic file (type png)
 <use ../img/mse/mse_hydra.png>
-Package pdftex.def Info: ../img/mse/mse_hydra.png  used on input line 1078.
+Package pdftex.def Info: ../img/mse/mse_hydra.png  used on input line 1110.
 (pdftex.def)             Requested size: 354.02342pt x 84.672pt.
-LaTeX Info: Redefining \. on input line 1082.
-LaTeX Info: Redefining \% on input line 1082.
+LaTeX Info: Redefining \. on input line 1114.
+LaTeX Info: Redefining \% on input line 1114.
  [40 <../img/mse/mse_sqlmap.png>]
 \openout4 = `main.pyg'.
 
@@ -1950,176 +1950,176 @@ LaTeX Font Warning: Font shape `T1/cmtt/b/n' undefined
 (Font)              using `T1/cmtt/bx/n' instead on input line 23.
 
 )
-<../img/mse/mse_py.png, id=561, 625.33624pt x 149.55875pt>
+<../img/mse/mse_py.png, id=566, 625.33624pt x 149.55875pt>
 File: ../img/mse/mse_py.png Graphic file (type png)
 <use ../img/mse/mse_py.png>
-Package pdftex.def Info: ../img/mse/mse_py.png  used on input line 1116.
+Package pdftex.def Info: ../img/mse/mse_py.png  used on input line 1148.
 (pdftex.def)             Requested size: 354.02342pt x 84.672pt.
-LaTeX Info: Redefining \. on input line 1120.
-LaTeX Info: Redefining \% on input line 1120.
+LaTeX Info: Redefining \. on input line 1152.
+LaTeX Info: Redefining \% on input line 1152.
  [41 <../img/mse/mse_hydra.png>]
-LaTeX Info: Redefining \. on input line 1146.
-LaTeX Info: Redefining \% on input line 1146.
+LaTeX Info: Redefining \. on input line 1178.
+LaTeX Info: Redefining \% on input line 1178.
  [42 <../img/mse/mse_py.png>]
-LaTeX Info: Redefining \. on input line 1199.
-LaTeX Info: Redefining \% on input line 1199.
+LaTeX Info: Redefining \. on input line 1231.
+LaTeX Info: Redefining \% on input line 1231.
  [43]
 \openout4 = `main.pyg'.
 
 
 (./_minted-main/A61DFF1133DC61E53D0D8E10BAD05855541C68F80C6A6F06151AFD63BAE50EB
 C.pygtex)
-LaTeX Info: Redefining \. on input line 1241.
-LaTeX Info: Redefining \% on input line 1241.
+LaTeX Info: Redefining \. on input line 1273.
+LaTeX Info: Redefining \% on input line 1273.
  [44]
-<../img/code/random_forest/gini_columnas_all.png, id=595, 1232.605pt x 923.45pt
+<../img/code/random_forest/gini_columnas_all.png, id=601, 1232.605pt x 923.45pt
 >
 File: ../img/code/random_forest/gini_columnas_all.png Graphic file (type png)
 <use ../img/code/random_forest/gini_columnas_all.png>
 Package pdftex.def Info: ../img/code/random_forest/gini_columnas_all.png  used 
-on input line 1254.
+on input line 1286.
 (pdftex.def)             Requested size: 472.03123pt x 353.63414pt.
-LaTeX Info: Redefining \. on input line 1261.
-LaTeX Info: Redefining \% on input line 1261.
+LaTeX Info: Redefining \. on input line 1293.
+LaTeX Info: Redefining \% on input line 1293.
  [45 <../img/code/random_forest/gini_columnas_all.png>]
-<../img/code/random_forest/gini_df_all_1.png, id=602, 316.18124pt x 695.59875pt
+<../img/code/random_forest/gini_df_all_1.png, id=607, 316.18124pt x 695.59875pt
 >
 File: ../img/code/random_forest/gini_df_all_1.png Graphic file (type png)
 <use ../img/code/random_forest/gini_df_all_1.png>
 Package pdftex.def Info: ../img/code/random_forest/gini_df_all_1.png  used on i
-nput line 1268.
+nput line 1300.
 (pdftex.def)             Requested size: 170.25287pt x 374.55588pt.
-<../img/code/random_forest/gini_df_all_2.png, id=603, 288.07625pt x 725.71124pt
+<../img/code/random_forest/gini_df_all_2.png, id=608, 288.07625pt x 725.71124pt
 >
 File: ../img/code/random_forest/gini_df_all_2.png Graphic file (type png)
 <use ../img/code/random_forest/gini_df_all_2.png>
 Package pdftex.def Info: ../img/code/random_forest/gini_df_all_2.png  used on i
-nput line 1273.
+nput line 1305.
 (pdftex.def)             Requested size: 148.68399pt x 374.55588pt.
-<../img/code/random_forest/gini_columnas_procesadas.png, id=604, 1232.605pt x 9
+<../img/code/random_forest/gini_columnas_procesadas.png, id=609, 1232.605pt x 9
 23.45pt>
 File: ../img/code/random_forest/gini_columnas_procesadas.png Graphic file (type
  png)
 <use ../img/code/random_forest/gini_columnas_procesadas.png>
 Package pdftex.def Info: ../img/code/random_forest/gini_columnas_procesadas.png
-  used on input line 1286.
+  used on input line 1318.
 (pdftex.def)             Requested size: 472.03123pt x 353.63414pt.
-LaTeX Info: Redefining \. on input line 1290.
-LaTeX Info: Redefining \% on input line 1290.
+LaTeX Info: Redefining \. on input line 1322.
+LaTeX Info: Redefining \% on input line 1322.
  [46 <../img/code/random_forest/gini_df_all_1.png (PNG copy)> <../img/code/rand
 om_forest/gini_df_all_2.png (PNG copy)>]
-<../img/code/random_forest/gini_df_procesed_1.png, id=609, 316.18124pt x 334.24
+<../img/code/random_forest/gini_df_procesed_1.png, id=614, 316.18124pt x 334.24
 875pt>
 File: ../img/code/random_forest/gini_df_procesed_1.png Graphic file (type png)
 <use ../img/code/random_forest/gini_df_procesed_1.png>
 Package pdftex.def Info: ../img/code/random_forest/gini_df_procesed_1.png  used
- on input line 1297.
+ on input line 1329.
 (pdftex.def)             Requested size: 206.68773pt x 218.49251pt.
 
-Overfull \hbox (17.87813pt too wide) in paragraph at lines 1297--1298
+Overfull \hbox (17.87813pt too wide) in paragraph at lines 1329--1330
  [][] 
  []
 
-<../img/code/random_forest/gini_df_procesed_2.png, id=610, 287.0725pt x 364.361
+<../img/code/random_forest/gini_df_procesed_2.png, id=615, 287.0725pt x 364.361
 25pt>
 File: ../img/code/random_forest/gini_df_procesed_2.png Graphic file (type png)
 <use ../img/code/random_forest/gini_df_procesed_2.png>
 Package pdftex.def Info: ../img/code/random_forest/gini_df_procesed_2.png  used
- on input line 1302.
+ on input line 1334.
 (pdftex.def)             Requested size: 172.14407pt x 218.49251pt.
-LaTeX Info: Redefining \. on input line 1307.
-LaTeX Info: Redefining \% on input line 1307.
+LaTeX Info: Redefining \. on input line 1339.
+LaTeX Info: Redefining \% on input line 1339.
 [47 <../img/code/random_forest/gini_columnas_procesadas.png>]
-<../img/code/class_distribution_malign_cleaned.png, id=616, 867.24pt x 433.62pt
+<../img/code/class_distribution_malign_cleaned.png, id=621, 867.24pt x 433.62pt
 >
 File: ../img/code/class_distribution_malign_cleaned.png Graphic file (type png)
 
 <use ../img/code/class_distribution_malign_cleaned.png>
 Package pdftex.def Info: ../img/code/class_distribution_malign_cleaned.png  use
-d on input line 1328.
+d on input line 1360.
 (pdftex.def)             Requested size: 472.03123pt x 236.01717pt.
-LaTeX Info: Redefining \. on input line 1332.
-LaTeX Info: Redefining \% on input line 1332.
+LaTeX Info: Redefining \. on input line 1364.
+LaTeX Info: Redefining \% on input line 1364.
  [48 <../img/code/random_forest/gini_df_procesed_1.png (PNG copy)> <../img/code
 /random_forest/gini_df_procesed_2.png (PNG copy)>]
-LaTeX Info: Redefining \. on input line 1354.
-LaTeX Info: Redefining \% on input line 1354.
+LaTeX Info: Redefining \. on input line 1386.
+LaTeX Info: Redefining \% on input line 1386.
  [49 <../img/code/class_distribution_malign_cleaned.png>]
-<../img/mse/mse_hulk.png, id=628, 688.5725pt x 150.5625pt>
+<../img/mse/mse_hulk.png, id=633, 688.5725pt x 150.5625pt>
 File: ../img/mse/mse_hulk.png Graphic file (type png)
 <use ../img/mse/mse_hulk.png>
-Package pdftex.def Info: ../img/mse/mse_hulk.png  used on input line 1361.
+Package pdftex.def Info: ../img/mse/mse_hulk.png  used on input line 1393.
 (pdftex.def)             Requested size: 230.97072pt x 50.50365pt.
-<../img/mse/mse_goldeneye.png, id=629, 688.5725pt x 150.5625pt>
+<../img/mse/mse_goldeneye.png, id=634, 688.5725pt x 150.5625pt>
 File: ../img/mse/mse_goldeneye.png Graphic file (type png)
 <use ../img/mse/mse_goldeneye.png>
-Package pdftex.def Info: ../img/mse/mse_goldeneye.png  used on input line 1365.
+Package pdftex.def Info: ../img/mse/mse_goldeneye.png  used on input line 1397.
 
 (pdftex.def)             Requested size: 230.97072pt x 50.50365pt.
-LaTeX Info: Redefining \. on input line 1394.
-LaTeX Info: Redefining \% on input line 1394.
+LaTeX Info: Redefining \. on input line 1426.
+LaTeX Info: Redefining \% on input line 1426.
  [50 <../img/mse/mse_hulk.png> <../img/mse/mse_goldeneye.png>]
-<../img/code/class_distribution_malign_captured_cleaned.png, id=641, 867.24pt x
+<../img/code/class_distribution_malign_captured_cleaned.png, id=646, 867.24pt x
  433.62pt>
 File: ../img/code/class_distribution_malign_captured_cleaned.png Graphic file (
 type png)
 <use ../img/code/class_distribution_malign_captured_cleaned.png>
 Package pdftex.def Info: ../img/code/class_distribution_malign_captured_cleaned
-.png  used on input line 1399.
+.png  used on input line 1431.
 (pdftex.def)             Requested size: 472.03123pt x 236.01717pt.
-<../img/code/df/sql_injection_samples.png, id=643, 1379.1525pt x 312.16624pt>
+<../img/code/df/sql_injection_samples.png, id=648, 1379.1525pt x 312.16624pt>
 File: ../img/code/df/sql_injection_samples.png Graphic file (type png)
 <use ../img/code/df/sql_injection_samples.png>
 Package pdftex.def Info: ../img/code/df/sql_injection_samples.png  used on inpu
-t line 1424.
+t line 1456.
 (pdftex.def)             Requested size: 472.03123pt x 106.84007pt.
-LaTeX Info: Redefining \. on input line 1428.
-LaTeX Info: Redefining \% on input line 1428.
+LaTeX Info: Redefining \. on input line 1460.
+LaTeX Info: Redefining \% on input line 1460.
 
 [51 <../img/code/class_distribution_malign_captured_cleaned.png>]
-<../img/code/random_forest/resultados_entrenamiento.png, id=649, 514.92375pt x 
+<../img/code/random_forest/resultados_entrenamiento.png, id=654, 514.92375pt x 
 271.0125pt>
 File: ../img/code/random_forest/resultados_entrenamiento.png Graphic file (type
  png)
 <use ../img/code/random_forest/resultados_entrenamiento.png>
 Package pdftex.def Info: ../img/code/random_forest/resultados_entrenamiento.png
-  used on input line 1455.
+  used on input line 1487.
 (pdftex.def)             Requested size: 236.01561pt x 124.2165pt.
-LaTeX Info: Redefining \. on input line 1459.
-LaTeX Info: Redefining \% on input line 1459.
+LaTeX Info: Redefining \. on input line 1491.
+LaTeX Info: Redefining \% on input line 1491.
  [52 <../img/code/df/sql_injection_samples.png (PNG copy)>]
-<../img/mse/sqlmap_attack.png, id=654, 692.5875pt x 484.81125pt>
+<../img/mse/sqlmap_attack.png, id=659, 692.5875pt x 484.81125pt>
 File: ../img/mse/sqlmap_attack.png Graphic file (type png)
 <use ../img/mse/sqlmap_attack.png>
-Package pdftex.def Info: ../img/mse/sqlmap_attack.png  used on input line 1468.
+Package pdftex.def Info: ../img/mse/sqlmap_attack.png  used on input line 1500.
 
 (pdftex.def)             Requested size: 354.02342pt x 247.82007pt.
-LaTeX Info: Redefining \. on input line 1476.
-LaTeX Info: Redefining \% on input line 1476.
- [53 <../img/code/random_forest/resultados_entrenamiento.png> <../img/mse/sqlma
-p_attack.png>]
-<../img/telegram/telegram_1.png, id=661, 949.5475pt x 2055.68pt>
-File: ../img/telegram/telegram_1.png Graphic file (type png)
-<use ../img/telegram/telegram_1.png>
-Package pdftex.def Info: ../img/telegram/telegram_1.png  used on input line 149
-9.
-(pdftex.def)             Requested size: 156.06335pt x 337.85515pt.
-<../img/telegram/telegram_2.png, id=662, 949.5475pt x 2055.68pt>
-File: ../img/telegram/telegram_2.png Graphic file (type png)
-<use ../img/telegram/telegram_2.png>
-Package pdftex.def Info: ../img/telegram/telegram_2.png  used on input line 150
-3.
-(pdftex.def)             Requested size: 156.06335pt x 337.85515pt.
 LaTeX Info: Redefining \. on input line 1508.
 LaTeX Info: Redefining \% on input line 1508.
+ [53 <../img/code/random_forest/resultados_entrenamiento.png> <../img/mse/sqlma
+p_attack.png>]
+<../img/telegram/telegram_1.png, id=666, 949.5475pt x 2055.68pt>
+File: ../img/telegram/telegram_1.png Graphic file (type png)
+<use ../img/telegram/telegram_1.png>
+Package pdftex.def Info: ../img/telegram/telegram_1.png  used on input line 153
+1.
+(pdftex.def)             Requested size: 156.06335pt x 337.85515pt.
+<../img/telegram/telegram_2.png, id=667, 949.5475pt x 2055.68pt>
+File: ../img/telegram/telegram_2.png Graphic file (type png)
+<use ../img/telegram/telegram_2.png>
+Package pdftex.def Info: ../img/telegram/telegram_2.png  used on input line 153
+5.
+(pdftex.def)             Requested size: 156.06335pt x 337.85515pt.
+LaTeX Info: Redefining \. on input line 1540.
+LaTeX Info: Redefining \% on input line 1540.
  [54]
-LaTeX Info: Redefining \. on input line 1520.
-LaTeX Info: Redefining \% on input line 1520.
+LaTeX Info: Redefining \. on input line 1552.
+LaTeX Info: Redefining \% on input line 1552.
  [55 <../img/telegram/telegram_1.png> <../img/telegram/telegram_2.png>]
 ! Missing number, treated as zero.
 <to be read again> 
                    \begingroup 
-l.1524     \section{Conclusiones y Trabajo Futuro}
+l.1556     \section{Conclusiones y Trabajo Futuro}
                                                   \label{sec: conclusiones}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -2128,7 +2128,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    \begingroup 
-l.1524     \section{Conclusiones y Trabajo Futuro}
+l.1556     \section{Conclusiones y Trabajo Futuro}
                                                   \label{sec: conclusiones}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -2138,13 +2138,13 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 [56]
-LaTeX Info: Redefining \. on input line 1570.
-LaTeX Info: Redefining \% on input line 1570.
+LaTeX Info: Redefining \. on input line 1602.
+LaTeX Info: Redefining \% on input line 1602.
  [57]
 LaTeX Font Info:    Font shape `OT1/qhv/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/qhv/b/n' tried instead on input line 1595.
-LaTeX Info: Redefining \. on input line 1619.
-LaTeX Info: Redefining \% on input line 1619.
+(Font)              Font shape `OT1/qhv/b/n' tried instead on input line 1627.
+LaTeX Info: Redefining \. on input line 1651.
+LaTeX Info: Redefining \% on input line 1651.
  [58] [59] (./main.bbl
 ! Misplaced alignment tab character &.
 l.15   systems and challenges,'' {\em computers &
@@ -2189,8 +2189,8 @@ Package fancyhdr Warning: \headheight is too small (14.5pt):
 (fancyhdr)                \addtolength{\topmargin}{-0.5146pt}.
 
 [61])
-LaTeX Info: Redefining \. on input line 1633.
-LaTeX Info: Redefining \% on input line 1633.
+LaTeX Info: Redefining \. on input line 1665.
+LaTeX Info: Redefining \% on input line 1665.
 
 
 Package fancyhdr Warning: \headheight is too small (14.5pt): 
@@ -2215,16 +2215,22 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 54075392B89333ECD5FBF5C56D5689A4;8115.
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: F45B78DA92C72072F87CC97239A82D8A;8218
+(rerunfilecheck)             After:  C005951C98360A44B07F94AC0B831A41;8109.
 runsystem(rm main.pyg)...disabled (restricted).
 
  ) 
 Here is how much of TeX's memory you used:
- 32720 strings out of 475526
- 608566 string characters out of 5776529
+ 32722 strings out of 475526
+ 608596 string characters out of 5776529
  1938975 words of memory out of 5000000
- 54010 multiletter control sequences out of 15000+600000
+ 54011 multiletter control sequences out of 15000+600000
  679972 words of font info for 119 fonts, out of 8000000 for 9000
  376 hyphenation exceptions out of 8191
  84i,12n,131p,1081b,897s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -2243,10 +2249,10 @@ usr/share/texmf/fonts/type1/public/tex-gyre/qhvri.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/he
 lvetic/uhvro8a.pfb>
-Output written on main.pdf (63 pages, 4870673 bytes).
+Output written on main.pdf (63 pages, 4871503 bytes).
 PDF statistics:
- 975 PDF objects out of 1000 (max. 8388607)
- 675 compressed objects within 7 object streams
- 184 named destinations out of 1000 (max. 500000)
- 19430 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 980 PDF objects out of 1000 (max. 8388607)
+ 680 compressed objects within 7 object streams
+ 185 named destinations out of 1000 (max. 500000)
+ 19438 words of extra memory for PDF output out of 20736 (max. 10000000)
 

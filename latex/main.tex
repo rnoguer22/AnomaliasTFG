@@ -191,18 +191,46 @@
     \section{Introducción}\label{sec: introduccion}
 
     \vspace{5mm}
-
-    En el actual ecosistema digital, las páginas web son uno de los principales servicios más relevantes, ya que son usados continuamente por miles de usuarios en momentos determinados del día, suponiendo un gran riesgo a nivel de seguridad. Los ciberataques hoy en día están en auge, evolucionando en cuanto a complejidad y automatización, y esto hace que los sistemas tradicionales de detección de intrusiones (IDS) basados en patrones muy concretos se queden obsoletos, ya que se ven muy limitados a identificar ataques con fluctuaciones muy leves que no han sido previamente identificados.
-
-    \vspace{5mm}
-
-    Por ello, este trabajo surge a partir de dicho problema, ante la necesidad de monitorizar en tiempo real flujos de red que llegan a un servicio web en concreto, distinguiendo lo mejor posible el tráfico benigno y el malicioso. Debido al volumen de datos que esto presenta, no es posible proponer una solución manual a este problema, y por ello se busca una solución basada en inteligencia artificial y modelos predictivos, aprendiendo la estructura intrínsica de los datos y reaccionando de manera proactiva ante desviaciones que puedan suponer una amenaza para un servicio.
+    
+    En el actual ecosistema digital, los servicios web son uno de los principales elementos de las infraestructuras tecnológicas, al ser utilizados de forma continua por multitud de usuarios. Los ciberataques hoy en día están en auge, evolucionando en cuanto a complejidad y automatización, y esto hace que los sistemas tradicionales de detección de intrusiones (IDS) basados en patrones muy concretos se queden obsoletos, ya que se ven muy limitados a identificar ataques con fluctuaciones muy leves que no han sido previamente identificados.
 
     \vspace{5mm}
 
-    \subsection{Solución Propuesta: Arquitectura Híbrida de Detección y Respuesta}
+    Por ello, este trabajo surge a partir de dicho problema, ante la necesidad de monitorizar en tiempo real flujos de red que llegan a un servicio web en concreto, distinguiendo lo mejor posible el tráfico benigno y el malicioso. Debido al volumen de datos que esto presenta, no es posible proponer una solución manual a este problema, y por ello se busca una solución basada en inteligencia artificial y modelos predictivos, aprendiendo la estructura intrínseca de los datos y reaccionando de manera proactiva ante desviaciones que puedan suponer una amenaza para un servicio.
 
-    En este proyecto se propone una arquitectura que combina el aprendizaje no supervisado para detectar flujos de red maliciosos, para posteriormente proceder con la clasificación de la amenaza mediante aprendizaje supervisado, siendo el objetivo principal de este trabajo la transformación de datos de red masivos y en crudo a un formato mucho más legible para un administrador de seguridad que se encarga de monitorizar el servicio. En definitiva, este trabajo se constituye en cuatro etapas críticas:
+    \vspace{5mm}
+
+    \subsection{Objetivos}
+
+    \vspace{5mm}
+
+    Por ello, con el fin de diseñar, implementar y cumplir con los requerimientos de esta investigación, se establecen los siguientes objetivos para este proyecto:
+
+    \vspace{5mm}
+
+    \begin{itemize}
+        \item \textbf{Detección de anomalías y definición del umbral}: Implementar un modelo de aprendizaje no supervisado con las capacidades de extraer patrones y comportamientos propios de tráfico legítimo de red, estebleciendo un umbral con el que se identifiquen las anomalías en función del error cuadrático medio (MSE) del modelo no supervisado.
+        
+        \vspace{5mm}
+
+        \item \textbf{Clasificación de amenazas}: Desarrollar un modelo de clasificación mediante aprendizaje supervisado que permita categorizar de manera precisa el tipo de tráfico malicioso detectado, distinguiendo ataques DoS, inyecciones SQL, fuerza bruta, entre otros.
+                
+        \vspace{5mm}
+
+        \item \textbf{Sistema de notificación y respuesta a incidentes:} Integrar una interfaz de monitorización y mediante la API de Telegram, permitiendo la notifiación y comunicación directa con el administrador ante el ataque detectado, permitiendo mecanismos de respuesta activa como el bloqueo de la dirección IP atacante.
+    \end{itemize}
+
+    \vspace{10mm}
+
+
+
+
+
+    \subsection{Arquitectura Híbrida de Detección y Respuesta}
+
+    \vspace{5mm}
+
+    En este proyecto se propone una arquitectura que combina el aprendizaje no supervisado para detectar flujos de red maliciosos, para posteriormente proceder con la clasificación de la amenaza mediante aprendizaje supervisado. Por lo tanto, el objetivo principal de este trabajo es la transformación de tráfico de red crudo en información interpretable para un administrador de seguridad. En definitiva, este trabajo se constituye en cuatro etapas críticas:
 
     \vspace{5mm}
 
@@ -215,7 +243,7 @@
         
         \vspace{5mm}
 
-        \item \textbf{Clasificación mediante Random Forest:} Una vez hemos detectado la anomalía, procedemos a su clasificación mediante un \textit{Random Forest} previamente entrenado con datos maliciosos, al contrario que la red neuronal. Esto permite clasificar el tipo de ataque recibido y dar una vista mucho más específica de la naturaleza del ataque
+        \item \textbf{Clasificación mediante Random Forest:} Una vez detectada la anomalía, se procede a su clasificación mediante un \textit{Random Forest} previamente entrenado con datos maliciosos, al contrario que la red neuronal. Esto permite clasificar el tipo de ataque recibido y dar una vista mucho más específica de la naturaleza del ataque
         
         \vspace{5mm}
         
@@ -234,11 +262,15 @@
 
     \vspace{10mm}
 
+
+
+
+
     \subsection{Metodología de Validación y Entorno de Laboratorio}
 
     \vspace{5mm}
 
-    En cuanto al entorno del sistema se ha simulado un escenario de red completamente real, mediante un servidor web que sigue una arquitectura LAMP (\textit{Linux, Apache, MySQL, PHP}), el cual ha sido sometido a diferentes ataques y auditorías de seguridad para garantizar la efectivadad de la solución propuesta y un sistema de defensa activa significantemente robusto. Para generar los distintos flujos de red maliciosos hacia el servidor, se han empleado las siguientes herramientas, las cuales forman parte de cualquier set de herramientas de pentesting:
+    En cuanto al entorno del sistema, se ha simulado un entorno de laboratorio controlado que reproduce condiciones realistas de red, mediante un servidor web que sigue una arquitectura LAMP (\textit{Linux, Apache, MySQL, PHP}), el cual ha sido sometido a diferentes ataques y auditorías de seguridad para evaluar la efectividad de la solución propuesta y la robustez del sistema de defensa activa. Para generar los distintos flujos de red maliciosos hacia el servidor, se han empleado las siguientes herramientas, las cuales forman parte de un conjunto habitual de herramientas de penetración:
 
     \vspace{5mm}
 
