@@ -396,7 +396,7 @@
 
     Aunque más adelante en una etapa posterior del trabajo se procederá a la clasificación más en detalle del tipo de amenaza en concreto mediante modelos supervisados, la primera barrera que se encuentra un administrador de seguridad es la identificación de tráfico malicioso, y para ello se va a emplear un \textit{Autoencoder}. Esto es una red neuronal capaz de aprender la firma del tráfico benigno, lo que permite separar con una alta fiabilidad el tráfico legítico del aquel potencialmente malicioso.
 
-    \vspace{5mm}
+    \vspace{10mm}
 
 
 
@@ -438,7 +438,7 @@
 
     \vspace{5mm}
 
-    Las funciones $f$ y $g$ serán definidas más detalladamente en la sección de implementación \ref{subsec: autoencoder}. A continuación, una vez se ha declarado la estructura básica de un \textit{autoencoder}, se va a detallar más específicamente en la red en concreto que se va a implementar de manera práctica en este proyecto.
+    Las funciones $f$ y $g$ serán definidas más detalladamente en la sección de implementación correspondiente al autoencoder \ref{subsec: autoencoder_impl}. A continuación, una vez se ha declarado la estructura básica de un \textit{autoencoder}, se va a detallar más específicamente en la red en concreto que se va a implementar de manera práctica en este proyecto.
 
     \vspace{10mm}
 
@@ -492,7 +492,7 @@
 
     \vspace{5mm}
 
-    Este modelo se compone de un bosque de árboles, es decir, un conjunto de árboles de decisión. Un árbol de decisión es un modelo no paramétricos que segmenta el espacio de características mediante una serie de reglas que se van propagando hasta la decisión final. Por ello, destacan por su gran interpretabilidad y capacidad de capturar relaciones complejas entre las distintas variables de los datos, pero presentan un grave problema, la alta varianza. 
+    Este modelo se compone de un bosque de árboles, es decir, un conjunto de árboles de decisión. Un árbol de decisión es un modelo no paramétrico que segmenta el espacio de características mediante una serie de reglas que se van propagando hasta la decisión final. Por ello, destacan por su gran interpretabilidad y capacidad de capturar relaciones complejas entre las distintas variables de los datos, pero presentan un grave problema, la alta varianza. 
 
     \vspace{5mm}
     
@@ -506,7 +506,7 @@
 
     \vspace{5mm}
 
-    Imaginemos que un árbol de decisión contiene un sesgo ($bias$) reducido ya que es capaz de adaptarse con mucha precisión a la estructura del conjunto de datos de su entrenamiento. Esta sesgo reducido introduce una gran flexibilidad que lo convierte en un estimador inestable, ya que cualquier pequeña fluctuación en los datos de entrenamiento puede suponer un drástico cambio en la estructura de ramas y nodos del propio árbol, y esto es lo que se conoce como alta varianza. Entonces, si se tiene un conjunto de datos de entrenamiento $\mathbf{Z} = \{(x_1, y_1), \dots, (x_N, y_N)\}$, el algoritmo busca minimizar la impureza en cada partición, lo que suele conducir al sobreajuste ($overfitting$), comprometiendo la capacidad del modelo para generalizar datos distintos a los de su entrenamiento, ya que se memorizan dichos datos, perdiendo por completo la capacidad de predeicr correctamente cualquier otro dato.
+    Imaginemos que un árbol de decisión contiene un sesgo ($bias$) reducido ya que es capaz de adaptarse con mucha precisión a la estructura del conjunto de datos de su entrenamiento. Esta sesgo reducido introduce una gran flexibilidad que lo convierte en un estimador inestable, ya que cualquier pequeña fluctuación en los datos de entrenamiento puede suponer un drástico cambio en la estructura de ramas y nodos del propio árbol, y esto es lo que se conoce como alta varianza. Entonces, si se tiene un conjunto de datos de entrenamiento $\mathbf{Z} = \{(x_1, y_1), \dots, (x_N, y_N)\}$, el algoritmo busca minimizar la impureza en cada partición, lo que suele conducir al sobreajuste ($overfitting$), comprometiendo la capacidad del modelo para generalizar datos distintos a los de su entrenamiento, ya que se memorizan dichos datos, perdiendo por completo la capacidad de predecir correctamente cualquier otro dato.
 
     \vspace{5mm}
 
@@ -514,7 +514,7 @@
 
     \vspace{5mm}
 
-    Para aumentar la robustez de los árboles sin incrementar el sesgo, se emplea un método conocido como Bagging (\textit{Bootstrap Aggregating}), el cual se basa en que el promedio de múltiples estimadores independientes reduce la varianza global en el sistema de predicción. Si se dispusiera de $B$ conjuntos de entrenamiento independientes en un escenario ideal, cada uno con una varianza $\sigma^2$, la varianza del promedio sería $\sigma^2/B$. Sin embargo, en la práctica es imposible obtener múltiples conjuntos independientes, por lo que el Bagging simula esta condición mediante otro proceso conocido como \textbf{Bootstrap}.
+    Para aumentar la robustez de los árboles sin incrementar el sesgo, se emplea un método conocido como Bagging (\textit{Bootstrap Aggregating}), el cual se basa en que el voto de múltiples estimadores independientes reduce la varianza global en el sistema de predicción. Si se dispusiera de $B$ conjuntos de entrenamiento independientes en un escenario ideal, cada uno con una varianza $\sigma^2$, la varianza del promedio sería $\sigma^2/B$. Sin embargo, en la práctica es imposible obtener múltiples conjuntos independientes, por lo que el Bagging simula esta condición mediante otro proceso conocido como \textbf{Bootstrap}.
 
     \vspace{5mm}
 
@@ -558,7 +558,7 @@
     
     \vspace{5mm}
 
-    Una vez se han entrenados los $B$ árboles del modelo y llega el momento de la predicción (en nuestro caso del tráfico de red en tiempo real) de una nueva observación $x$, entra en juego el estimador. Este estimadorla consolida las predicciones de cada árbol $T_b(x)$ y, en el caso de la clasificación multiclase (DoS, ataques de fuerza bruta, inyecciones SQL, etc.), la predicción final será aquella que se ha repetido un mayor número de veces en las predicciones individuales de los $B$ árboles:
+    Una vez se han entrenados los $B$ árboles del modelo y llega el momento de la predicción (en nuestro caso del tráfico de red en tiempo real) de una nueva observación $x$, entra en juego el estimador. Este estimador consolida las predicciones de cada árbol $T_b(x)$ y, en el caso de la clasificación multiclase (DoS, ataques de fuerza bruta, inyecciones SQL, etc.), la predicción final será aquella que se ha repetido un mayor número de veces en las predicciones individuales de los $B$ árboles:
 
     \vspace{2.5mm}
 
@@ -590,7 +590,7 @@
 
     \vspace{5mm}
 
-    En esta sección se va a ver una métrica que mide qué tan "mezcladas" se encuentran las distintas clases en un nodo en concreto de un árbol del bosque, la impuereza de Gini. Dado un conjunto de datos con $C$ clases, la impureza de Gini $G$ en un nodo $t$ de un determinado árbol se define como:
+    En esta sección se va a ver una métrica que mide qué tan "mezcladas" se encuentran las distintas clases en un nodo en concreto de un árbol del bosque, la impureza de Gini. Dado un conjunto de datos con $C$ clases, la impureza de Gini $G$ en un nodo $t$ de un determinado árbol se define como:
 
     \vspace{2.5mm}
 
@@ -626,11 +626,11 @@
 
     \vspace{5mm}
 
-    En esta sección vamos a aplicar lo visto en la teoría de manera práctica. Para ello se ha utilizado un set de datos del \textbf{CIC} (\textit{Canadian Institute for Cibersecurity}), institución que nos ofrece datos de logs ya preprocesados, clasificados y con una limpieza previa para aplicarlos directamente a algoritmos de \textit{Machine Learning} y \textit{Deep Learning}, ahorrando bastante carga de trabajo. Los datos se encuentran disponibles en \cite{CICIDS2017}.
+    En esta sección vamos a aplicar lo visto en la teoría de manera práctica. Para ello se ha utilizado un conjunto de datos del \textit{CIC} (\textbf{Canadian Institute for Cybersecurity}), institución que nos ofrece datos de logs ya preprocesados, clasificados y con una limpieza previa para aplicarlos directamente a algoritmos de \textit{Machine Learning} y \textit{Deep Learning}, ahorrando bastante carga de trabajo. Los datos se encuentran disponibles en \cite{CICIDS2017}.
 
     \vspace{5mm}
 
-    Para este trabajo es fundamental que los datos de entrenamiento sean de calidad, y, como bien se explica en el paper oficial \cite{CICIDS2017_paper}, el equipo del \textit{CIC} se ha asegurado que estos datos sean lo más abstractos posibles. Se diseñó una infraestructura de red física que a su vez se compone de dos subredes, la red atacante y la red víctima. En la red víctima se simuló un comportamiento humano completamente normal (peticiones \textit{HTTP/HTTPS}, correos electrónicos, \textit{FTP}, etc.) con 25 usuarios distintos a través de diferentes máquinas y sistemas operativos para que el tráfico sea lo más realista posible.
+    Para este trabajo es fundamental que los datos de entrenamiento sean de calidad, y, como bien se explica en el paper oficial \cite{CICIDS2017_paper}, el equipo del \textit{CIC} se ha asegurado que estos datos sean lo más realistas posible. Se diseñó una infraestructura de red física que a su vez se compone de dos subredes, la red atacante y la red víctima. En la red víctima se simuló un comportamiento humano completamente normal (peticiones \textit{HTTP/HTTPS}, correos electrónicos, \textit{FTP}, etc.) con 25 usuarios distintos a través de diferentes máquinas y sistemas operativos para que el tráfico sea lo más representativo posible.
 
     \vspace{5mm}
 
@@ -644,7 +644,7 @@
 
     \vspace{5mm}
 
-    A continuación se va a comenzar con un análisis \textit{EDA} para comprender de una mejor manera como se organizan los datos. El objetivo de esta sección es identificar las características esenciales y sacar conclusiones del conjunto de datos sin modificar, para posteriormente obtener una fuente mucho más limpia y menos redundante (si es que hubiese redundancia) en la fase de preprocesamiento (\ref{subsec: preprocesamiento}). Sin más preámbulo, comenzamos con un breve vistazo al dataset:
+    A continuación se va a comenzar con un análisis \textit{EDA} para comprender de una mejor manera cómo se organizan los datos. El objetivo de esta sección es identificar las características esenciales y sacar conclusiones del conjunto de datos sin modificar, para posteriormente obtener una fuente mucho más limpia y menos redundante (si es que hubiese redundancia) en la fase de preprocesamiento (\ref{subsec: preprocesamiento}). Sin más preámbulo, comenzamos con un breve vistazo al dataset:
 
     \vspace{5mm}
 
@@ -666,7 +666,7 @@
     
     \vspace{5mm}
 
-    Otro aspecto fundamental a revisar es la gestión de valores nulos. Aquí se vuelve a resaltar el trabajo del equipo del \textit{CIC} por su limpieza previa, ya que no se presentan valores perdidos en todo el flujo de datos. Asímismo, es una buena práctica separar los datos clasificados como benignos de los malignos, y esto se ve reflejado de la siguiente manera:
+    Otro aspecto fundamental a revisar es la gestión de valores nulos. Aquí se vuelve a resaltar el trabajo del equipo del \textit{CIC} por su limpieza previa, ya que no se presentan valores perdidos en todo el flujo de datos. Asimismo, es una buena práctica separar los datos clasificados como benignos de los maliciosos, y esto se ve reflejado de la siguiente manera:
     
     \vspace{5mm}
 
@@ -718,7 +718,7 @@
     
     \vspace{5mm}
 
-    Para hallar estos valores, hemos de encontrar el umbral inferior y superior de los datos. Todos los datos contenidos entre estos umbrales son datos convencionales, perfectos para entrenar modelos. No obtante, si se encuentran fuera de estos límites, son considerados atípicos y se han de gestionar más específicamente:
+    Para hallar estos valores, hemos de encontrar el umbral inferior y superior de los datos. Todos los datos contenidos entre estos umbrales son datos convencionales, perfectos para entrenar modelos. No obstante, si se encuentran fuera de estos límites, son considerados atípicos y se han de gestionar más específicamente:
 
     \vspace{2.5mm}
 
@@ -747,7 +747,7 @@
 
     \vspace{5mm}
 
-    Vemos que la presencia de valores atípicos es muy grande. Sin embargo no hay que preocuparse, pues esto es normal. El tráfico de una red es muy estocástico, y los datos generalmente son muy asímetricos (los datos no se ajustan siguiendo una campana de Gauss). No obstante obtenemos demasiados outliers, en parte por lo que se acaba de explicar, y porque los datos maliciosos provenientes de un ciberataque son ya por definición outliers por sí solos, aumentando aún más el número final. A continuación se presentan ciertos gráficos que apoyan estos puntos:
+    Vemos que la presencia de valores atípicos es muy grande. Sin embargo no hay que preocuparse, pues esto es normal. El tráfico de una red es muy estocástico, y los datos generalmente son muy asimétricos (los datos no se ajustan siguiendo una campana de Gauss). No obstante obtenemos demasiados outliers, en parte por lo que se acaba de explicar, y porque los datos maliciosos provenientes de un ciberataque son ya por definición outliers por sí solos, aumentando aún más el número final. A continuación se presentan ciertos gráficos que apoyan estos puntos:
 
     \vspace{5mm}
 
@@ -852,7 +852,7 @@
 
     \vspace{5mm}
 
-    Por otra parte, cabe mencionar que se encontraron valores infinitos en el dataset, los cuales por supuesto han sido correspondiente eliminados, ya que un valor infinito no es válido para una red neuronal, ahorrando futuros problemas con nuestro autoencoder.
+    Por otra parte, cabe mencionar que se encontraron valores infinitos en el dataset, los cuales por supuesto han sido  eliminados correctamente, ya que un valor infinito no es válido para una red neuronal, ahorrando futuros problemas con nuestro autoencoder.
 
     \vspace{5mm}
 
@@ -868,7 +868,7 @@
             test_size=0.20, 
             random_state=42
         )
-        # Normalizamos los datos para que tengan valores entre 0 y 1
+        # Estandarizamos los datos (media = 0, desviación típica = 1)
         X_train_scaled = scaler.fit_transform(X_train)
         X_test_scaled = scaler.transform(X_test)
         return X_train_scaled, X_test_scaled
@@ -969,7 +969,7 @@
 
     \vspace{5mm}
 
-    Vemos que los resultados son lo que se esperaba, siendo el error casi 5 veces mayor para datos maliciosos. Esta es la funcionalidad principal del autoencoder, detectar el tráfico legítimo de paquetes de red a partir de los valores del error del modelo. Con esto concluye esta sección, una sección de vital importancia para validar la capacidad de selección de la red neuronal, verificando la correcta capacidad de aprendizaje del modelo y estableciendo la base necesaria que actúa como umbral para la detección de intrusiones y tráfico malévolo en tiempo real. En la sección de demostración (\ref{sec: demo}) veremos que el error al realizar ataques como \textit{DoS} se dispara mucho más que el valor obtenido en la tabla anterior (\ref{fig: mse_df}) ante la presencia de ataques maliciosos muy volumétricos.
+    Vemos que los resultados son lo que se esperaba, siendo el error casi 5 veces mayor para datos maliciosos. Esta es la funcionalidad principal del autoencoder, detectar el tráfico legítimo de paquetes de red a partir de los valores del error del modelo. Con esto concluye esta sección, una sección de vital importancia para validar la capacidad de selección de la red neuronal, verificando la correcta capacidad de aprendizaje del modelo y estableciendo la base necesaria que actúa como umbral para la detección de intrusiones y tráfico malévolo en tiempo real. En la siguiene sección (\ref{subsec: servidor_web_apache}) veremos que el error al realizar ataques como \textit{DoS} se dispara mucho más que el valor obtenido en la tabla anterior (\ref{fig: mse_df}) ante la presencia de ataques maliciosos muy volumétricos.
 
     \vspace{10mm}
     
