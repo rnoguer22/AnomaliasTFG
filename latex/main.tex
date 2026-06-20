@@ -984,7 +984,7 @@
 
     \vspace{5mm}
 
-    Durante esta etapa se probaron distintos ataques para verificar que el modelo detecta el tráfico inusual de red correctamente, detectando así tráfico malicioso hacia el servidor en tiempo real. El primer caso que se probó fue una denegación de servicio (\textbf{DoS}) a través de la herramienta \textbf{hping3}, generando así paquetes TCP/IP de gran tamaño y a muy alta velocidad con el fin de saturar el servidor. Es importante destacar que el servidor no quedó obsoleto por el número de paquetes debido a las características modernas de apache, aunque lo primordial con esta prueba es detectar el ciberataque antes de que tenga éxito para proteger nuestro servidor. Podemos encontrar documentación acerca de esta herramienta en \cite{hping3_docs}, poniendo como ejemplo el siguiente comando para reproducir el envío masivo de paquetes:
+    Durante esta etapa se probaron distintos ataques para verificar que el modelo detecta el tráfico inusual de red correctamente, detectando así tráfico malicioso hacia el servidor en tiempo real. El primer caso que se probó fue una denegación de servicio (\textbf{DoS}) a través de la herramienta \textbf{hping3}, generando así paquetes TCP/IP de gran tamaño y a muy alta velocidad con el fin de saturar el servidor. Es importante destacar que el servidor no quedó saturado por el número de paquetes debido a las características modernas de apache, aunque lo primordial con esta prueba es detectar el ciberataque antes de que tenga éxito para proteger nuestro servidor. Podemos encontrar documentación acerca de esta herramienta en \cite{hping3_docs}, poniendo como ejemplo el siguiente comando para reproducir el envío masivo de paquetes:
 
     \begin{minted}{python}
             sudo hping3 -S -p 80 -s 5050 -i u100 127.0.0.1
@@ -1010,13 +1010,13 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=1\textwidth]{../img/web/web.png}\\
-        \caption{Pagina personalizada utilizada para el servidor web con Apache}
+        \caption{Página personalizada utilizada para el servidor web con Apache}
         \label{fig: pagina_web_apache}
     \end{figure}  
 
     \vspace{5mm}
 
-    Es por esto que se migró a una arquitectura \textbf{LAMP} (Linux, Apache, MariaDb, PHP), permitiendo la conexión de una base de datos SQL como \textbf{MariaDb} a partir de un servidor Apache en un sistema Linux a través de PHP, implementando el formulario de inicio de sesión y el buscador de inventario, mediante los cuales realizaremos distintos ataques para verificar el correcto funcionamiento del autoencoder. En cuanto a la base de datos MariaDb, se crearon dos tablas para gestionar los datos de la web, manejando de una mejor manera los datos de inicio de sesión con credenciales y los productos en el inventario, como se puede ver a continuación:
+    Es por esto que se migró a una arquitectura \textbf{LAMP} (Linux, Apache, MariaDB, PHP), permitiendo la conexión de una base de datos SQL como \textbf{MariaDB} a partir de un servidor Apache en un sistema Linux a través de PHP, implementando el formulario de inicio de sesión y el buscador de inventario, mediante los cuales realizaremos distintos ataques para verificar el correcto funcionamiento del autoencoder. En cuanto a la base de datos MariaDB, se crearon dos tablas para gestionar los datos de la web, manejando de una mejor manera los datos de inicio de sesión con credenciales y los productos en el inventario, como se puede ver a continuación:
 
     \begin{minted}{sql}
         CREATE DATABASE tfg_2026;
@@ -1072,13 +1072,13 @@
 
     \vspace{5mm}
 
-    SQLMap es una herramienta de código abiero que automatiza las inyecciones SQL, buscando vulnerabilidades que puedan ser explotadas con un tipo de inyección en específico. Aplicando la herramienta a este proyecto, se realizó un escaneo muy exhaustivo sobre el buscador de inventario de la web, con el fin de hacer un volcado de la base de datos, a través de la siguiente instrucción:
+    SQLMap es una herramienta de código abierto que automatiza las inyecciones SQL, buscando vulnerabilidades que puedan ser explotadas con un tipo de inyección en específico. Aplicando la herramienta a este proyecto, se realizó un escaneo muy exhaustivo sobre el buscador de inventario de la web, con el fin de hacer un volcado de la base de datos, a través de la siguiente instrucción:
 
     \begin{minted}[breaklines]{bash}
         sqlmap -u "http://192.168.1.50/index.php?search=cable" --random-agent --level=5 --risk=3 --dump  --flush-session
     \end{minted}
 
-    Con esto generamos una gran cantidad de payloads sobre el buscador de elementos del servidor, lo que se traduce en un flujo de red con características muy extrañas (número de paquetes muy elevado con un tamaño reducido, alta freucencia de peticiones, etc.) que son detectadas por el autoencoder pefectamente, alcanzando un MSE muy elevado como se justifica en la siguiente imagen:
+    Con esto generamos una gran cantidad de payloads sobre el buscador de elementos del servidor, lo que se traduce en un flujo de red con características muy extrañas (número de paquetes muy elevado con un tamaño reducido, alta frecucencia de peticiones, etc.) que son detectadas por el autoencoder perfectamente, alcanzando un MSE muy elevado como se justifica en la siguiente imagen:
 
     \vspace{5mm}
 
@@ -1203,7 +1203,7 @@
 
     \vspace{10mm}
 
-    \subsubsection{Método de la Percentiles}\label{subsubsec: metodo_percentiles}
+    \subsubsection{Método de los Percentiles}\label{subsubsec: metodo_percentiles}
 
     \vspace{5mm}
 
@@ -1269,7 +1269,7 @@
 
     \vspace{2.5mm}
 
-    Donde \texttt{n\_estimators=300} define el número de árboles de decisión en el bosque. Un valor entre 100 y 300 permite reducción significativa de la varianza que se vio anteriormente en (\ref{subsubsec: estimador_problema_varianza}), lo que estabiliza el error de predicción sin muchas limitaciones de cómputo a nivel de hardware. Por otra parte \texttt{max\_depth=20} limita la profundidad máxima de los árboles, lo que ayuda mucho a su regularización, evitando ruido y forzando a aprender patrones más generales. \texttt{min\_samples\_split=5} establece el número mínimo de muestras necesarias para dividir un nodo internamente en cualquiera de los árboles del bosque, mejorando la robustez, \texttt{random\_state=42} fija la semilla de aleatoriedad, con lo que nos aseguramos que el proceso de \textit{bootstrap} y la selección de características sean exactamente iguales en cada ejecución, y \texttt{n\_jobs=-1} simplemente habilita el procesamiento en paralelo para acelerar el entrenamiento del modelo.
+    Donde \texttt{n\_estimators=300} define el número de árboles de decisión en el bosque. Un valor entre 100 y 300 permite reducción significativa de la varianza que se vio anteriormente en (\ref{subsubsec: estimador_problema_varianza}), lo que estabiliza el error de predicción sin muchas limitaciones de cómputo a nivel de hardware. Por otra parte \texttt{max\_depth=20} limita la profundidad máxima de los árboles, lo que ayuda mucho a su regularización, evitando ruido y forzando a aprender patrones más generales. \texttt{min\_samples\_split=5} establece el número mínimo de muestras necesarias para dividir un nodo internamente en cualquiera de los árboles del bosque, mejorando la robustez, \texttt{random\_state=42} fija la semilla de aleatoriedad, con lo que se garantiza que el proceso de \textit{bootstrap} y la selección de características sean exactamente iguales en cada ejecución, y \texttt{n\_jobs=-1} simplemente habilita el procesamiento en paralelo para acelerar el entrenamiento del modelo.
 
     \vspace{5mm}
 
@@ -1435,7 +1435,7 @@
 
     \vspace{5mm}
 
-    Finalmene, esta captura personalizada de datos resultó ser fundamental para el equilibrio de los datos, ya que permite que el clasificador \textit{Random Forest} sea entrenado con una representación más equitativa y realista de cada categoría de ataque, lo que se traduce en unos resultados mucho más acorde a lo esperado, como se verá en la siguiente sección.
+    Finalmente, esta captura personalizada de datos resultó ser fundamental para el equilibrio de los datos, ya que permite que el clasificador \textit{Random Forest} sea entrenado con una representación más equitativa y realista de cada categoría de ataque, lo que se traduce en unos resultados mucho más acorde a lo esperado, como se verá en la siguiente sección.
 
     \vspace{5mm}
 
@@ -1491,6 +1491,24 @@
 
     \vspace{5mm}
 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.60\textheight]{../img/code/random_forest/confusion_matrix.png}
+        \caption{Matriz de confusión del modelo de clasificación}
+        \label{}
+    \end{figure}
+    
+    \vspace{5mm}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.60\textheight]{../img/code/random_forest/kfolds5.png}
+        \caption{Validación cruzada del modelo de clasificación}
+        \label{}
+    \end{figure}
+
+    \vspace{5mm}
+
     Desde una perspectiva analítica, esto justifica matemáticamente las métricas que se han obtenido. Sin embargo, esto salta las alarmas, ya que es un claro ejemplo de \textbf{sobreentrenamiento (overfitting)}, ante la grave dificultad para detectar un ataque de forma genérica, teniendo el modelo únicamente la capacidad de detectar la huella de red generada por ciertas herramientas, como \texttt{sqlmap}, bajo una configuración en específico en el entorno de pruebas. Si se hace la prueba, se puede verificar que se tiene mucha confianza en las predicciones, como resultado de los fenómenos recientemente explicados:
 
     \vspace{5mm}
@@ -1516,11 +1534,11 @@
 
     \vspace{5mm}
 
-    A continuación se ha decidido implementar la API de Telegram en este proyecto, lo que proporciona un sistema de respuesta y monitarización remota a través de un bot. Esta implementación permite establecer un canal de comunicación entre la detección del sistema y su propio administrador, lo que facilita la toma de decisiones frente a posibles intrusiones en tiempo real.
+    A continuación se ha decidido implementar la API de Telegram en este proyecto, lo que proporciona un sistema de respuesta y monitorización remota a través de un bot. Esta implementación permite establecer un canal de comunicación entre la detección del sistema y su propio administrador, lo que facilita la toma de decisiones frente a posibles intrusiones en tiempo real.
 
     \vspace{5mm}
 
-    La notificación se produce inmediatamente después de la clasificación del \textit{Random Forest}, en caso de que se haya detectado tráfico malicioso, en caso contrario, no se envía ningún mensaje. Esta comunicación se establece mediante peticiones HTTP POST al \textit{endpoint} de la API de Telegram, y es muy importante recalcar que la comunicación es bidereccional, de manera que al detectarse un posible ataque el administrador puede decidir si bloquear la dirección IP o no, como se puede ver a continuación:
+    La notificación se produce inmediatamente después de la clasificación del \textit{Random Forest}, en caso de que se haya detectado tráfico malicioso, en caso contrario, no se envía ningún mensaje. Esta comunicación se establece mediante peticiones HTTP POST al \textit{endpoint} de la API de Telegram, y es muy importante recalcar que la comunicación es bidireccional, de manera que al detectarse un posible ataque el administrador puede decidir si bloquear la dirección IP o no, como se puede ver a continuación:
 
     \vspace{5mm}
 
@@ -1540,7 +1558,7 @@
 
     \vspace{5mm}
 
-    Con la imagen anterior se puede apreciar el flujo del sistema. Se notifica al administrador, de manera que se puede proceder con el bloqueo de la IP atacante, y en caso afirmativo, se hace una comprobación previa para no bloquear ciertas IPs críticas para el servidor. En caso contrario, se continúa con la detección de anomalías. Esta es la cúlpide del sistema, ya que permite notificar al administrador del servidor de un posible ataque, ofreciendo las medidas necesarias para hacer frente a este tipo de amenazas y mitigando los daños que puedan causar.
+    Con la imagen anterior se puede apreciar el flujo del sistema. Se notifica al administrador, de manera que se puede proceder con el bloqueo de la IP atacante, y en caso afirmativo, se hace una comprobación previa para no bloquear ciertas IPs críticas para el servidor. En caso contrario, se continúa con la detección de anomalías. Esta etapa supone la cúspide del sistema propuesto, ya que permite notificar al administrador del servidor de un posible ataque, ofreciendo las medidas necesarias para hacer frente a este tipo de amenazas y mitigando los daños que puedan causar.
 
     \vspace{10mm}
 
