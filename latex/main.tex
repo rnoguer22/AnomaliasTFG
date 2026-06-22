@@ -741,7 +741,7 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=.5\textwidth]{../img/code/df/outliers.png}\\
-        \caption{Dataframe de outliers}
+        \caption{Tabla de valores atípicos detectados}
         \label{fig: df_outliers}
     \end{figure}
 
@@ -950,7 +950,7 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=1\textwidth]{../img/code/relu_linear.png}\\
-        \caption{Función ReLu y Lineal}
+        \caption{Funciones ReLu y Lineal}
         \label{fig: relu_lineal}
     \end{figure}   
 
@@ -969,7 +969,7 @@
 
     \vspace{5mm}
 
-    Vemos que los resultados son lo que se esperaba, siendo el error casi 5 veces mayor para datos maliciosos. Esta es la funcionalidad principal del autoencoder, detectar el tráfico legítimo de paquetes de red a partir de los valores del error del modelo. Con esto concluye esta sección, una sección de vital importancia para validar la capacidad de selección de la red neuronal, verificando la correcta capacidad de aprendizaje del modelo y estableciendo la base necesaria que actúa como umbral para la detección de intrusiones y tráfico malévolo en tiempo real. En la siguiene sección (\ref{subsec: servidor_web_apache}) veremos que el error al realizar ataques como \textit{DoS} se dispara mucho más que el valor obtenido en la tabla anterior (\ref{fig: mse_df}) ante la presencia de ataques maliciosos muy volumétricos.
+    Vemos que los resultados son lo que se esperaba, siendo el error casi 5 veces mayor para datos maliciosos. Esta es la funcionalidad principal del autoencoder, detectar el tráfico legítimo de paquetes de red a partir de los valores del error del modelo. Con esto concluye esta sección, una sección de vital importancia para validar la capacidad de selección de la red neuronal, verificando la correcta capacidad de aprendizaje del modelo y estableciendo la base necesaria que actúa como umbral para la detección de intrusiones y tráfico malévolo en tiempo real. En la siguiene sección (\ref{subsec: servidor_web_apache}) veremos que el error al realizar ataques como \textit{DoS} se dispara mucho más que el valor obtenido en la figura anterior (\ref{fig: mse_df}) ante la presencia de ataques maliciosos muy volumétricos.
 
     \vspace{10mm}
     
@@ -1277,7 +1277,7 @@
 
     \vspace{5mm}
 
-    En esta sección se va a justificar la eliminación de ciertas variables de los datos, ya que anteriormente en (\ref{tab: variables_eliminadas}) se eliminaron como medida previa al entrenamiento de la red neuronal, explicando a medias el razonamiento. Es aquí, gracias a la importancia de Gini que se puede justificar este cambio por completo. Inicialmente, nuestros datos parten de la siguiente manera (habiendo hecho un análisis de correlación previamente en (\ref{fig: corr_matrix_cleaned})):
+    En esta sección se va a justificar la eliminación de ciertas variables de los datos, ya que anteriormente en (\ref{tab: variables_eliminadas}) se eliminaron como medida previa al entrenamiento de la red neuronal, explicando a medias el razonamiento. Es aquí, gracias a la importancia de Gini que se puede justificar este cambio por completo. Inicialmente, nuestros datos parten de la siguiente manera (habiendo hecho un análisis de correlación previamente en la figura (\ref{fig: corr_matrix_cleaned})):
 
     \vspace{5mm}
 
@@ -1418,7 +1418,7 @@
 
     \vspace{5mm}
 
-    Por otra parte, nos hemos apoyado en la herramienta de código abierto creada por Janse de Visser y Jan Seidl \cite{goldeneye_repo} para ataques \textit{DoS Goldeneye}, la cual se puede ejecutar a través de un fichero de Python, de la misma manera que uno de los scripts creados para este proyecto, \texttt{bruteforce.py}, el cual se puede encontrar en el repositorio de este trabajo \cite{github_tfg}, generando un ataque de fuerza bruta (\textit{Bruteforce}), al igual que se ha hecho con \texttt{hydra} como se vio anteriormente en (\ref{fig: mse_hydra}).
+    Por otra parte, nos hemos apoyado en la herramienta de código abierto creada por Janse de Visser y Jan Seidl \cite{goldeneye_repo} para ataques \textit{DoS Goldeneye}, la cual se puede ejecutar a través de un fichero de Python, de la misma manera que uno de los scripts creados para este proyecto, \texttt{bruteforce.py}, el cual se puede encontrar en el repositorio de este trabajo \cite{github_tfg}, generando un ataque de fuerza bruta (\textit{Bruteforce}), al igual que se ha hecho con \texttt{hydra} como se mostró anteriormente en la figura (\ref{fig: mse_hydra}).
 
     \vspace{5mm}
 
@@ -1485,7 +1485,7 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.50\textwidth]{../img/code/random_forest/resultados_entrenamiento.png}\\
-        \caption{Metricas del entrenamiento del modelo final: RandomForest}
+        \caption{Metricas de evaluación del modelo final Random Forest}
         \label{}
     \end{figure} 
 
@@ -1516,7 +1516,7 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.75\textwidth]{../img/mse/sqlmap_attack.png}\\
-        \caption{Prediciendo ataque malicioso creado con SQLMap}
+        \caption{Predicción de ataque malicioso generado por SQLMap}
         \label{}
     \end{figure}     
 
@@ -1575,11 +1575,11 @@
 
     \vspace{5mm}
 
-    En este trabajo se ha cumplido perfectamente con el objetivo principal de este proyecto, el cual es la elaboración e implementación de una arquitectura híbrida para la detección de anomalías en el tráfico de red de un servicio en tiempo real. Durante el desarrollo, se ha demostrado la enorme potencia de la fusión de modelos de aprendizaje no supervisado (la red neuronal) y supervisado (el modelo de clasificación), ofreciendo un sistema de detección de intrusiones robusto y escalable ideal para proteger sistemas frente a ciberataques, como el servidor web empleado.
+    En este trabajo se ha alcanzado el objetivo principal planteado, el cual es la elaboración e implementación de una arquitectura híbrida para la detección de anomalías en el tráfico de red de un servicio en tiempo real. Durante el desarrollo, se ha demostrado el potencial técnico de la fusión de modelos de aprendizaje no supervisado (la red neuronal) y supervisado (el modelo de clasificación), ofreciendo un sistema de detección de intrusiones robusto y escalable ideal para proteger sistemas frente a ciberataques, como el servidor web empleado.
 
     \vspace{5mm}
 
-    La red neuronal mencionada anteriormente permite la detección de flujos anómalos en función de su error de reconstrucción, como se vio en \ref{subsec: autoencoder_impl}, ofreciendo un motor de detección muy robusto sin la necesidad de conocer exactamente el ataque o su firma a nivel de red, lo cual es fundamental en el paradigma actual de la ciberseguridad, ya que cada día los \textit{malware} son mucho más potentes y cambiantes, infiltrándose en aquellos sistemas de detección que se basan en mediciones estáticas.
+    La red neuronal mencionada anteriormente permite la detección de flujos anómalos en función de su error de reconstrucción, como se vio en \ref{subsec: autoencoder_impl}, ofreciendo un motor de detección muy robusto sin la necesidad de conocer exactamente el ataque o su firma a nivel de red, lo cual es fundamental en el paradigma actual de la ciberseguridad, ya que las variantes de malware evolucionan de manera continua y modifican sus patrones de comportamiento, infiltrándose en aquellos sistemas de detección que se basan en mediciones estáticas.
 
     \vspace{5mm}
 
@@ -1591,11 +1591,11 @@
 
     \vspace{5mm}
 
-    Pese a los excelentes resultados en la fase de test de la clasificación (obteniendo resultados casi perfectos), urge una de las conclusiones más relevantes de este proyecto, ya que durante dicha etapa se identificó una alta homogeneidad de los datos generados por herramientas como SQLMap o Hydra. Esto provoca que se clasifiquen prácticamente sin fallos aquellos flujos de red provenientes de estas herramientas, pero introduce un alto riesgo de sobreentramiento al modelo (\textit{overfitting}), como se vio en \ref{subsubsec: resultados_finales}.
+    Pese a los excelentes resultados en la fase de test de la clasificación (obteniendo resultados casi perfectos), surge una de las conclusiones más relevantes de este proyecto, ya que durante dicha etapa se identificó una alta homogeneidad de los datos generados por herramientas como SQLMap o Hydra. Esto provoca que se clasifiquen prácticamente sin fallos aquellos flujos de red provenientes de estas herramientas, pero introduce un alto riesgo de sobreentrenamiento al modelo (\textit{overfitting}), como se vio en \ref{subsubsec: resultados_finales}.
 
     \vspace{5mm}
 
-    Finalmente se concluye que la clasificación tiende a reconocer la huella digital producida por la herramienta más que la naturaleza del propio ataque, planteando un fuerte problema en cuanto a la generalización de la clasificación, ya que un atacante podría generar tráfico malicioso mediante herramientas no conocidas por el modelo, generando un error en el sistema. Sin embargo, lógcamente esto es un fallo importante pero no crucial, ya que el autoencoder ya se encargó de detectar la anomalía previamente, saltando las alarmas en el sistema aunque la clasificación no sea acertada. Creemos que esta reflexión final es de vital importancia ya que la inteligencia artificial en la ciberseguridad y en cualquier otro ámbito no debe ser vista como una caja negra que propone una solución infalible ante todos nuestros problemas, sino que es una herramienta más en nuestro abanico y que requiere ser actualizada constantemente, ante la diversidad de datos y progresión evolutiva de ciberataques.
+    Finalmente se concluye que la clasificación tiende a reconocer la huella digital producida por la herramienta más que la naturaleza del propio ataque, planteando un fuerte problema en cuanto a la generalización de la clasificación, ya que un atacante podría generar tráfico malicioso mediante herramientas no conocidas por el modelo, generando un error en el sistema. Sin embargo, lógicamente esto es un fallo importante pero no crucial, ya que el autoencoder ya se encargó de detectar la anomalía previamente, saltando las alarmas en el sistema aunque la clasificación no sea acertada. Creemos que esta reflexión final es de vital importancia ya que la inteligencia artificial en la ciberseguridad y en cualquier otro ámbito no debe ser vista como una caja negra que propone una solución infalible ante todos nuestros problemas, sino que es una herramienta más en nuestro abanico y que requiere ser actualizada constantemente, ante la diversidad de datos y progresión evolutiva de ciberataques.
 
     \vspace{10mm}
 
@@ -1616,13 +1616,13 @@
         
         \vspace{5mm}
 
-        \item \textbf{Integración de modelos de lenguaje (LLM):} El reciente auge de la inteligencia artificial generativa abre un gran abanico de posibilidades, permitiendo una mejor comunicación con el administrador del sistema y no solo permitiendo el bloqueo de una dirección IP atacante, sino ofreciendo muchas más opciones y con una explicación mucho más natural de por qué un flujo de red ha sido detectado como malicioso, facilitndo la toma de decisiones.
+        \item \textbf{Integración de modelos de lenguaje (LLM):} El reciente auge de la inteligencia artificial generativa abre un gran abanico de posibilidades, permitiendo una mejor comunicación con el administrador del sistema y no solo permitiendo el bloqueo de una dirección IP atacante, sino ofreciendo muchas más opciones y con una explicación mucho más natural de por qué un flujo de red ha sido detectado como malicioso, facilitando la toma de decisiones.
         
     \end{enumerate}
 
     \vspace{5mm}
 
-    Como conclusión final, con este proyecto se demuestra que es posible construir un sistema de detección de intrusiones (IDS) avanzado, escalable y eficaz integrando modelos de \textit{Machine Learning} y \textit{Deep Learning}, lo que cierra la brecha entre la teoría y su implementación en el mundo real.
+    Como conclusión final, con este proyecto se demuestra que es posible construir un sistema de detección de intrusiones (IDS) avanzado, escalable y eficaz integrando modelos de \textit{Machine Learning} y \textit{Deep Learning}, lo que conecta la teoría y su implementación en el mundo real.
 
     \vspace{10mm}
 
