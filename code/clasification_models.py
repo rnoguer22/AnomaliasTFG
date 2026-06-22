@@ -20,6 +20,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 
+from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sklearn.metrics import confusion_matrix, classification_report
+
 
 
 
@@ -76,6 +79,8 @@ class Clasification_Model:
         if save:
             joblib.dump(model, os.path.join(self.model_path, f'{model_name}.pkl'))
             print(f"\n[*] Modelo guardado en: {os.path.join(self.model_path, f"{model_name}.pkl")}")
+        
+        return model, y_pred
 
     
 
@@ -90,7 +95,8 @@ class Clasification_Model:
                 n_jobs=-1
             )
         rf.fit(X_train, y_train)
-        self.predict_save_model(rf, X_test, y_test, save)
+        model, y_pred = self.predict_save_model(rf, X_test, y_test, save)
+        return model, y_pred
 
 
     def train_xgb(self, X_train, y_train, X_test, y_test):
@@ -222,7 +228,35 @@ class Clasification_Model:
         plt.show()
 
         return df_perm
-                            
+
+
+    # Metodo que realiza una validacion cruzada y muestra la matriz de confusion de los datos
+    def show_results(self, model, X_train_scaled, y_train, y_test, y_pred):
+
+        # Validación Cruzada
+        skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        scores = cross_val_score(model, X_train_scaled, y_train, cv=skf, scoring='f1_macro')
+        print(f"F1-Score promedio en validación cruzada: {scores.mean():.4f}")
+        # Mostramos un boxplot con los datos de la validacion cruzada
+        plt.figure(figsize=(8, 5))
+        sns.boxplot(y=scores, color="skyblue")
+        sns.stripplot(y=scores, color="navy", jitter=True, size=6)
+        plt.axhline(y=scores.mean(), color='red', linestyle='--', label=f'Promedio: {scores.mean():.4f}')
+        plt.ylabel('F1-Score')
+        plt.title('Validación Cruzada (5-Fold)')
+        plt.legend()
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+        plt.savefig(os.path.join(self.repo_path, 'img/code/random_forest/kfolds20.png'))
+        plt.show()
+
+        # Matriz de confusión 
+        y_pred = model.predict(X_test_scaled)
+        print(classification_report(y_test, y_pred))
+        cm = confusion_matrix(y_test, y_pred)
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+        plt.title('Matriz de Confusión')
+        plt.savefig(os.path.join(self.repo_path, 'img/code/random_forest/confusion_matrix.png'))
+        plt.show()
 
 
 
@@ -267,7 +301,8 @@ if __name__ == "__main__":
     # joblib.dump(clasif.scaler_class, os.path.join(clasif.model_path, 'scaler_class.pkl'))
 
     # Entrenamos los distintos modelos
-    clasif.train_rf(X_train_scaled, y_train, X_test_scaled, y_test, save = True)
+    # clasif.train_rf(X_train_scaled, y_train, X_test_scaled, y_test, save = True)
+    model, y_pred = clasif.train_rf(X_train_scaled, y_train, X_test_scaled, y_test, save = False)
     '''
     clasif.train_xgb(X_train_scaled, y_train, X_test_scaled, y_test)
     clasif.train_knn(X_train_scaled, y_train, X_test_scaled, y_test)
@@ -275,3 +310,5 @@ if __name__ == "__main__":
     '''
     # print(clasif.show_gini_importance())
     # print(clasif.show_permutation(X_test, y_test))
+
+    clasif.show_results(model, X_train_scaled, y_train, y_test, y_pred)

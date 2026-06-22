@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 import os
+import pandas as pd
+import scipy.stats as stats
+import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 
 
@@ -12,7 +15,7 @@ class Umbral:
     def __init__(self):
         load_dotenv()
         self.repo_path = os.getenv('REPOSITORY_PATH')
-        self.csv_path = os.path.join(self.repo_path, 'data/umbral/umbral_mse_fast.csv')       
+        self.csv_path = os.path.join(self.repo_path, 'data/umbral/umbral_mse.csv')       
         self.df = pd.read_csv(self.csv_path)
         self.mse_values = self.df['mse'].values
 
@@ -39,6 +42,13 @@ class Umbral:
         umbral = maximo + margen
         return round(umbral, 4), round(maximo, 4)
 
+    
+    # Metodo adicional para generar un grafico QQ Plot de los datos y ver si se ajusta a una distribucion normal
+    def plot_qq(self):
+        stats.probplot(self.df['mse'], dist="norm", plot=plt)
+        plt.savefig(os.path.join(self.repo_path, 'img/mse/mse_qq_plot.png'))
+        plt.show()
+
 
 
 
@@ -52,3 +62,4 @@ if __name__ == '__main__':
     print(f'Metodo percentiles: {p_percentil}: {p_umbral}')
     m_umbral, m_maximo = umbral.metodo_maximo_seguro()
     print(f'Metodo maximo: {m_maximo}: {m_umbral}')
+    umbral.plot_qq()
