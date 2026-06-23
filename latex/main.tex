@@ -1194,12 +1194,12 @@
     \vspace{2.5mm}
 
     \begin{equation*}
-        \tau = \mu + \left( k \cdot \sigma \right) = 1.4366 + \left( 5 \cdot 1.5654 \right) = 9.2634
+        \tau = \mu + \left( k \cdot \sigma \right) = 2.374 + \left( 5 \cdot 2.1401 \right) = 13.0748
     \end{equation*}
 
     \vspace{2.5mm}
 
-    Con este método logramos obtener un umbral de $\tau = 9.2634$, el cual veremos que es el más conservador de los tres modelos de umbrales que se va a ver.
+    Con este método logramos obtener un umbral de $\tau = 13.0748$, el cual veremos que es el más conservador de los tres modelos de umbrales que se va a ver.
 
     \vspace{10mm}
 
@@ -1212,7 +1212,7 @@
     \vspace{2.5mm}
 
     \begin{equation}
-        \tau = P_{99.9} \left( \text{MSE}_{benigno} \right) = 6.5387
+        \tau = P_{99.9} \left( \text{MSE}_{benigno} \right) = 10.8581
     \end{equation}
 
     \vspace{2.5mm}
@@ -1240,7 +1240,7 @@
     \vspace{2.5mm}
 
     \begin{equation*}
-        \boxed{\tau = 9.2634}
+        \boxed{\tau = 13.0748}
     \end{equation*}
 
     \vspace{10mm}
@@ -1382,7 +1382,7 @@
 
     \vspace{5mm}
 
-    Tras esto se puede explicar el resultado de innumerables pruebas erróneas generadas por el modelo, reproduciendo ataques con distintas herramientas presentadas en (\ref{subsec: pruebas_penetracion_sqlmap_hydra}) y observando que los flujos de red generados son etiquetados incorrectamente como \textit{Dos GoldenEye} o \textit{DoS Hulk} en la gran mayoría de los casos. Además, sumado a una baja confianza del modelo a la hora de la clasificación final  (normalmente cercana al 40\%) quiere decir que el modelo se encuentra con mucha indecisión debido a este fuerte sesgo.
+    Tras esto se puede explicar el resultado de innumerables pruebas erróneas generadas por el modelo, reproduciendo ataques con distintas herramientas presentadas en (\ref{subsec: pruebas_penetracion_sqlmap_hydra}) y observando que los flujos de red generados son etiquetados incorrectamente como \textit{Dos GoldenEye} o \textit{DoS Hulk} en la gran mayoría de los casos. Además, sumado a una baja confianza del modelo a la hora de la clasificación final  (normalmente cercana al 30\%) quiere decir que el modelo se encuentra con mucha indecisión debido a este fuerte sesgo.
 
     \vspace{5mm}
 
@@ -1634,7 +1634,7 @@
 
     \vspace{5mm}
 
-    Todo el código fuente así como los distintos modelos entrenados y el conjunto de datos utilizado se encuentre disponible en el \href{https://github.com/rnoguer22/AnomaliasTFG.git}{repositorio de este proyecto}. Se ha organizado el repositorio de manera que sea lo más sencillo de entender posible, y a continuación se muestra un árbol de los directorios más relevantes del proyecto, incluyendo su funcionalidad:
+    Todo el código fuente así como los distintos modelos entrenados y el conjunto de datos utilizado se encuentre disponible en el repositorio de este proyecto \cite{github_tfg}. Se ha organizado el repositorio de manera que sea lo más sencillo de entender posible, y a continuación se muestra un árbol de los directorios más relevantes del proyecto, incluyendo su funcionalidad:
 
     \vspace{5mm}
 

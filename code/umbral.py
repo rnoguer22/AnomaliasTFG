@@ -23,7 +23,7 @@ class Umbral:
 
     # Metodo para calcular el umbral en funcion del metodo de la desviacion estandar
     # Dicho metodo calcula el umbral basado en media + k * desviacion estandar de los datos
-    def metodo_desviacion_estandar(self, k=3):
+    def metodo_desviacion_estandar(self, k=5):
         media = np.mean(self.mse_values)
         sigma = np.std(self.mse_values)
         umbral = media + (k * sigma)
